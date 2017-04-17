@@ -1,4 +1,3 @@
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -23,14 +22,11 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
-
 public class main {
 
     final static Logger infoLogger = Logger.getLogger("infoLogger");
     final static Logger errorLogger = Logger.getLogger("errorLogger");
-    public static Map<String,JSONObject> cntrlSessions = new ConcurrentHashMap<String,JSONObject>();
-    public static Map<String,JSONObject> updtSessions = new ConcurrentHashMap<String,JSONObject>();
-    public static Map<String,JSONObject> totalSessions = new ConcurrentHashMap<String,JSONObject>();
+    public static Map<String,JSONObject> terminals = new ConcurrentHashMap<String,JSONObject>();
     public static Map<String,JSONObject> requests = new HashMap<String,JSONObject>();
     public static ws_client client = new ws_client("Pass thru");
     public static JSONObject gerMarkets = new JSONObject();
@@ -43,9 +39,9 @@ public class main {
     public static LiveUpdater hockey_basket;
     public static LiveUpdater other;
 
-    public static FliveUpdater flw = new FliveUpdater();
-    public static MenuUpdater mw = new MenuUpdater();
-    public static FavoriteUpdater favw = new FavoriteUpdater();
+    public static FliveUpdater flw = new FliveUpdater(latch);
+    public static MenuUpdater mw = new MenuUpdater(latch);
+    public static FavoriteUpdater favw = new FavoriteUpdater(latch);
 
     private static final Map<String, String> sportPartsT;
     private static final Map<String, String> sportPartsGer;
@@ -114,27 +110,11 @@ public class main {
             e.printStackTrace();
         }
 
-        WebSocketHandler controlHandler = new WebSocketHandler() {
+        WebSocketHandler wsHandler = new WebSocketHandler() {
             @Override
             public void configure(WebSocketServletFactory factory) {
                 //factory.getPolicy().setIdleTimeout(5000);
-                factory.register(ControlServer.class);
-            }
-        };
-
-        WebSocketHandler updateHandler = new WebSocketHandler() {
-            @Override
-            public void configure(WebSocketServletFactory factory) {
-                //factory.getPolicy().setIdleTimeout(5000);
-                factory.register(UpdateServer.class);
-            }
-        };
-
-        WebSocketHandler totalHandler = new WebSocketHandler() {
-            @Override
-            public void configure(WebSocketServletFactory factory) {
-                //factory.getPolicy().setIdleTimeout(5000);
-                factory.register(TotalServer.class);
+                factory.register(ws_server.class);
             }
         };
 
@@ -150,10 +130,10 @@ public class main {
             othr.addAll(scr);
             othr.addAll(hbskt);
             othr.addAll(tns);
-            football = new LiveUpdater(scr,"8087","@in");
-            tennis = new LiveUpdater(tns, "8088", "@in");
-            hockey_basket = new LiveUpdater(hbskt,"8089", "@in");
-            other = new LiveUpdater(othr, "8090", "@nin");
+            football = new LiveUpdater(scr,"8087","@in",latch);
+            tennis = new LiveUpdater(tns, "8088", "@in",latch);
+            hockey_basket = new LiveUpdater(hbskt,"8089", "@in",latch);
+            other = new LiveUpdater(othr, "8090", "@nin",latch);
             football.start();
             tennis.start();
             hockey_basket.start();
@@ -161,16 +141,6 @@ public class main {
             flw.start();
             mw.start();
             favw.start();
-
-            JSONObject start = new JSONObject ();
-            start.put("type", "start");
-            football.getQueue().put(start);
-            tennis.getQueue().put(start);
-            hockey_basket.getQueue().put(start);
-            other.getQueue().put(start);
-            flw.getQueue().put(start);
-            mw.getQueue().put(start);
-            favw.getQueue().put(start);
 
             client.addMessageHandler(new ws_client.MessageHandler() {
                 public void handleMessage(String message) {
@@ -187,40 +157,43 @@ public class main {
                                 String rid = rcvd.get("rid").toString();
                                 JSONObject data2 = (JSONObject) data.get("data");
                                 //System.out.println(rid);
+                                String tid = requests.get(rid).get("tid").toString();
                                 JSONObject terminal = new JSONObject();
-                                if (cntrlSessions.containsKey(requests.get(rid).get("tid").toString())) terminal = cntrlSessions.get(requests.get(rid).get("tid").toString());
-                                switch ((String)requests.get(rid).get("command"))
-                                {
-                                    case "get_day":
+                                if (terminals.containsKey(requests.get(rid).get("tid").toString())) {
+                                    terminal = terminals.get(requests.get(rid).get("tid").toString());
+                                    switch ((String)requests.get(rid).get("command"))
                                     {
-                                        build_day(data2, terminal);
-                                        requests.remove(rid);
-                                    }; break;
-                                    case "get_comp":
-                                    {
-                                        build_comp(data2, terminal, "get_comp");
-                                        requests.remove(rid);
-                                    }; break;
-                                    case "get_region":
-                                    {
-                                        build_region(data2, terminal, "get_region");
-                                        requests.remove(rid);
-                                    }; break;
-                                    case "search":
-                                    {
-                                        build_search(data2, terminal, "search");
-                                        requests.remove(rid);
-                                    }; break;
-                                    case "get_coeff":
-                                    {
-                                        send_event(data2, terminal);
-                                        requests.remove(rid);
-                                    }; break;
-                                    case "betvars":
-                                    {
-                                        addVars(data2, terminal);
-                                        requests.remove(rid);
-                                    }; break;
+                                        case "get_day":
+                                        {
+                                            build_day(data2, terminal, tid);
+                                            requests.remove(rid);
+                                        }; break;
+                                        case "get_comp":
+                                        {
+                                            build_comp(data2, terminal, "get_comp", tid);
+                                            requests.remove(rid);
+                                        }; break;
+                                        case "get_region":
+                                        {
+                                            build_region(data2, terminal, "get_region", tid);
+                                            requests.remove(rid);
+                                        }; break;
+                                        case "search":
+                                        {
+                                            build_search(data2, terminal, "search", tid);
+                                            requests.remove(rid);
+                                        }; break;
+                                        case "get_coeff":
+                                        {
+                                            send_event(data2, terminal, tid);
+                                            requests.remove(rid);
+                                        }; break;
+                                        case "betvars":
+                                        {
+                                            addVars(data2, terminal, tid);
+                                            requests.remove(rid);
+                                        }; break;
+                                    }
                                 }
                             }
                         }
@@ -237,24 +210,34 @@ public class main {
             ClientManager cm = new ClientManager();
             cm.getProperties().put("org.glassfish.tyrus.incomingBufferSize", 104857600);
             cm.connectToServer(client, new URI("ws://swarm.solidarbet.com:8092"));
-            while(latch.getCount() != 0){
-            }
-            Server cntrlServer = new Server(5025);
-            cntrlServer.setHandler(controlHandler);
-            Server updtServer = new Server(5026);
-            updtServer.setHandler(updateHandler);
-            Server totalServer = new Server(5027);
-            totalServer.setHandler(totalHandler);
-            cntrlServer.start();
-            updtServer.start();
-            totalServer.start();
+            long counter = latch.getCount();
+
+            System.out.println("Starting count from "+counter);
+
+            JSONObject start = new JSONObject ();
+            start.put("type", "start");
+            football.getQueue().put(start);
+            tennis.getQueue().put(start);
+            hockey_basket.getQueue().put(start);
+            other.getQueue().put(start);
+            flw.getQueue().put(start);
+            mw.getQueue().put(start);
+            favw.getQueue().put(start);
+
+            latch.await();
+
+            System.out.println("ALL DATA EXISTS!");
+
+            Server server = new Server(5025);
+            server.setHandler(wsHandler);
+            server.start();
         }
         catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-    static void build_day(JSONObject data, JSONObject terminal)
+    static void build_day(JSONObject data, JSONObject terminal, String tid)
     {
         try
         {
@@ -565,7 +548,11 @@ public class main {
             obj.put("data", html);
             Session rcpt = (Session)terminal.get("session");
             if(rcpt.isOpen()) {
-                sendCntrlObj(obj,rcpt);
+                sendIt(obj,rcpt);
+            }
+            ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+            for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                if (rcpt.isOpen()) sendIt(miss,rcpt);
             }
         }
         catch (Exception e)
@@ -574,7 +561,7 @@ public class main {
         }
     }
 
-    static void build_region(JSONObject data, JSONObject terminal, String comm)
+    static void build_region(JSONObject data, JSONObject terminal, String comm, String tid)
     {
         try
         {
@@ -902,7 +889,11 @@ public class main {
                     obj.put("regionId", rid);
                     obj.put("sportAlias", sport_node.get("alias"));
                     Session rcpt = (Session) terminal.get("session");
-                    if (rcpt.isOpen())sendCntrlObj(obj,rcpt);
+                    if (rcpt.isOpen())sendIt(obj,rcpt);
+                    ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+                    for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                        if (rcpt.isOpen()) sendIt(miss,rcpt);
+                    }
                 }
             }
         }
@@ -912,7 +903,7 @@ public class main {
         }
     }
 
-    static void build_comp(JSONObject data, JSONObject terminal, String comm)
+    static void build_comp(JSONObject data, JSONObject terminal, String comm, String tid)
     {
         try
         {
@@ -1240,7 +1231,11 @@ public class main {
                             obj.put("data", html);
                             obj.put("sportAlias", sport_node.get("alias"));
                             Session rcpt = (Session) terminal.get("session");
-                            if (rcpt.isOpen())rcpt.getRemote().sendString(obj.toString());
+                            if (rcpt.isOpen()) sendIt(obj,rcpt);
+                            ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+                            for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                                if (rcpt.isOpen()) sendIt(miss,rcpt);
+                            }
                         }
                     }
                     if (comm.equals("get_region")) obj.put("regionId", rid);
@@ -1251,7 +1246,11 @@ public class main {
 
                     obj.put("sportAlias", sport_node.get("alias"));
                     Session rcpt = (Session) terminal.get("session");
-                    if (rcpt.isOpen()) sendCntrlObj(obj,rcpt);
+                    if (rcpt.isOpen()) sendIt(obj,rcpt);
+                    ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+                    for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                        if (rcpt.isOpen()) sendIt(miss,rcpt);
+                    }
                 }
             }
         }
@@ -1262,7 +1261,7 @@ public class main {
     }
 
 
-    static void build_search (JSONObject data, JSONObject terminal, String comm)
+    static void build_search (JSONObject data, JSONObject terminal, String comm, String tid)
     {
         try
         {
@@ -1674,7 +1673,11 @@ public class main {
                 obj.put("data", null);
             }
             Session rcpt = (Session) terminal.get("session");
-            if (rcpt.isOpen()) sendCntrlObj(obj,rcpt);
+            if (rcpt.isOpen()) sendIt(obj,rcpt);
+            ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+            for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                if (rcpt.isOpen()) sendIt(miss,rcpt);
+            }
         }
         catch (Exception e)
         {
@@ -1682,7 +1685,7 @@ public class main {
         }
     }
 
-    static void send_event(JSONObject data, JSONObject terminal)
+    static void send_event(JSONObject data, JSONObject terminal, String tid)
     {
         try
         {
@@ -1711,7 +1714,11 @@ public class main {
                 obj.put("value", df.format(multiPrice).toString().replaceAll(",", "."));
             }
             Session rcpt = (Session)terminal.get("session");
-            if(rcpt.isOpen()) sendCntrlObj(obj,rcpt);
+            if(rcpt.isOpen()) sendIt(obj,rcpt);
+            ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+            for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                if (rcpt.isOpen()) sendIt(miss,rcpt);
+            }
         }
         catch (Exception e)
         {
@@ -1719,15 +1726,20 @@ public class main {
         }
     }
 
-    public static void get_vars(String sid, String rid, String cid, String gid, String type, String tid, Session s)
+    public static void get_vars(JSONObject varsJson)
     {
         try
         {
             JSONObject obj = new JSONObject();
             obj.put("command", "betvars");
-            obj.put("gid", gid);
+            obj.put("gid", varsJson.get("gid").toString());
             List<JSONObject> mkts = new ArrayList<JSONObject>();
-            switch(type)
+            String sid = varsJson.get("sid").toString();
+            String rid = varsJson.get("rid").toString();
+            String cid = varsJson.get("cid").toString();
+            String gid = varsJson.get("gid").toString();
+            String tid = varsJson.get("tid").toString();
+            switch(varsJson.get("type").toString())
             {
                 case "0":
                 {
@@ -1758,7 +1770,7 @@ public class main {
                         });
                         Map<String,JSONObject> newEvents = new HashMap<String, JSONObject>();
                         List<String> eIds = new ArrayList<String>();
-                        String multi = cntrlSessions.get(tid).get("multiplier").toString();
+                        String multi = terminals.get(tid).get("multiplier").toString();
                         for (JSONObject ne : eventList)
                         {
                             String price = ne.get("price").toString();
@@ -1798,7 +1810,12 @@ public class main {
                         }
                     });
                     obj.put("data", mkts);
-                    if (s.isOpen()) sendCntrlObj(obj,s);
+                    Session s = (Session)terminals.get(tid).get("session");
+                    if (s.isOpen()) sendIt(obj,s);
+                    ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+                    for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                        if (s.isOpen()) sendIt(miss,s);
+                    }
                 }; break;
                 case "1":
                 {
@@ -1854,7 +1871,7 @@ public class main {
                         });
                         Map<String,JSONObject> newEvents = new HashMap<String, JSONObject>();
                         List<String> eIds = new ArrayList<String>();
-                        String multi = cntrlSessions.get(tid).get("multiplier").toString();
+                        String multi = terminals.get(tid).get("multiplier").toString();
                         for (JSONObject ne : eventList)
                         {
                             String price = ne.get("price").toString();
@@ -1894,13 +1911,19 @@ public class main {
                         }
                     });
                     obj.put("data", mkts);
-                    if (s.isOpen()) sendCntrlObj(obj,s);
+                    Session s = (Session)terminals.get(tid).get("session");
+                    if (s.isOpen()) sendIt(obj,s);
+                    ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+                    for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                        if (s.isOpen()) sendIt(miss,s);
+                    }
                 }; break;
                 case "2":
                 {
                     //System.out.println("VARS ANOTHR!");
                     Date when = new Date();
                     String rqId = UUID.randomUUID().toString();
+                    Session s = (Session)terminals.get(tid).get("session");
                     JSONObject request = new JSONObject();
                     request.put("session", s);
                     request.put("command", "betvars");
@@ -1937,7 +1960,7 @@ public class main {
         }
     }
 
-    static void addVars (JSONObject data, JSONObject terminal)
+    static void addVars (JSONObject data, JSONObject terminal, String tid)
     {
         try
         {
@@ -2169,12 +2192,20 @@ public class main {
                 }
                 Session rcpt = (Session) terminal.get("session");
                 obj.put("data", mkts);
-                if (rcpt.isOpen()) sendCntrlObj(obj, rcpt);
+                if (rcpt.isOpen()) sendIt(obj, rcpt);
+                ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+                for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                    if (rcpt.isOpen()) sendIt(miss,rcpt);
+                }
             }
             else{
                 obj.put("data", null);
                 Session rcpt = (Session) terminal.get("session");
-                if (rcpt.isOpen()) sendCntrlObj(obj, rcpt);
+                if (rcpt.isOpen()) sendIt(obj, rcpt);
+                ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+                for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                    if (rcpt.isOpen()) sendIt(miss,rcpt);
+                }
             }
 
         }
@@ -2185,104 +2216,108 @@ public class main {
         }
     }
 
-    public static void get_total(String sid, String rid, String cid, String gid, String type, Session s)
+    public static void get_total(JSONObject totalJson)
     {
         try
         {
+            String sid = totalJson.get("sid").toString();
+            String rid = totalJson.get("rid").toString();
+            String cid = totalJson.get("cid").toString();
+            String gid = totalJson.get("gid").toString();
+            String tid = totalJson.get("tid").toString();
             JSONObject obj = new JSONObject();
             obj.put("command", "get_total");
             obj.put("gid", gid);
             List<JSONObject> mkts = new ArrayList<JSONObject>();
-            if (type!=null) {
-                switch (type) {
-                    case "0": {
-                        JSONObject sport = flw.data.get(sid);
-                        JSONObject region = ((Map<String, JSONObject>) sport.get("regions")).get(rid);
-                        JSONObject comp = ((Map<String, JSONObject>) region.get("comps")).get(cid);
-                        JSONObject game = ((Map<String, JSONObject>) comp.get("games")).get(gid);
-                        Map<String, JSONObject> markets = (Map<String, JSONObject>) game.get("markets");
-                        List<JSONObject> totals = new ArrayList<JSONObject>();
-                        for (String mid : markets.keySet()) {
-                            JSONObject mnode = markets.get(mid);
-                            if (mnode.containsKey("type")) {
-                                if (((String) mnode.get("type")).equals("Total"))
-                                    totals.add(mnode);
-                            }
+            switch (totalJson.get("type").toString()) {
+                case "0": {
+                    JSONObject sport = flw.data.get(sid);
+                    JSONObject region = ((Map<String, JSONObject>) sport.get("regions")).get(rid);
+                    JSONObject comp = ((Map<String, JSONObject>) region.get("comps")).get(cid);
+                    JSONObject game = ((Map<String, JSONObject>) comp.get("games")).get(gid);
+                    Map<String, JSONObject> markets = (Map<String, JSONObject>) game.get("markets");
+                    List<JSONObject> totals = new ArrayList<JSONObject>();
+                    for (String mid : markets.keySet()) {
+                        JSONObject mnode = markets.get(mid);
+                        if (mnode.containsKey("type")) {
+                            if (((String) mnode.get("type")).equals("Total"))
+                                totals.add(mnode);
                         }
-                        Collections.sort(totals, new Comparator<JSONObject>() {
-                            @Override
-                            public int compare(JSONObject o1, JSONObject o2) {
-                                return new Double(String.valueOf(o1.get("base")))
-                                        .compareTo(new Double(String.valueOf(o2.get("base"))));
+                    }
+                    Collections.sort(totals, new Comparator<JSONObject>() {
+                        @Override
+                        public int compare(JSONObject o1, JSONObject o2) {
+                            return new Double(String.valueOf(o1.get("base")))
+                                    .compareTo(new Double(String.valueOf(o2.get("base"))));
+                        }
+                    });
+                    if (totals.size() > 0)
+                        obj.put("data", totals.get(0));
+                    else
+                        obj.put("data", null);
+                };	break;
+                case "1": {
+                    Map<String,JSONObject> live_data = new ConcurrentHashMap<String,JSONObject>();
+                    live_data.putAll(football.data);
+                    live_data.putAll(tennis.data);
+                    live_data.putAll(hockey_basket.data);
+                    live_data.putAll(other.data);
+                    JSONObject sport = live_data.get(sid);
+                    JSONObject region = ((Map<String, JSONObject>) sport.get("regions")).get(rid);
+                    JSONObject comp = ((Map<String, JSONObject>) region.get("comps")).get(cid);
+                    JSONObject game = ((Map<String, JSONObject>) comp.get("games")).get(gid);
+                    Map<String, JSONObject> markets = (Map<String, JSONObject>) game.get("markets");
+                    List<JSONObject> totals = new ArrayList<JSONObject>();
+                    for (String mid : markets.keySet()) {
+                        JSONObject mnode = markets.get(mid);
+                        if (mnode.containsKey("type")) {
+                            if (((String) mnode.get("type")).equals("Total")
+                                    //|| ((String) mnode.get("type")).equals("SetTotal")
+                                    || ((String) mnode.get("type")).equals("FirstHalfTotal")
+                                    || ((String) mnode.get("type")).equals("Gametotalpoints")
+                                    )
+                                totals.add(mnode);
+                        }
+                    }
+                    Collections.sort(totals, new Comparator<JSONObject>() {
+                        @Override
+                        public int compare(JSONObject o1, JSONObject o2) {
+                            return new Double(String.valueOf(o1.get("base")))
+                                    .compareTo(new Double(String.valueOf(o2.get("base"))));
+                        }
+                    });
+                    if (sid.equals("844"))
+                    {
+                        if (totals.size()>0)
+                        {
+                            JSONObject tf = new JSONObject();
+                            for (JSONObject total : totals){
+                                if (Double.parseDouble(total.get("base").toString()) == 2.5){
+                                    tf = total; break;
+                                }
                             }
-                        });
+                            if (!tf.isEmpty())
+                                obj.put("data", tf);
+                            else
+                                obj.put("data", totals.get(0));
+                        }
+                        else
+                            obj.put("data", null);
+                    }
+                    else {
                         if (totals.size() > 0)
                             obj.put("data", totals.get(0));
                         else
                             obj.put("data", null);
-                    };	break;
-                    case "1": {
-                        Map<String,JSONObject> live_data = new ConcurrentHashMap<String,JSONObject>();
-                        live_data.putAll(football.data);
-                        live_data.putAll(tennis.data);
-                        live_data.putAll(hockey_basket.data);
-                        live_data.putAll(other.data);
-                        JSONObject sport = live_data.get(sid);
-                        JSONObject region = ((Map<String, JSONObject>) sport.get("regions")).get(rid);
-                        JSONObject comp = ((Map<String, JSONObject>) region.get("comps")).get(cid);
-                        JSONObject game = ((Map<String, JSONObject>) comp.get("games")).get(gid);
-                        Map<String, JSONObject> markets = (Map<String, JSONObject>) game.get("markets");
-                        List<JSONObject> totals = new ArrayList<JSONObject>();
-                        for (String mid : markets.keySet()) {
-                            JSONObject mnode = markets.get(mid);
-                            if (mnode.containsKey("type")) {
-                                if (((String) mnode.get("type")).equals("Total")
-                                        //|| ((String) mnode.get("type")).equals("SetTotal")
-                                        || ((String) mnode.get("type")).equals("FirstHalfTotal")
-                                        || ((String) mnode.get("type")).equals("Gametotalpoints")
-                                        )
-                                    totals.add(mnode);
-                            }
-                        }
-                        Collections.sort(totals, new Comparator<JSONObject>() {
-                            @Override
-                            public int compare(JSONObject o1, JSONObject o2) {
-                                return new Double(String.valueOf(o1.get("base")))
-                                        .compareTo(new Double(String.valueOf(o2.get("base"))));
-                            }
-                        });
-                        if (sid.equals("844"))
-                        {
-                            if (totals.size()>0)
-                            {
-                                JSONObject tf = new JSONObject();
-                                for (JSONObject total : totals){
-                                    if (Double.parseDouble(total.get("base").toString()) == 2.5){
-                                        tf = total; break;
-                                    }
-                                }
-                                if (!tf.isEmpty())
-                                    obj.put("data", tf);
-                                else
-                                    obj.put("data", totals.get(0));
-                            }
-                            else
-                                obj.put("data", null);
-                        }
-                        else {
-                            if (totals.size() > 0)
-                                obj.put("data", totals.get(0));
-                            else
-                                obj.put("data", null);
-                        }
-                    }; break;
-                }
+                    }
+                }; break;
             }
-            else
-            {
-                obj.put("data", null);
+            Session s = (Session)terminals.get(tid).get("session");
+            if (s.isOpen()) sendIt(obj,s);
+            ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
+            for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
+                if (s.isOpen()) sendIt(miss,s);
             }
-            if (s.isOpen()) sendTotalObj(obj,s);
         }
         catch (Exception e)
         {
@@ -2290,7 +2325,7 @@ public class main {
         }
     }
 
-    public static synchronized void sendCntrlObj(JSONObject obj, Session s) {
+    public static synchronized void sendIt(JSONObject obj, Session s) {
         try{
             if (s.isOpen()){
                 if (obj.get("command").toString().equals("build")) System.out.println(new  Date() + " " + s.getRemoteAddress() + " sent build");
@@ -2305,37 +2340,7 @@ public class main {
         }
     }
 
-    public static synchronized void sendUpdtObj(JSONObject obj, Session s) {
-        try{
-            if (s.isOpen()){
-                if (obj.get("command").toString().equals("build")) System.out.println(new  Date() + " " + s.getRemoteAddress() + " sent build");
-                s.getRemote().sendString(obj.toString());
-            }
-        }
-        catch (Exception e) {
-            if (e.getClass() == IllegalStateException.class) {
-                System.out.println("BlOCK");
-            }
-            errorLogger.error(e);
-        }
-    }
-
-    public static synchronized void sendTotalObj(JSONObject obj, Session s) {
-        try{
-            if (s.isOpen()){
-                if (obj.get("command").toString().equals("build")) System.out.println(new  Date() + " " + s.getRemoteAddress() + " sent build");
-                s.getRemote().sendString(obj.toString());
-            }
-        }
-        catch (Exception e) {
-            if (e.getClass() == IllegalStateException.class) {
-                System.out.println("BlOCK");
-            }
-            errorLogger.error(e);
-        }
-    }
-
-    public static void build_live(Session s) {
+    public static void build_live(Session s, String tid) {
         try {
             JSONObject obj = new JSONObject();
             List<JSONObject> sp = new ArrayList<JSONObject>();
@@ -2552,7 +2557,8 @@ public class main {
             });
             obj.put("sport", sp);
             obj.put("game", gm);
-            sendCntrlObj(obj,s);
+            if (s.isOpen()) sendIt(obj,s);
+            ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -2560,7 +2566,7 @@ public class main {
         }
     }
 
-    public static void build_flive(Session s)
+    public static void build_flive(Session s, String tid)
     {
         JSONObject obj = new JSONObject();
         List<JSONObject> sp = new ArrayList<JSONObject>();
@@ -2700,7 +2706,8 @@ public class main {
             obj.put("sport", sp);
             obj.put("comp", cm);
             obj.put("game", gm);
-            if (s.isOpen()) sendCntrlObj(obj, s);
+            if (s.isOpen()) sendIt(obj, s);
+            ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
         }
         catch (Exception e)
         {
@@ -2708,7 +2715,7 @@ public class main {
         }
     }
 
-    public static void build_menu(Session s)
+    public static void build_menu(Session s, String tid)
     {
         JSONObject obj = new JSONObject();
         List<JSONObject> sp = new ArrayList<JSONObject>();
@@ -2734,7 +2741,8 @@ public class main {
                 }
             });
             obj.put("sport", sp);
-            if(s.isOpen()) sendCntrlObj(obj, s);
+            if(s.isOpen()) sendIt(obj, s);
+            ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
         }
         catch (Exception e)
         {
@@ -2742,7 +2750,7 @@ public class main {
         }
     }
 
-    public static void build_favorite(Session s)
+    public static void build_favorite(Session s, String tid)
     {
         JSONObject obj = new JSONObject();
         List<JSONObject> sp = new ArrayList<JSONObject>();
@@ -2882,7 +2890,8 @@ public class main {
             obj.put("sport", sp);
             obj.put("comp", cm);
             obj.put("game", gm);
-            if (s.isOpen()) sendCntrlObj(obj, s);
+            if (s.isOpen()) sendIt(obj, s);
+            ((CountDownLatch)terminals.get(tid).get("latch")).countDown();
         }
         catch (Exception e)
         {

@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -24,12 +25,14 @@ public class MenuUpdater extends Thread {
     JSONParser parser = new JSONParser();
     boolean update = false;
     BlockingQueue<JSONObject> queue = new LinkedBlockingQueue<JSONObject>();
+    CountDownLatch latch = null;
 
     BlockingQueue<JSONObject> getQueue(){
         return queue;
     }
 
-    MenuUpdater () {
+    MenuUpdater (CountDownLatch l) {
+        this.latch = l;
         client.addMessageHandler(new ws_client.MessageHandler() {
             public void handleMessage(String message) {
                 JSONParser parser = new JSONParser();
@@ -558,7 +561,8 @@ public class MenuUpdater extends Thread {
 
             client.sendMessage(get_info.toString());
 
-            main.latch.countDown();
+            this.latch.countDown();
+            System.out.println("Menu has data. Counter:"+ latch.getCount());
         }
         catch (Exception e)
         {
@@ -1044,12 +1048,17 @@ public class MenuUpdater extends Thread {
 
     void update(JSONObject update)
     {
-        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
         for(String tid : terminals.keySet())
         {
             if (terminals.get(tid) != null) {
                 Session rcpt = (Session) terminals.get(tid).get("session");
-                if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                }
+                else {
+                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                }
             }
         }
     }

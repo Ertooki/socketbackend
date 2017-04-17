@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,6 +32,7 @@ public class LiveUpdater extends Thread {
     JSONParser parser = new JSONParser();
     boolean update = false;
     String opt;
+    CountDownLatch latch = null;
 
     private static final Map<String, String> sportPartsT;
     private static final Map<String, String> sportPartsGer;
@@ -83,8 +85,9 @@ public class LiveUpdater extends Thread {
         sportPartsGer.put("108949150" , "Viertel");
     }
 
-    LiveUpdater (List<Integer> sports, String p, String opt) {
+    LiveUpdater (List<Integer> sports, String p, String opt, CountDownLatch l) {
 
+        this.latch = l;
         sport_ids = new ArrayList<Integer>();
         sport_ids.addAll(sports);
         port = p;
@@ -770,7 +773,8 @@ public class LiveUpdater extends Thread {
             get_info.put("params", params);
             client.sendMessage(get_info.toString());
 
-            main.latch.countDown();
+            this.latch.countDown();
+            System.out.println("Live with sports:" +sport_ids+ " and opt " +opt+ " has data. Counter:"+this.latch.getCount());
         }
         catch (Exception e)
         {
@@ -2330,12 +2334,17 @@ public class LiveUpdater extends Thread {
 
     void update(JSONObject update)
     {
-        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
         for(String tid : terminals.keySet())
         {
             if (terminals.get(tid) != null) {
                 Session rcpt = (Session) terminals.get(tid).get("session");
-                if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                }
+                else {
+                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                }
             }
         }
     }
@@ -2352,7 +2361,7 @@ public class LiveUpdater extends Thread {
             {
                 if (update.get("command").toString().equals("new") && update.get("what").toString().equals("market"))
                 {
-                    ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                    ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                     for(String tid : terminals.keySet())
                     {
                         HashMap<String,JSONObject> events = (HashMap<String,JSONObject>)((JSONObject)update.get("data")).get("events");
@@ -2376,8 +2385,13 @@ public class LiveUpdater extends Thread {
                                 event.put("price", df.format(multiPrice).toString().replaceAll(",", "."));
                             }
                             ((JSONObject) update.get("data")).put("events", events);
-                            Session rcpt = (Session) sinfo.get("session");
-                            if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                            Session rcpt = (Session) terminals.get(tid).get("session");
+                            if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                            }
+                            else {
+                                ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                            }
                         }
                     }
                 }
@@ -2387,7 +2401,7 @@ public class LiveUpdater extends Thread {
                     {
                         String price = update.get("value").toString();
                         Double currCoef = Double.parseDouble(price);
-                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                         for(String tid : terminals.keySet())
                         {
                             JSONObject sinfo = terminals.get(tid);
@@ -2404,8 +2418,13 @@ public class LiveUpdater extends Thread {
                                 DecimalFormat df = new DecimalFormat("#.##");
                                 df.setRoundingMode(RoundingMode.CEILING);
                                 update.put("value", df.format(multiPrice).toString().replaceAll(",", "."));
-                                Session rcpt = (Session) sinfo.get("session");
-                                if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                                Session rcpt = (Session) terminals.get(tid).get("session");
+                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                }
+                                else {
+                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                }
                             }
                         }
                     }
@@ -2413,7 +2432,7 @@ public class LiveUpdater extends Thread {
                     {
                         String price = ((JSONObject)update.get("data")).get("price").toString();
                         Double currCoef = Double.parseDouble(price);
-                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                         for(String tid : terminals.keySet())
                         {
                             JSONObject sinfo = terminals.get(tid);
@@ -2431,8 +2450,13 @@ public class LiveUpdater extends Thread {
                                 df.setRoundingMode(RoundingMode.CEILING);
                                 ((JSONObject) update.get("data")).put("price",
                                         df.format(multiPrice).toString().replaceAll(",", "."));
-                                Session rcpt = (Session) sinfo.get("session");
-                                if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                                Session rcpt = (Session) terminals.get(tid).get("session");
+                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                }
+                                else {
+                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                }
                             }
                         }
                     }
@@ -2452,7 +2476,7 @@ public class LiveUpdater extends Thread {
             {
                 if (update.get("command").toString().equals("new") && update.get("what").toString().equals("market"))
                 {
-                    ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                    ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                     for(String tid : terminals.keySet())
                     {
                         JSONObject modUp = update;
@@ -2477,8 +2501,13 @@ public class LiveUpdater extends Thread {
                                 event.put("price", df.format(multiPrice).toString().replaceAll(",", "."));
                             }
                             ((JSONObject) modUp.get("data")).put("events", events);
-                            Session rcpt = (Session) sinfo.get("session");
-                            if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                            Session rcpt = (Session) terminals.get(tid).get("session");
+                            if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                            }
+                            else {
+                                ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                            }
                         }
                     }
                 }
@@ -2488,7 +2517,7 @@ public class LiveUpdater extends Thread {
                     {
                         String price = update.get("value").toString();
 
-                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                         for(String tid : terminals.keySet())
                         {
                             JSONObject sinfo = terminals.get(tid);
@@ -2508,15 +2537,20 @@ public class LiveUpdater extends Thread {
                                 DecimalFormat df = new DecimalFormat("#.##");
                                 df.setRoundingMode(RoundingMode.CEILING);
                                 update.put("value", df.format(multiPrice).toString().replaceAll(",", "."));
-                                Session rcpt = (Session) sinfo.get("session");
-                                if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                                Session rcpt = (Session) terminals.get(tid).get("session");
+                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                }
+                                else {
+                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                }
                             }
                         }
                     }
                     else if (update.get("command").toString().equals("new"))
                     {
                         String price = ((JSONObject)update.get("data")).get("price").toString();
-                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                         for(String tid : terminals.keySet())
                         {
                             JSONObject sinfo = terminals.get(tid);
@@ -2536,8 +2570,13 @@ public class LiveUpdater extends Thread {
                                 DecimalFormat df = new DecimalFormat("#.##");
                                 df.setRoundingMode(RoundingMode.CEILING);
                                 ((JSONObject)update.get("data")).put("price", df.format(multiPrice).toString().replaceAll(",", "."));
-                                Session rcpt = (Session) sinfo.get("session");
-                                if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                                Session rcpt = (Session) terminals.get(tid).get("session");
+                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                }
+                                else {
+                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                }
                             }
                         }
                     }
@@ -2553,7 +2592,7 @@ public class LiveUpdater extends Thread {
                         update.get("market_type").toString().toLowerCase().contains(sportPartsT.get(update.get("sid").toString()).toLowerCase()+"p1xp2")){
                     if (update.get("command").toString().equals("new") && update.get("what").toString().equals("market"))
                     {
-                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                         for(String tid : terminals.keySet())
                         {
                             JSONObject modUp = update;
@@ -2578,8 +2617,13 @@ public class LiveUpdater extends Thread {
                                     event.put("price", df.format(multiPrice).toString().replaceAll(",", "."));
                                 }
                                 ((JSONObject) modUp.get("data")).put("events", events);
-                                Session rcpt = (Session) sinfo.get("session");
-                                if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                                Session rcpt = (Session) terminals.get(tid).get("session");
+                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                }
+                                else {
+                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                }
                             }
                         }
                     }
@@ -2588,7 +2632,7 @@ public class LiveUpdater extends Thread {
                         if (update.get("command").toString().equals("update"))
                         {
                             String price = update.get("value").toString();
-                            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                             for(String tid : terminals.keySet())
                             {
                                 JSONObject sinfo = terminals.get(tid);
@@ -2606,15 +2650,20 @@ public class LiveUpdater extends Thread {
                                     DecimalFormat df = new DecimalFormat("#.##");
                                     df.setRoundingMode(RoundingMode.CEILING);
                                     update.put("value", df.format(multiPrice).toString().replaceAll(",", "."));
-                                    Session rcpt = (Session) sinfo.get("session");
-                                    if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                                    Session rcpt = (Session) terminals.get(tid).get("session");
+                                    if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                        if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                    }
+                                    else {
+                                        ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                    }
                                 }
                             }
                         }
                         else if (update.get("command").toString().equals("new"))
                         {
                             String price = ((JSONObject)update.get("data")).get("price").toString();
-                            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                             for(String tid : terminals.keySet())
                             {
                                 JSONObject sinfo = terminals.get(tid);
@@ -2633,8 +2682,13 @@ public class LiveUpdater extends Thread {
                                     df.setRoundingMode(RoundingMode.CEILING);
                                     ((JSONObject) update.get("data")).put("price",
                                             df.format(multiPrice).toString().replaceAll(",", "."));
-                                    Session rcpt = (Session) sinfo.get("session");
-                                    if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                                    Session rcpt = (Session) terminals.get(tid).get("session");
+                                    if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                        if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                    }
+                                    else {
+                                        ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                    }
                                 }
                             }
                         }
@@ -2646,52 +2700,74 @@ public class LiveUpdater extends Thread {
                 else
                 {
                     if (update.get("command").toString().equals("statistic")) {
-                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                         //System.out.println(update.get("id"));
                         for (String tid : terminals.keySet())
                         {
                             JSONObject sinfo = terminals.get(tid);
                             if (sinfo != null) {
                                 if (sinfo.get("gid") != null) {
-                                    if (sinfo.get("gid").equals(update.get("id"))
-                                            && ((Session) sinfo.get("session")).isOpen()) {
-                                        Session rcpt = (Session) sinfo.get("session");
-                                        if (rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                                    if (sinfo.get("gid").equals(update.get("id"))) {
+                                        Session rcpt = (Session) terminals.get(tid).get("session");
+                                        if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                            if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                        }
+                                        else {
+                                            ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                     else if (update.get("what").equals("event")) {
-                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                         for (String tid : terminals.keySet())
                         {
                             JSONObject sinfo = terminals.get(tid);
                             List<String> eids = (ArrayList<String>) sinfo.get("betslip");
                             Session rcpt = (Session) sinfo.get("session");
-                            if (eids.contains(update.get("id")) && rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                            if (eids.contains(update.get("id"))){
+                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                }
+                                else {
+                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                }
+                            }
                         }
                     }
                 }
             }
             else
             {
-                ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                 for (String tid : terminals.keySet())
                 {
                     JSONObject sinfo = terminals.get(tid);
                     if (sinfo != null) {
                         if (sinfo.get("gid") != null) {
-                            if (sinfo.get("gid").equals(update.get("gid"))
-                                    && ((Session) sinfo.get("session")).isOpen()) {
-                                Session rcpt = (Session) sinfo.get("session");
-                                main.sendUpdtObj(update, rcpt);
+                            if (sinfo.get("gid").equals(update.get("gid"))) {
+                                Session rcpt = (Session) terminals.get(tid).get("session");
+                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                }
+                                else {
+                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                }
                             }
                         }
                         if (update.get("what").equals("event")) {
                             List<String> eids = (ArrayList<String>) sinfo.get("betslip");
                             Session rcpt = (Session) sinfo.get("session");
-                            if (eids.contains(update.get("id")) && rcpt.isOpen()) main.sendUpdtObj(update, rcpt);
+                            if (eids.contains(update.get("id"))){
+                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                }
+                                else {
+                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                }
+                            }
                         }
                     }
                 }
@@ -2699,26 +2775,36 @@ public class LiveUpdater extends Thread {
         }
         else
         {
-            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
             for (String tid : terminals.keySet())
             {
                 JSONObject sinfo = terminals.get(tid);
                 if (sinfo != null) {
                     Session rcpt = (Session) sinfo.get("session");
                     if (sinfo.get("gid") != null) {
-                        if (sinfo.get("gid").equals(update.get("gid")) && rcpt.isOpen()) {
+                        if (sinfo.get("gid").equals(update.get("gid"))) {
                             if (update.get("command").toString().equals("statistic")) {
                                 update.put("id", update.get("gid"));
                                 update.remove("gid");
                             }
-                            main.sendUpdtObj(update, rcpt);
+                            if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                            }
+                            else {
+                                ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                            }
                         }
                         //else { sessions.remove(s); session_info.remove(s); }
                     }
                     if (update.get("what").equals("event")) {
                         List<String> eids = (ArrayList<String>) sinfo.get("betslip");
-                        if (eids.contains(update.get("id")) && rcpt.isOpen()) {
-                           main.sendUpdtObj(update, rcpt);
+                        if (eids.contains(update.get("id"))) {
+                            if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
+                                if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                            }
+                            else {
+                                ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                            }
                         }
                         //else { sessions.remove(s); session_info.remove(s); }
                     }
@@ -2828,7 +2914,7 @@ public class LiveUpdater extends Thread {
                                 if (param.equals("true_time")) up.put("param", "time"); else up.put("param", param);
                                 up.put("value", v_u);
                                 update(up);
-                                ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                                ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                                 for (String tid : terminals.keySet())
                                 {
                                     JSONObject sinfo = terminals.get(tid);
@@ -2875,7 +2961,7 @@ public class LiveUpdater extends Thread {
                                 }
                                 else up.put("value", v_u);
                                 update(up);
-                                ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                                ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                                 for (String tid : terminals.keySet())
                                 {
                                     JSONObject sinfo = terminals.get(tid);
@@ -2919,7 +3005,7 @@ public class LiveUpdater extends Thread {
                             up.put("param", param);
                             up.put("value", v_u);
                             update(up);
-                            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                             for (String tid : terminals.keySet())
                             {
                                 JSONObject sinfo = terminals.get(tid);
@@ -2952,7 +3038,7 @@ public class LiveUpdater extends Thread {
                             up.put("param", param);
                             up.put("value", v_u);
                             update(up);
-                            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.updtSessions;
+                            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
                             for (String tid : terminals.keySet())
                             {
                                 JSONObject sinfo = terminals.get(tid);
