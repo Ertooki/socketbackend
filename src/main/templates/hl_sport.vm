@@ -1,0 +1,75 @@
+<div data-sport='$alias' data-order='$order' data-sport-id='$id'>
+	<div class='head_all'>
+		<div class='empty_btn'></div>
+		<div class='header_first'>
+			<div class='cols_info_wrap'>
+				<div class='cols_info'>
+					<div class='cols_info-o'>Endergebnis</div>
+				</div>
+				#if ($id == 844)
+					<div class='cols_info'>
+						<div class='cols_info-o'>Doppelte Chance</div>
+					</div>
+					<div class='cols_info'>
+						<div class='cols_info-o'>Nächstes Tor</div>
+					</div>
+				#else
+					<div class='cols_info'>
+						<div class='cols_info-o'>$part Gewinner</div>
+					</div>
+					<div class='cols_info'>
+						<div class='cols_info-o'>Scoreboard</div>
+					</div>
+				#end
+				
+				
+				<div class='cols_info'>
+					<div class='cols_info-o'>Über/Unter</div>
+				</div>
+			</div>
+			<div class='mh_text'>
+				<div class='head_img'></div>
+				<span class='head_span'>$name</span>
+			</div>
+		</div>
+		<hr></hr>
+		<div class='header_second'>
+			<div class='cols_info_wrap'>
+				<div class='cols_info'>
+					<div id='infoone' class='cols_info-o'>1</div>
+					<div id='infotwo' class='cols_info-o'>X</div>
+					<div id='infothree' class='cols_info-o'>2</div>
+				</div>
+				#if ($id == 844)
+					<div class='cols_info'>
+						<div id='infoone' class='cols_info-o'>1X</div>
+						<div id='infotwo' class='cols_info-o'>12</div>
+						<div id='infothree' class='cols_info-o'>X2</div>
+					</div>
+					<div class='cols_info'>
+						<div id='infoone' class='cols_info-o'>1</div>
+						<div id='infotwo' class='cols_info-o'>X</div>
+						<div id='infothree' class='cols_info-o'>2</div>
+					</div>
+				#else
+					<div class='cols_info'>
+						<div id='infoone' class='cols_info-o'>1</div>
+						<div id='infotwo' class='cols_info-o'>X</div>
+						<div id='infothree' class='cols_info-o'>2</div>
+					</div>
+					<div class='cols_info'>
+						<div id='infoone' class='cols_info-o'> </div>
+						<div id='infotwo' class='cols_info-o'> </div>
+						<div id='infothree' class='cols_info-o'> </div>
+					</div>
+				#end
+				
+				<div class='cols_info'>
+					<div id='infoone' class='cols_info-o'> </div>
+					<div id='infotwo' class='cols_info-o'>+</div>
+					<div id='infothree' class='cols_info-o'>-</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

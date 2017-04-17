@@ -1,0 +1,10 @@
+<li data-region='$region.get("_id")' data-sport-id=$sid data-country='$region.get("alias")' data-country-name='$region.get("name")' data-region-order='$region.get("order")'>
+		<div class='icon_region'></div>
+		<span class='region-span'>$region.name</span>
+		<em class='region-em region-week-em'>$region.r_w</em>
+		<ul data-sport='$sid' data-region='$region.get("_id")' style='display:none'>
+			#foreach( $comp in $comps )
+				$comp.get("menu")
+			#end
+		</ul>
+</li>

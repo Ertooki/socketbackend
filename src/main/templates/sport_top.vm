@@ -1,0 +1,4 @@
+<li id='$alias' class="sport-event sport-btn-top" data-order="$order" data-sport-node-id='$id'>
+	<div></div>
+	<span>$name</span>
+</li>

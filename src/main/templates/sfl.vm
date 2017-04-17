@@ -1,0 +1,8 @@
+<li data-sport-alias=$alias data-menu-sport-id=$id data-order=$order>
+	<span class='region-span'>$name</span>
+	<div class='head_img'></div>
+	<em class='region-em'>$fl</em>
+	<ul data-region=$id data-sport=$sport style='display:none'>
+		$comps
+	</ul>
+</li>

@@ -1,0 +1,3 @@
+<ul data-sport='$id' data-sport-alias=$alias data-sport-name=$name style='display:none'>
+	$regions
+</ul>

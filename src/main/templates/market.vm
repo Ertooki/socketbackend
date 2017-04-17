@@ -1,0 +1,27 @@
+#if ($market.containsKey('order')) #set($order=$market.order) #else #set($order="") #end
+#if ($market.containsKey('type')) #set($type=$market.type)  #else #set($type="") #end
+#if ($market.containsKey('exp_id')) #set($eid=$market.exp_id) #else #set($eid="") #end
+<div data-market-id=$market.get("_id") data-m-order=$order>
+	<div id='tournament-header'> [$market.type][$market.base]<br/> $market.name </div>
+	<div id='odds_wrap'>
+		#foreach($eid in $eIds)
+			#set($event = $events.get($eid))
+			<div id='match-odds' data-b-order=$event.order>
+				<div id='odds-top'> 
+				    [$event.type]<br/>
+					$event.name
+					<div class='separation-line'></div> 
+				</div>
+				#if($market.containsKey('exp_id'))
+					<div id ='odds-bottom' data-e-type='$event.get("type")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$event.get("order")' data-e-name='$event.get("name")'	data-bet-id='$event.get("_id")'	data-market-type=$type data-bet-mid=$market.get('_id') data-eid-mid='$market.get("exp_id")'>
+						$event.price
+					</div>
+				#else
+					<div id ='odds-bottom' data-e-type='$event.get("type")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$event.get("order")' data-e-name='$event.get("name")'	data-bet-id='$event.get("_id")'	data-market-type=$type data-bet-mid=$market.get('_id')>
+						$event.price
+					</div>
+				#end
+			</div>
+		#end
+	</div>
+</div>

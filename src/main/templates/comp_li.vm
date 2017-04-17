@@ -1,0 +1,5 @@
+<li class=competition-li-$sport data-sport=$sport data-region=$id data-compt='$comp.get("_id")' data-country=$cntr>
+	<span>$comp.get("name")</span>
+	<div class='icon_region'></div>
+	<em>$comp.count</em>
+</li>

@@ -1,0 +1,4 @@
+<li class='competition-li-all'data-compt='$comp.get("_id")' data-country='$region_alias' data-comp-order='$comp.get("order")' data-text='$comp.get("name")'>
+	<span>$comp.get("name")</span>
+	<em>$comp.get("c_w")</em>
+</li>

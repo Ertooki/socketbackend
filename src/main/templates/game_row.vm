@@ -1,0 +1,893 @@
+#if ($game.containsKey('excl_id'))
+	#if ($game.containsKey('external-id'))
+		<div class='row_var1' data-external-id='$game.get("external-id")' data-type-alias='$talias' data-type='$game.get("type")' data-start='$game.get("start")' data-excl='$game.get("excl_id")' data-sid='$sport.get("id")' data-sport-name='$sport.get("name")' data-sport-alias='$sport.get("alias")' data-rid='$rc.get("rid")' data-region-alias='$region_alias' data-cid='$rc.get("cid")' data-comp-name='$comp_name' data-gid='$game.get("_id")' data-alias='$game.get("alias")'>
+	#else
+		<div class='row_var1' data-external-id='$game.get("external-id")' data-type-alias='$talias' data-type='$game.get("type")' data-start='$game.get("start")' data-excl='$game.get("excl_id")' data-sid='$sport.get("id")' data-sport-name='$sport.get("name")' data-sport-alias='$sport.get("alias")' data-rid='$rc.get("rid")' data-region-alias='$region_alias' data-cid='$rc.get("cid")' data-comp-name='$comp_name' data-gid='$game.get("_id")' data-alias='$game.get("alias")'>
+	#end
+#else
+	#if ($game.containsKey('external-id'))
+		<div class='row_var1' data-external-id='$game.get("external-id")' data-type-alias='$talias' data-type='$game.get("type")' data-start='$game.get("start")' data-sid='$sport.get("id")' data-sport-name='$sport.get("name")' data-sport-alias='$sport.get("alias")' data-rid='$rc.get("rid")' data-region-alias='$region_alias' data-comp-name='$comp_name' data-cid='$rc.get("cid")' data-gid='$game.get("_id")' data-alias='$game.get("alias")'>
+	#else
+		<div class='row_var1' data-external-id='$game.get("external-id")' data-type-alias='$talias' data-type='$game.get("type")' data-start='$game.get("start")' data-sid='$sport.get("id")' data-sport-name='$sport.get("name")' data-sport-alias='$sport.get("alias")' data-rid='$rc.get("rid")' data-region-alias='$region_alias' data-comp-name='$comp_name' data-cid='$rc.get("cid")' data-gid='$game.get("_id")' data-alias='$game.get("alias")'>
+	#end
+#end
+	<div class='id'>$game.alias</div>
+	#if ($game.type == 1)
+		#if ($sport.get("id").toString().equals("844"))
+			#if($game.state.equals("timeout"))  <div class='time'>$game.true_state</div> 
+			#else
+				#if($game.containsKey('true_time'))
+					<div class='time'>$game.true_time</div>
+				#else
+					<div class='time'></div>
+				#end
+			#end
+		#elseif ($game.containsKey('true_state'))
+			#if($game.containsKey('true_time'))
+				<div class='state'><div class="st">$game.true_state</div><div class="tm">$game.true_time</div></div> 
+			#else
+				<div class='state'><div class="st">$game.true_state</div><div class="tm"></div></div>
+			#end
+		#else
+			#if($game.containsKey('true_time'))
+				<div class='state'><div class="st"></div><div class="tm">$game.true_time</div></div> 
+			#else
+				<div class='state'><div class="st"></div><div class="tm"></div></div>
+			#end 
+		#end
+	#elseif ($game.type == 0)
+		<div class='time'>
+			<div class='dm'>$day</div>
+			<div class='hm'>$hour</div>
+		</div>
+	#end
+	#if ($game.containsKey("team2"))
+		#if ($sport.get("id") == 844 && $game.type == 1)
+		<div class='team1'>
+			<div class='team_wrap'>
+				#if ($game.containsKey("red_1")) 
+					#if ($game.red_1 != 0)
+						<div class='redcard-score'><span>$game.red_1</span></div>
+					#else
+						<div class='redcard-score'></div>
+					#end
+				#else
+					<div class='redcard-score'></div>
+				#end
+				#if ($game.containsKey("yel_1")) 
+					#if ($game.yel_1 != 0)
+						<div class='yellowcard-score'><span>$game.yel_1</span></div>
+					#else
+						<div class='yellowcard-score'></div>
+					#end
+				#else
+					<div class='yellowcard-score'></div>
+				#end
+				<div class='name'>$game.team1</div>
+			</div>
+		</div>
+		#else
+		<div class='team1'>
+			<div class='name'>$game.team1</div>
+		</div>
+		#end
+		#if ($game.type == 1)
+			#if ($game.containsKey("score1"))<div class='score1'>$game.score1</div> #else <div class='score1'>-</div> #end
+			<div class='colon'>:</div>
+			#if ($game.containsKey("score2"))<div class='score2'>$game.score2</div> #else <div class='score2'>-</div> #end
+		#else <div class='game_icon'></div>
+		#end
+		#if ($sport.get("id") == 844 && $game.type == 1)
+		<div class='team2'>
+			<div class='team_wrap'>
+				<div class='name'>$game.team2</div>
+				#if ($game.containsKey("red_2")) 
+					#if ($game.red_2 != 0)
+						<div class='redcard-score'><span>$game.red_2</span></div>
+					#else
+						<div class='redcard-score'></div>
+					#end
+				#else
+					<div class='redcard-score'></div>
+				#end
+				#if ($game.containsKey("yel_2")) 
+					#if ($game.yel_2 != 0)
+						<div class='yellowcard-score'><span>$game.yel_2</span></div>
+					#else
+						<div class='yellowcard-score'></div>
+					#end
+				#else
+					<div class='yellowcard-score'></div>
+				#end
+			</div>
+			#if (!$game.containsKey("state"))<div class='fullset'> </div> 
+			#elseif(!$game.state.equals('set2') && !$game.state.equals('timeout') && !$game.state.equals('finished')) <div class='fullset'> $game.true_state </div> #end
+		</div>
+		#else
+		<div class='team2'>
+			<div class='name'>$game.team2</div>
+		</div>
+		#end
+	#else
+	<div class='place'>
+		<div class='name'>$game.team1</div>
+	</div>
+	#end
+	#if ($gr1.size() == 1)
+	#set($market=$gr1.get(0))
+		#if ($market.type == "1HalfP1XP2") <div class='gr group1' data-market-id2='$gr1.get(0).get("_id")'>
+		#else <div class='gr group1' data-market-id='$gr1.get(0).get("_id")'>
+		#end
+				#if ($market.type == "1HalfP1XP2" && $game.type == 1)
+					#if ($sport.get("id")== 844)
+						#if ($game.containsKey("state"))
+							#if ($game.state.equals('set1'))
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#end
+						#end
+					#end
+				#end	
+				#set($p1=-1)
+				#set($x=-1)
+				#set($p2=-1)
+				#foreach ($evnt in $gr1.get(0).events)
+					#if($evnt.type.equals("P1") || $evnt.type.equals("1")) #set($p1=$evnt) #end
+					#if($evnt.type.equals("X")) #set($x=$evnt) #end
+					#if($evnt.type.equals("P2") || $evnt.type.equals("2")) #set($p2=$evnt) #end
+				#end
+				#if($market.containsKey('exp_id'))
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")' data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+					#end
+				#else
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p1.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$x.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p2.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+					#end
+				#end
+				#if ($market.type == "P1XP2" && $game.type == 1)
+					#if ($sport.get("id")== 844)
+						#if ($game.containsKey("state"))
+							#if ($game.state.equals('set1'))
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#end
+						#end
+					#end
+				#end
+			</div>
+	#elseif ($gr1.size() == 2 && $game.type == 1)
+		#if($gr1.get(0).get("type").equals("P1XP2")) 
+			#set($full=$gr1.get(0))
+			#set($half=$gr1.get(1))
+		#else
+			#set($half=$gr1.get(0))
+			#set($full=$gr1.get(1))
+		#end
+		<div class='gr group1' data-market-id='$full.get("_id")' data-market-id2='$half.get("_id")'>
+				#set($p1=-1)
+				#set($x=-1)
+				#set($p2=-1)
+				#foreach ($evnt in $full.events)
+					#if($evnt.type.equals("P1")) #set($p1=$evnt) #end
+					#if($evnt.type.equals("X")) #set($x=$evnt) #end
+					#if($evnt.type.equals("P2")) #set($p2=$evnt) #end
+				#end
+				#if($full.containsKey('exp_id'))
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$p1.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p1.get("order")' data-e-name='$p1.get("name")' data-bet-mid='$full.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$x.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$full.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$p2.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$full.get("_id")'>$p2.price</div>
+					#end
+				#else
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p1.get("order")' data-bet-mid='$full.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$x.get("order")' data-bet-mid='$full.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p2.get("order")' data-bet-mid='$full.get("_id")'>$p2.price</div>
+					#end
+				#end
+				#set($p1=-1)
+				#set($x=-1)
+				#set($p2=-1)
+				#foreach ($evnt in $half.events)
+					#if($evnt.type.equals("1HalfP1")) #set($p1=$evnt) #end
+					#if($evnt.type.equals("1HalfX")) #set($x=$evnt) #end
+					#if($evnt.type.equals("1HalfP2")) #set($p2=$evnt) #end
+				#end
+				#if($half.containsKey('exp_id'))
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p1.get("order")' data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-bet-mid='$half.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$x.get("order")' data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-bet-mid='$half.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p2.get("order")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-bet-mid='$half.get("_id")'>$p2.price</div>
+					#end
+				#else
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p1.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p1.get("order") data-e-name='$p1.get("name")' data-bet-mid='$half.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$x.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$x.get("order") data-e-name='$x.get("name")' data-bet-mid='$half.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p2.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p2.get("order") data-e-name='$p2.get("name")' data-bet-mid='$half.get("_id")'>$p2.price</div>
+					#end
+				#end
+			</div>
+	#elseif ($gr1.size() == 0)
+		#if ($sport.get("id")== 844)
+			#if ($game.containsKey("state"))
+				#if ($game.state.equals('set1'))
+					<div class='gr group1' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					</div>
+				#else
+					<div class='gr group1' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					</div>
+				#end
+			#else
+				<div class='gr group1' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				</div>
+			#end
+		#else
+			<div class='gr group1' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+			</div>	
+		#end
+	#end
+	#if (($gr2.size() == 1 && $sport.get("id")==844) || ($gr2.size() == 1 && $game.type == 0))
+		#set($market=$gr2.get(0))
+		#if ($market.type == "1Half1X12X2") <div class='gr group2' data-market-id2='$gr2.get(0).get("_id")'> 
+		#else <div class='gr group2' data-market-id='$gr2.get(0).get("_id")'> 
+		#end
+				#if ($market.type == "1Half1X12X2" && $game.type == 1)
+					#if ($sport.get("id")==844)
+						#if ($game.containsKey("state"))
+							#if ($game.state.equals('set1'))
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#end
+						#end
+					#end
+				#end
+				#set($p1=-1)
+				#set($x=-1)
+				#set($p2=-1)
+				#foreach ($evnt in $gr2.get(0).events)
+					#if($evnt.type.equals("1X")) #set($p1=$evnt) #end
+					#if($evnt.type.equals("12")) #set($x=$evnt) #end
+					#if($evnt.type.equals("X2")) #set($p2=$evnt) #end
+				#end
+				#if($market.containsKey('exp_id'))
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")' data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+					#end
+				#else
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p1.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$x.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p2.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+					#end
+				#end
+				#if ($market.type == "1X12X2" && $game.type == 1)
+					#if ($sport.get("id")==844)
+						#if ($game.containsKey("state"))
+							#if ($game.state.equals('set1'))
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#end
+						#end
+					#end
+				#end
+			</div>
+	#elseif ($gr2.size() > 0 && $sport.get("id")!=844 && $game.type == 1)
+		<div class='gr group2' data-market-id='$gr2.get(0).get("_id")'> 
+			#set($p1=-1)
+			#set($x=-1)
+			#set($p2=-1)
+			#set($p1_name=$part+"p1")
+			#set($x_name=$part+"x")
+			#set($p2_name=$part+"p2")
+			#set($market=$gr2.get(0))
+			#foreach ($evnt in $gr2.get(0).events)
+				#if($evnt.type.toLowerCase().contains($p1_name)) #set($p1=$evnt) #end
+				#if($evnt.type.toLowerCase().contains($x_name)) #set($x=$evnt) #end
+				#if($evnt.type.toLowerCase().contains($p2_name)) #set($p2=$evnt) #end
+			#end
+			#if($market.containsKey('exp_id'))
+				#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")' data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")'>$p1.price</div>
+				#end
+				#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+				#end
+				#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+				#end
+			#else
+				#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				#else <div data-bet-id='$p1.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")'>$p1.price</div>
+				#end
+				#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				#else <div data-bet-id='$x.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+				#end
+				#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				#else <div data-bet-id='$p2.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+				#end
+			#end
+		</div>
+	#elseif ($gr2.size() == 2 && $game.type == 1)
+		#if($gr2.get(0).get("type").equals("1X12X2")) 
+			#set($full=$gr2.get(0))
+			#set($half=$gr2.get(1))
+		#else
+			#set($half=$gr2.get(0))
+			#set($full=$gr2.get(1))
+		#end
+		<div class='gr group2' data-market-id='$full.get("_id")' data-market-id2='$half.get("_id")'>
+				#set($p1=-1)
+				#set($x=-1)
+				#set($p2=-1)
+				#foreach ($evnt in $full.events)
+					#if($evnt.type.equals("1X")) #set($p1=$evnt) #end
+					#if($evnt.type.equals("12")) #set($x=$evnt) #end
+					#if($evnt.type.equals("X2")) #set($p2=$evnt) #end
+				#end
+				#if($full.containsKey('exp_id'))
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$p1.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p1.get("order")' data-e-name='$p1.get("name")' data-bet-mid='$full.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$x.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$full.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$p2.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$full.get("_id")'>$p2.price</div>
+					#end
+				#else
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p1.get("order")' data-bet-mid='$full.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$x.get("order")' data-bet-mid='$full.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p2.get("order")' data-bet-mid='$full.get("_id")'>$p2.price</div>
+					#end
+				#end
+				#set($p1=-1)
+				#set($x=-1)
+				#set($p2=-1)
+				#foreach ($evnt in $half.events)
+					#if($evnt.type.equals("1Half1X")) #set($p1=$evnt) #end
+					#if($evnt.type.equals("1Half12")) #set($x=$evnt) #end
+					#if($evnt.type.equals("1HalfX2")) #set($p2=$evnt) #end
+				#end
+				#if($half.containsKey('exp_id'))
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p1.get("order")' data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-bet-mid='$half.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$x.get("order")' data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-bet-mid='$half.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p2.get("order")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-bet-mid='$half.get("_id")'>$p2.price</div>
+					#end
+				#else
+					#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p1.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p1.get("order") data-e-name='$p1.get("name")' data-bet-mid='$half.get("_id")'>$p1.price</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$x.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$x.get("order") data-e-name='$x.get("name")' data-bet-mid='$half.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p2.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p2.get("order") data-e-name='$p2.get("name")' data-bet-mid='$half.get("_id")'>$p2.price</div>
+					#end
+				#end
+			</div>
+	#elseif ($gr2.size() == 0)
+		#if ($sport.get("id")=="844")
+			#if ($game.containsKey("state"))
+				#if ($game.state.equals('set1'))
+					<div class='gr group2' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					</div>
+				#else
+					<div class='gr group2' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					</div>
+				#end
+			#else
+				<div class='gr group2' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				</div>
+			#end
+		#else
+			<div class='gr group2' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+			</div>	
+		#end
+	#end
+	#if ($game.type == 0)
+		#if ($gr3.size()>0)
+			#set($market=$gr3.get(0))
+			<div class='gr group3' data-market-id='$market.get("_id")'>
+					#set($p1=-1)
+					#set($x=-1)
+					#set($p2=-1)
+					#foreach ($evnt in $gr3.get(0).events)
+						#if($evnt.type.equals("1HalfP1") || $evnt.type.equals("1SetP1") || $evnt.type.equals("1PeriodP1")) #set($p1=$evnt) #end
+						#if($evnt.type.equals("1HalfX") || $evnt.type.equals("1SetX") || $evnt.type.equals("1PeriodX")) #set($x=$evnt) #end
+						#if($evnt.type.equals("1HalfP2") || $evnt.type.equals("1SetP2") || $evnt.type.equals("1PeriodP2")) #set($p2=$evnt) #end
+					#end
+					#if($market.containsKey('exp_id'))
+						#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")' data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")'>$p1.price</div>
+						#end
+						#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+						#end
+						#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+						#end
+					#else
+						#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						#else <div data-bet-id='$p1.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")'>$p1.price</div>
+						#end
+						#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						#else <div data-bet-id='$x.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+						#end
+						#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						#else <div data-bet-id='$p2.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+						#end
+					#end
+				</div>
+		#else
+			<div class='gr group3' data-market-id=''>
+					<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+			</div>
+		#end
+	#else
+		#if($sport.get("id") == 848 || $sport.get("id") == 884 || $sport.get("id") == 850 || $sport.get("id") == 852 || $sport.get("id") == 856 || $sport.get("id") == 846)
+		#if($sport.get("id") == 848) #set($max = 6)
+		#elseif($sport.get("id") == 884) #set($max = 9)
+		#elseif($sport.get("id") == 850) #set($max = 4)
+		#elseif($sport.get("id") == 852) #set($max = 5)
+		#elseif($sport.get("id") == 856) #set($max = 9)
+		#elseif($sport.get("id") == 846) #set($max = 5)
+		#end
+		#if($game.containsKey('scoreboard'))
+			#set($scoreboard=$game.scoreboard)
+			<div class="group3">	
+				<div class="match-scoreboard-table">
+					<div class="match-scoreboard-row team1">
+						#set($sets = 1)
+						#foreach($score in $scoreboard)
+							<div class="match-scoreboard-cell set$sets"> $score.team1 </div>
+							#set($sets = $sets + 1)
+						#end
+						#if ($scoreboard.size()<$max)
+							#set($sets = $scoreboard.keySet().size()+1)
+							#foreach($i in [$sets..$max])
+								<div class="match-scoreboard-cell set$i"> </div>
+							#end
+						#end
+					</div>
+					<div class="match-scoreboard-row team2">
+						#set($sets = 1)
+						#foreach($score in $scoreboard)
+							<div class="match-scoreboard-cell set$sets"> $score.team2 </div>
+							#set($sets = $sets + 1)
+						#end
+						#if ($scoreboard.size()<$max)
+							#set($sets = $scoreboard.keySet().size()+1)
+							#foreach($i in [$sets..$max])
+								<div class="match-scoreboard-cell set$i"> </div>
+							#end
+						#end
+					</div>
+				</div>
+			</div>
+		#else
+			<div class="group3">	
+				<div class="match-scoreboard-table">
+					<div class="match-scoreboard-row team1">
+						#foreach($i in [1..$max])
+							<div class="match-scoreboard-cell set$i"> </div>
+						#end
+					</div>
+					<div class="match-scoreboard-row team2">
+						#foreach($i in [1..$max])
+							<div class="match-scoreboard-cell set$i"> </div>
+						#end
+					</div>
+				</div>
+			</div>
+		#end
+		#elseif($gr3.size() == 1)
+			#set($market=$gr3.get(0))
+			#if ($market.type =="1HalfNextGoal") <div class='gr group3' data-market-id2='$market.get("_id")'>
+			#else <div class='gr group3' data-market-id='$market.get("_id")'>
+			#end
+						#if ($market.type =="1HalfNextGoal")
+							#if ($sport.get("id")== 844)
+								#if ($game.containsKey("state"))
+									#if ($game.state.equals('set1'))
+											<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+											<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+											<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									#end
+								#end
+							#end
+						#end
+						#set($p1=-1)
+						#set($x=-1)
+						#set($p2=-1)
+						#foreach ($evnt in $market.events)
+							#if($evnt.type.toString().toLowerCase().contains("firstteam")) #set($p1=$evnt) #end
+							#if($evnt.type.toString().toLowerCase().contains("goal") 
+							&& !$evnt.type.toString().toLowerCase().contains("firstteam")
+							&& !$evnt.type.toString().toLowerCase().contains("secondteam")) #set($x=$evnt) #end
+							#if($evnt.type.toString().toLowerCase().contains("secondteam")) #set($p2=$evnt) #end
+						#end
+						#if($market.containsKey('exp_id'))
+							#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")'>$p1.price</div>
+							#end
+							#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+							#end
+							#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div  data-eid-mid='$market.get("exp_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+							#end
+						#else
+							#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div data-bet-id='$p1.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p1.get("order")' data-e-name='$p1.get("name")' data-bet-mid='$market.get("_id")'>$p1.price</div>
+							#end
+							#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div data-bet-id='$x.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+							#end
+							#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div data-bet-id='$p2.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+							#end
+						#end
+						#if ($market.type =="NextGoal")
+							#if ($sport.get("id")== 844)
+								#if ($game.containsKey("state"))
+									#if ($game.state.equals('set1'))
+											<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+											<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+											<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									#end
+								#end
+							#end
+						#end
+					</div>
+			#elseif ($gr3.size() == 2 && $game.type == 1)
+			#if($gr3.get(0).get("type").equals("NextGoal")) 
+				#set($full=$gr3.get(0))
+				#set($half=$gr3.get(1))
+			#else
+				#set($half=$gr3.get(0))
+				#set($full=$gr3.get(1))
+			#end
+				<div class='gr group3' data-market-id='$full.get("_id")' data-market-id2='$half.get("_id")'>
+						#set($p1=-1)
+						#set($x=-1)
+						#set($p2=-1)
+						#foreach ($evnt in $full.events)
+							#if($evnt.type.toString().toLowerCase().contains("firstteam")) #set($p1=$evnt) #end
+							#if($evnt.type.toString().toLowerCase().contains("goal") 
+							&& !$evnt.type.toString().toLowerCase().contains("firstteam")
+							&& !$evnt.type.toString().toLowerCase().contains("secondteam")) #set($x=$evnt) #end
+							#if($evnt.type.toString().toLowerCase().contains("secondteam")) #set($p2=$evnt) #end
+						#end
+						#if($full.containsKey('exp_id'))
+							#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$p1.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p1.get("order")' data-e-name='$p1.get("name")' data-bet-mid='$full.get("_id")'>$p1.price</div>
+							#end
+							#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$x.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$full.get("_id")'>$x.price</div>
+							#end
+							#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$p2.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$full.get("_id")'>$p2.price</div>
+							#end
+						#else
+							#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p1.get("order")' data-bet-mid='$full.get("_id")'>$p1.price</div>
+							#end
+							#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$x.get("order")' data-bet-mid='$full.get("_id")'>$x.price</div>
+							#end
+							#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p2.get("order")'data-bet-mid='$full.get("_id")'>$p2.price</div>
+							#end
+						#end
+						#set($p1=-1)
+						#set($x=-1)
+						#set($p2=-1)
+						#foreach ($evnt in $half.events)
+							#if($evnt.type.toString().toLowerCase().contains("firstteam")) #set($p1=$evnt) #end
+							#if($evnt.type.toString().toLowerCase().contains("goal") 
+							&& !$evnt.type.toString().toLowerCase().contains("firstteam")
+							&& !$evnt.type.toString().toLowerCase().contains("secondteam")) #set($x=$evnt) #end
+							#if($evnt.type.toString().toLowerCase().contains("secondteam")) #set($p2=$evnt) #end
+						#end
+						#if($half.containsKey('exp_id'))
+							#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p1.get("order")' data-bet-id='$p1.get("_id")' data-e-name='$p1.get("name")' data-bet-mid='$half.get("_id")'>$p1.price</div>
+							#end
+							#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$x.get("order")' data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-bet-mid='$half.get("_id")'>$x.price</div>
+							#end
+							#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p2.get("order")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-bet-mid='$half.get("_id")'>$p2.price</div>
+							#end
+						#else
+							#if($p1 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div data-bet-id='$p1.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p1.get("order") data-e-name='$p1.get("name")' data-bet-mid='$half.get("_id")'>$p1.price</div>
+							#end
+							#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div data-bet-id='$x.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$x.get("order") data-e-name='$x.get("name")' data-bet-mid='$half.get("_id")'>$x.price</div>
+							#end
+							#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#else <div data-bet-id='$p2.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p2.get("order") data-e-name='$p2.get("name")' data-bet-mid='$half.get("_id")'>$p2.price</div>
+							#end
+						#end
+					</div>
+	
+		#elseif ($gr3.size() == 0)
+			#if ($sport.get("id")==844)
+				#if ($game.containsKey("state"))
+					#if ($game.state.equals('set1'))
+						<div class='gr group3' data-market-id=''>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						</div>
+					#else
+						<div class='gr group3' data-market-id=''>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						</div>
+					#end
+				#else
+					<div class='gr group3' data-market-id=''>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					</div>
+				#end
+			#else
+				<div class='gr group3' data-market-id=''>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				</div>	
+			#end
+		#end
+	#end
+	#if($gr4.size() == 1)
+		#set($market=$gr4.get(0))
+			#if ($market.type == "FirstHalfTotal") <div class='gr group4' data-market-id2='$market.get("_id")'>
+			#else <div class='gr group4' data-market-id='$market.get("_id")'>
+			#end
+				#if ($market.type == "FirstHalfTotal" && $game.type == 1)
+					#if ($sport.get("id")==844)
+						#if ($game.containsKey("state"))
+							#if ($game.state.equals('set1'))
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#end
+						#end
+					#end
+				#end
+				#set($p1=-1)
+				#set($x=-1)
+				#set($p2=-1)
+				#foreach ($evnt in $market.events)
+					#if($evnt.type.toLowerCase().contains("totalmore") || $evnt.type.toLowerCase().contains("more")) #set($x=$evnt) #end
+					#if($evnt.type.toLowerCase().contains("totalless") || $evnt.type.toLowerCase().contains("less")) #set($p2=$evnt) #end
+				#end
+				
+				#if($market.containsKey('exp_id'))
+					#if(!$market.containsKey('base')) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$market.get("exp_id")' data-bet-id='base' data-bet-mid='$market.get("_id")'>$market.base</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$market.get("exp_id")' data-bet-id='$x.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$market.get("exp_id")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+					#end
+				#else
+					#if(!$market.containsKey('base')) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-bet-eid='$market.get("exp_id")' data-market-name='$market.get("name")' data-bet-id='base' data-bet-mid='$market.get("_id")' data-bet-eid=''>$market.base</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$x.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$x.get("order")'data-e-name='$x.get("name")' data-bet-mid='$market.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p2.get("_id")' data-market-name='$market.get("name")' data-market-type='$market.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$market.get("_id")'>$p2.price</div>
+					#end
+				#end
+				#if ($market.type == "Total" && $game.type == 1)
+					#if ($sport.get("id")==844)
+						#if ($game.containsKey("state"))
+							#if ($game.state.equals('set1'))
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+									<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+							#end
+						#end
+					#end
+				#end
+			</div>
+		#elseif($gr4.size() == 2)
+		#if($gr4.get(0).get("type").equals("Total"))
+			#set($full = $gr4.get(0))
+			#set($half = $gr4.get(1))
+		#else
+			#set($full = $gr4.get(1))
+			#set($half = $gr4.get(0))
+		#end
+		<div class='gr group4' data-market-id='$full.get("_id")' data-market-id2='$half.get("_id")'>
+				#set($p1=-1)
+				#set($x=-1)
+				#set($p2=-1)
+				#foreach ($evnt in $full.events)
+					#if($evnt.type.equals("TotalMore")) #set($x=$evnt) #end
+					#if($evnt.type.equals("TotalLess")) #set($p2=$evnt) #end
+				#end
+				#if($full.containsKey('exp_id'))
+					#if(!$full.containsKey('base')) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='base' data-bet-mid='$full.get("_id")'>$full.base</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$x.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$x.get("order")' data-e-name='$x.get("name")' data-bet-mid='$full.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$full.get('exp_id')' data-bet-id='$p2.get("_id")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p2.get("order")' data-e-name='$p2.get("name")' data-bet-mid='$full.get("_id")'>$p2.price</div>
+					#end
+				#else
+					#if(!$full.containsKey('base')) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='base' data-bet-mid='$full.get("_id")' data-bet-eid=''>$full.base</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$x.get("order")' data-bet-mid='$full.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-market-name='$full.get("name")' data-market-type='$full.get("type")' data-order-bet='$p2.get("order")' data-bet-mid='$full.get("_id")'>$p2.price</div>
+					#end
+				#end
+				#set($p1=-1)
+				#set($x=-1)
+				#set($p2=-1)
+				#foreach ($evnt in $half.events)
+					#if($evnt.type.equals("FirstHalfTotalMore")) #set($x=$evnt) #end
+					#if($evnt.type.equals("FirstHalfTotalLess")) #set($p2=$evnt) #end
+				#end
+				#if($half.containsKey('exp_id'))
+					#if(!$half.containsKey('base')) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$half.get('exp_id')' data-bet-id='base' data-bet-mid='$half.get("_id")'>$half.base</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$x.get("order")' data-bet-id='$x.get("_id")' data-e-name='$x.get("name")' data-bet-mid='$half.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div  data-eid-mid='$half.get('exp_id')' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p2.get("order")' data-bet-id='$p2.get("_id")' data-e-name='$p2.get("name")' data-bet-mid='$half.get("_id")'>$p2.price</div>
+					#end
+				#else
+					#if(!$half.containsKey('base')) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='base' data-bet-mid='$half.get("_id")' data-bet-eid=''>$half.base</div>
+					#end
+					#if($x == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$x.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$x.get("order") data-e-name='$x.get("name")' data-bet-mid='$half.get("_id")'>$x.price</div>
+					#end
+					#if($p2 == -1) <div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					#else <div data-bet-id='$p2.get("_id")' data-market-name='$half.get("name")' data-market-type='$half.get("type")' data-order-bet='$p2.get("order") data-e-name='$p2.get("name")' data-bet-mid='$half.get("_id")'>$p2.price</div>
+					#end
+				#end
+			</div>
+	#elseif ($gr4.size() == 0) 
+		#if ($sport.get("id")==844)
+			#if ($game.containsKey("state"))
+				#if ($game.state.equals('set1'))
+					<div class='gr group4' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					</div>
+				#else
+					<div class='gr group4' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+					</div>
+				#end
+			#else
+				<div class='gr group4' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+				</div>
+			#end
+		#else
+			<div class='gr group4' data-market-id=''>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+						<div data-bet-id='-1' data-e-name='' data-bet-mid='' data-bet-eid=''></div>
+			</div>	
+		#end
+	#end
+	#if ($game.containsKey("mc") && $game.mc>0)<div id='bet-variants'>+$game.mc</div> #else <div id='bet-variants'></div> #end
+</div>
