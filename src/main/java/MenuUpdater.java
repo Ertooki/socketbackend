@@ -1048,16 +1048,17 @@ public class MenuUpdater extends Thread {
 
     void update(JSONObject update)
     {
-        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
+        ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
         for(String tid : terminals.keySet())
         {
-            if (terminals.get(tid) != null) {
-                Session rcpt = (Session) terminals.get(tid).get("session");
-                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
-                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+            Terminal t = terminals.get(tid);
+            if (t != null) {
+                Session rcpt = t.getSession();
+                if (t.getCount() == 0) {
+                    if (rcpt.isOpen()) t.sendIt(update);
                 }
                 else {
-                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                    t.updates.put(UUID.randomUUID().toString(), update);
                 }
             }
         }

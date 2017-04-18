@@ -1807,16 +1807,17 @@ public class FliveUpdater extends Thread{
 
     void update(JSONObject update)
     {
-        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
+        ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
         for(String tid : terminals.keySet())
         {
-            if (terminals.get(tid) != null) {
-                Session rcpt = (Session) terminals.get(tid).get("session");
-                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
-                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+            Terminal t = terminals.get(tid);
+            if (t != null) {
+                Session rcpt = t.getSession();
+                if (t.getCount() == 0) {
+                    if (rcpt.isOpen()) t.sendIt(update);
                 }
                 else {
-                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                    t.updates.put(UUID.randomUUID().toString(), update);
                 }
             }
         }
@@ -1834,18 +1835,18 @@ public class FliveUpdater extends Thread{
             {
                 if (update.get("command").toString().equals("new") && update.get("what").toString().equals("market"))
                 {
-                    ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
+                    ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
                     for(String tid : terminals.keySet())
                     {
                         JSONObject modUp = update;
                         HashMap<String,JSONObject> events = (HashMap<String,JSONObject>)((JSONObject)modUp.get("data")).get("events");
-                        JSONObject sinfo = terminals.get(tid);
-                        if (sinfo != null) {
+                        Terminal t = terminals.get(tid);
+                        if (t != null) {
                             for (String eid : events.keySet()) {
                                 JSONObject event = events.get(eid);
                                 String price = event.get("price").toString();
                                 Double currCoef = Double.parseDouble(price);
-                                String multi = sinfo.get("multiplier").toString();
+                                String multi = t.getMulti();
                                 Double multiPrice = Double.parseDouble(price) * Double.parseDouble(multi);
                                 if (currCoef < 2 && currCoef > 1) {
                                     Double tmpCurrentKoeff = currCoef;
@@ -1859,12 +1860,12 @@ public class FliveUpdater extends Thread{
                                 event.put("price", df.format(multiPrice).toString().replaceAll(",", "."));
                             }
                             ((JSONObject) modUp.get("data")).put("events", events);
-                            Session rcpt = (Session) terminals.get(tid).get("session");
-                            if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
-                                if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                            Session rcpt = t.getSession();
+                            if (t.getCount() == 0) {
+                                if (rcpt.isOpen()) t.sendIt(update);
                             }
                             else {
-                                ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                t.updates.put(UUID.randomUUID().toString(), update);
                             }
                         }
                     }
@@ -1874,12 +1875,12 @@ public class FliveUpdater extends Thread{
                     if (update.get("command").toString().equals("update"))
                     {
                         String price = update.get("value").toString();
-                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
+                        ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
                         for(String tid : terminals.keySet())
                         {
-                            JSONObject sinfo = terminals.get(tid);
-                            if (sinfo != null) {
-                                String multi = sinfo.get("multiplier").toString();
+                            Terminal t = terminals.get(tid);
+                            if (t != null) {
+                                String multi = t.getMulti();
                                 Double multiPrice = Double.parseDouble(price) * Double.parseDouble(multi);
                                 Double currCoef = Double.parseDouble(price);
                                 if (currCoef < 2 && currCoef > 1) {
@@ -1892,12 +1893,12 @@ public class FliveUpdater extends Thread{
                                 DecimalFormat df = new DecimalFormat("#.##");
                                 df.setRoundingMode(RoundingMode.CEILING);
                                 update.put("value", df.format(multiPrice).toString().replaceAll(",", "."));
-                                Session rcpt = (Session) terminals.get(tid).get("session");
-                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
-                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                Session rcpt = t.getSession();
+                                if (t.getCount() == 0) {
+                                    if (rcpt.isOpen()) t.sendIt(update);
                                 }
                                 else {
-                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                    t.updates.put(UUID.randomUUID().toString(), update);
                                 }
                             }
                         }
@@ -1905,12 +1906,12 @@ public class FliveUpdater extends Thread{
                     else if (update.get("command").toString().equals("new"))
                     {
                         String price = ((JSONObject)update.get("data")).get("price").toString();
-                        ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
+                        ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
                         for(String tid : terminals.keySet())
                         {
-                            JSONObject sinfo = terminals.get(tid);
-                            if (sinfo != null) {
-                                String multi = sinfo.get("multiplier").toString();
+                            Terminal t = terminals.get(tid);
+                            if (t != null) {
+                                String multi = t.getMulti();
                                 Double multiPrice = Double.parseDouble(price) * Double.parseDouble(multi);
                                 Double currCoef = Double.parseDouble(price);
                                 if (currCoef < 2 && currCoef > 1) {
@@ -1924,12 +1925,12 @@ public class FliveUpdater extends Thread{
                                 df.setRoundingMode(RoundingMode.CEILING);
                                 ((JSONObject) update.get("data")).put("price",
                                         df.format(multiPrice).toString().replaceAll(",", "."));
-                                Session rcpt = (Session) terminals.get(tid).get("session");
-                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
-                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                Session rcpt = t.getSession();
+                                if (t.getCount() == 0) {
+                                    if (rcpt.isOpen()) t.sendIt(update);
                                 }
                                 else {
-                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                    t.updates.put(UUID.randomUUID().toString(), update);
                                 }
                             }
                         }
@@ -1941,31 +1942,31 @@ public class FliveUpdater extends Thread{
             }
             else
             {
-                ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
+                ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
                 for (String tid : terminals.keySet())
                 {
-                    JSONObject sinfo = terminals.get(tid);
-                    if (sinfo != null) {
-                        if (sinfo.get("gid") != null) {
-                            if (sinfo.get("gid").equals(update.get("gid"))) {
-                                Session rcpt = (Session) sinfo.get("session");
-                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
-                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                    Terminal t = terminals.get(tid);
+                    if (t != null) {
+                        if (t.game_id != null) {
+                            if (t.game_id.equals(update.get("gid"))) {
+                                Session rcpt = t.getSession();
+                                if (t.getCount() == 0) {
+                                    if (rcpt.isOpen()) t.sendIt(update);
                                 }
                                 else {
-                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                    t.updates.put(UUID.randomUUID().toString(), update);
                                 }
                             }
                         }
                         if (update.get("what").equals("event")) {
-                            List<String> eids = (ArrayList<String>) sinfo.get("betslip");
-                            Session rcpt = (Session) sinfo.get("session");
+                            List<String> eids = t.betslip;
                             if (eids.contains(update.get("id"))) {
-                                if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
-                                    if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                                Session rcpt = t.getSession();
+                                if (t.getCount() == 0) {
+                                    if (rcpt.isOpen()) t.sendIt(update);
                                 }
                                 else {
-                                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                    t.updates.put(UUID.randomUUID().toString(), update);
                                 }
                             }
                         }
@@ -1975,35 +1976,36 @@ public class FliveUpdater extends Thread{
         }
         else
         {
-            ConcurrentHashMap<String,JSONObject> terminals = (ConcurrentHashMap<String,JSONObject>)main.terminals;
+            ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
             for (String tid : terminals.keySet())
             {
-                JSONObject sinfo = terminals.get(tid);
-                if (sinfo != null) {
-                    Session rcpt = (Session) sinfo.get("session");
-                    if (sinfo.get("gid") != null) {
-                        if (sinfo.get("gid").equals(update.get("gid"))) {
+                Terminal t = terminals.get(tid);
+                if (t != null) {
+                    if (t.game_id != null) {
+                        if (t.game_id.equals(update.get("gid"))) {
                             if (update.get("command").toString().equals("statistic")) {
                                 update.put("id", update.get("gid"));
                                 update.remove("gid");
                             }
-                            if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
-                                if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                            Session rcpt = t.getSession();
+                            if (t.getCount() == 0) {
+                                if (rcpt.isOpen()) t.sendIt(update);
                             }
                             else {
-                                ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                t.updates.put(UUID.randomUUID().toString(), update);
                             }
                         }
                         //else { sessions.remove(s); session_info.remove(s); }
                     }
                     if (update.get("what").equals("event")) {
-                        List<String> eids = (ArrayList<String>) sinfo.get("betslip");
+                        List<String> eids = (ArrayList<String>) t.betslip;
                         if (eids.contains(update.get("id"))) {
-                            if (((CountDownLatch)terminals.get(tid).get("latch")).getCount() == 0) {
-                                if (rcpt.isOpen()) main.sendIt(update, rcpt);
+                            Session rcpt = t.getSession();
+                            if (t.getCount() == 0) {
+                                if (rcpt.isOpen()) t.sendIt(update);
                             }
                             else {
-                                ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).add(update);
+                                t.updates.put(UUID.randomUUID().toString(), update);
                             }
                         }
                         //else { sessions.remove(s); session_info.remove(s); }
