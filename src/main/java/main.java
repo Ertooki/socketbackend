@@ -554,6 +554,7 @@ public class main {
             for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                 if (rcpt.isOpen()) sendIt(miss,rcpt);
             }
+            ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
         }
         catch (Exception e)
         {
@@ -894,6 +895,7 @@ public class main {
                     for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                         if (rcpt.isOpen()) sendIt(miss,rcpt);
                     }
+                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
                 }
             }
         }
@@ -1236,6 +1238,7 @@ public class main {
                             for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                                 if (rcpt.isOpen()) sendIt(miss,rcpt);
                             }
+                            ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
                         }
                     }
                     if (comm.equals("get_region")) obj.put("regionId", rid);
@@ -1251,6 +1254,7 @@ public class main {
                     for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                         if (rcpt.isOpen()) sendIt(miss,rcpt);
                     }
+                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
                 }
             }
         }
@@ -1678,6 +1682,7 @@ public class main {
             for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                 if (rcpt.isOpen()) sendIt(miss,rcpt);
             }
+            ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
         }
         catch (Exception e)
         {
@@ -1719,6 +1724,7 @@ public class main {
             for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                 if (rcpt.isOpen()) sendIt(miss,rcpt);
             }
+            ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
         }
         catch (Exception e)
         {
@@ -1816,6 +1822,7 @@ public class main {
                     for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                         if (s.isOpen()) sendIt(miss,s);
                     }
+                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
                 }; break;
                 case "1":
                 {
@@ -1917,6 +1924,7 @@ public class main {
                     for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                         if (s.isOpen()) sendIt(miss,s);
                     }
+                    ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
                 }; break;
                 case "2":
                 {
@@ -2197,6 +2205,7 @@ public class main {
                 for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                     if (rcpt.isOpen()) sendIt(miss,rcpt);
                 }
+                ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
             }
             else{
                 obj.put("data", null);
@@ -2206,6 +2215,7 @@ public class main {
                 for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                     if (rcpt.isOpen()) sendIt(miss,rcpt);
                 }
+                ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
             }
 
         }
@@ -2216,7 +2226,7 @@ public class main {
         }
     }
 
-    public static void get_total(JSONObject totalJson)
+    public static synchronized void get_total(JSONObject totalJson)
     {
         try
         {
@@ -2318,6 +2328,7 @@ public class main {
             for (JSONObject miss : (ArrayList<JSONObject>)terminals.get(tid).get("updates")) {
                 if (s.isOpen()) sendIt(miss,s);
             }
+            ((ArrayList<JSONObject>)terminals.get(tid).get("updates")).removeAll(((ArrayList<JSONObject>)terminals.get(tid).get("updates")));
         }
         catch (Exception e)
         {
