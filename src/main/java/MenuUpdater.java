@@ -75,7 +75,7 @@ public class MenuUpdater extends Thread {
                         case "start": {
                             ClientManager cm = ClientManager.createClient();
                             cm.getProperties().put("org.glassfish.tyrus.incomingBufferSize", 104857600);
-                            cm.connectToServer(client, new URI("ws://swarm.solidarbet.com:8083"));
+                            cm.connectToServer(client, new URI("ws://swarm.solidarbet.com:8086"));
 
                             JSONObject get_info = new JSONObject();
 
@@ -185,7 +185,7 @@ public class MenuUpdater extends Thread {
 
         }
         finally {
-
+            main.sendNotification("Menu updater crash", new Date()+"Menu updater stopped");
         }
     }
 
@@ -1048,19 +1048,21 @@ public class MenuUpdater extends Thread {
 
     void update(JSONObject update)
     {
-        ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
-        for(String tid : terminals.keySet())
-        {
-            Terminal t = terminals.get(tid);
-            if (t != null) {
-                Session rcpt = t.getSession();
-                if (t.getCount() == 0) {
-                    if (rcpt.isOpen()) t.sendIt(update);
-                }
-                else {
-                    t.updates.put(UUID.randomUUID().toString(), update);
+        try {
+            ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
+            for(String tid : terminals.keySet())
+            {
+                Terminal t = terminals.get(tid);
+                if (t != null) {
+                    JSONObject qObj = new JSONObject();
+                    qObj.put("type","update");
+                    qObj.put("data",update);
+                    t.getQueue().put(qObj);
                 }
             }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

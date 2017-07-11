@@ -128,7 +128,7 @@ public class FavoriteUpdater extends Thread{
                         case "start": {
                             ClientManager cm = ClientManager.createClient();
                             cm.getProperties().put("org.glassfish.tyrus.incomingBufferSize", 104857600);
-                            cm.connectToServer(client, new URI("ws://swarm.solidarbet.com:8084"));
+                            cm.connectToServer(client, new URI("ws://swarm.solidarbet.com:8087"));
 
                             JSONObject get_info = new JSONObject();
                             get_info.put("command","get");
@@ -239,7 +239,7 @@ public class FavoriteUpdater extends Thread{
             main.errorLogger.error("Error happened", e);
         }
         finally {
-
+            main.sendNotification("Favorite updater crash", new Date()+"\n\n  Favorite updater stopped");
         }
     }
 
@@ -500,14 +500,14 @@ public class FavoriteUpdater extends Thread{
                         fl.put("ralias", region_node.get("alias"));
                         fl.put("name", comp_node.get("name"));
                         fl.put("id", cid);
-                        fl.put("descr","f-live");
+                        fl.put("descr","favorite");
                         fl.put("games", gvl);
                         Velocity.mergeTemplate("comp_filter.vm", StandardCharsets.UTF_8.name(), fl, f1);
                         String competitionName = comp_node.get("name").toString().replaceFirst("-", "<br><hr>");
                         competitionName = competitionName.substring(competitionName.indexOf(".") + 1, competitionName.length()).trim();
                         StringWriter cli = new StringWriter();
                         VelocityContext ctx = new VelocityContext();
-                        ctx.put("sport", "f-live");
+                        ctx.put("sport", "favorite");
                         ctx.put("id", sid);
                         ctx.put("cntr", region_node.get("alias"));
                         JSONObject c_row = new JSONObject();
@@ -529,6 +529,7 @@ public class FavoriteUpdater extends Thread{
                         cmps.put(cid,cmp);
                     }
                     JSONObject rgn = new JSONObject();
+                    rgn.put("_id", rid);
                     rgn.put("comps", cmps);
                     if (region_node.containsKey("alias"))
                     {
@@ -571,7 +572,7 @@ public class FavoriteUpdater extends Thread{
                 ctx3.put("id", sid);
                 ctx3.put("alias", (String)sport_node.get("alias"));
                 ctx3.put("name", sport_node.get("name"));
-                ctx3.put("sport", "f-live");
+                ctx3.put("sport", "favorite");
                 ctx3.put("order", order);
                 ctx3.put("cntr", region_node.get("alias"));
                 ctx3.put("comps", comps);
@@ -584,13 +585,21 @@ public class FavoriteUpdater extends Thread{
                 sdata.put("alias", sport_node.get("alias"));
                 sdata.put("name", sport_node.get("name"));
                 sdata.put("s_l", s_l);
-                sdata.put("order", new Integer(Integer.parseInt(sport_node.get("order").toString())));
+                sdata.put("order",order);
                 sdata.put("menu", sfl.toString());
                 sb.put("sport", sdata);
                 sdata.put("regions", regions);
                 data.put(sid, sdata);
             }
             update = true;
+
+            CountDownLatch tL = new CountDownLatch(1);
+            JSONObject tQ = new JSONObject();
+            tQ.put("data",this.data);
+            tQ.put("latch",tL);
+            main.favTotals.getQueue().put(tQ);
+            tL.await();
+
             JSONObject get_info = new JSONObject();
             get_info.put("command","get");
             get_info.put("rid", 5);
@@ -951,14 +960,14 @@ public class FavoriteUpdater extends Thread{
                         fl.put("ralias", region_node.get("alias"));
                         fl.put("name", comp_node.get("name"));
                         fl.put("id", cid);
-                        fl.put("descr","f-live");
+                        fl.put("descr","favorite");
                         fl.put("games", gvl);
                         Velocity.mergeTemplate("comp_filter.vm", StandardCharsets.UTF_8.name(), fl, f1);
                         String competitionName = comp_node.get("name").toString().replaceFirst("-", "<br><hr>");
                         competitionName = competitionName.substring(competitionName.indexOf(".") + 1, competitionName.length()).trim();
                         StringWriter cli = new StringWriter();
                         VelocityContext ctx = new VelocityContext();
-                        ctx.put("sport", "f-live");
+                        ctx.put("sport", "favorite");
                         ctx.put("id", sid);
                         ctx.put("cntr", region_node.get("alias"));
                         JSONObject c_row = new JSONObject();
@@ -980,6 +989,7 @@ public class FavoriteUpdater extends Thread{
                         cmps.put(cid,cmp);
                     }
                     JSONObject rgn = new JSONObject();
+                    rgn.put("_id", rid);
                     rgn.put("comps", cmps);
                     if (region_node.containsKey("alias"))
                     {
@@ -1022,7 +1032,7 @@ public class FavoriteUpdater extends Thread{
                 ctx3.put("id", sid);
                 ctx3.put("alias", (String)sport_node.get("alias"));
                 ctx3.put("name", sport_node.get("name"));
-                ctx3.put("sport", "f-live");
+                ctx3.put("sport", "favorite");
                 ctx3.put("order", order);
                 ctx3.put("cntr", region_node.get("alias"));
                 ctx3.put("comps", comps);
@@ -1035,7 +1045,7 @@ public class FavoriteUpdater extends Thread{
                 sdata.put("alias", sport_node.get("alias"));
                 sdata.put("name", sport_node.get("name"));
                 sdata.put("s_l", s_l);
-                sdata.put("order", new Integer(Integer.parseInt(sport_node.get("order").toString())));
+                sdata.put("order", order);
                 sdata.put("menu", sfl.toString());
                 sb.put("sport", sdata);
                 sdata.put("regions", regions);
@@ -1053,6 +1063,7 @@ public class FavoriteUpdater extends Thread{
     {
         Set<String> keys1;
         Set<String> keys2;
+        List<JSONObject> meUps = new ArrayList<>();
         try
         {
             //del_data("sport",udata,this.data);
@@ -1170,13 +1181,12 @@ public class FavoriteUpdater extends Thread{
                                                 obj.put("what", "market");
                                                 obj.put("ids", keys1);
                                                 obj.put("type", "favorite");
-                                                update(obj);
+                                                meUps.add(obj);
                                             }
                                             for (String mid : mkts_u.keySet())
                                             {
                                                 if (mkts.containsKey(mid))
                                                 {
-                                                    check_changes("market",mkts_u.get(mid),mkts.get(mid));
                                                     Map<String, JSONObject> evnts_u = (Map<String, JSONObject>) mkts_u.get(mid).get("events");
                                                     Map<String, JSONObject> evnts = (Map<String, JSONObject>) mkts.get(mid).get("events");
                                                     //del_data("event",evnts_u,evnts);
@@ -1190,7 +1200,7 @@ public class FavoriteUpdater extends Thread{
                                                         obj.put("what", "event");
                                                         obj.put("ids", keys1);
                                                         obj.put("type", "favorite");
-                                                        update(obj);
+                                                        meUps.add(obj);
                                                     }
                                                     for (String eid : evnts_u.keySet())
                                                     {
@@ -1208,7 +1218,7 @@ public class FavoriteUpdater extends Thread{
                                                                 up.put("type", "favorite");
                                                                 up.put("param", "price");
                                                                 up.put("value", evnts_u.get(eid).get("price"));
-                                                                updateME(up);
+                                                                meUps.add(up);
                                                             }
                                                         }
                                                         else
@@ -1221,7 +1231,8 @@ public class FavoriteUpdater extends Thread{
                                                             ne.put("data", eve);
                                                             if (mkts_u.get(mid).containsKey("type")) ne.put("market_type", mkts_u.get(mid).get("type"));
                                                             ne.put("gid", gid);
-                                                            updateME(ne);
+                                                            ne.put("id", eid);
+                                                            meUps.add(ne);
                                                         }
                                                     }
                                                 }
@@ -1243,280 +1254,62 @@ public class FavoriteUpdater extends Thread{
                                                     if (market.containsKey("type")) nm.put("market_type", market.get("type"));
                                                     nm.put("gid", gid);
                                                     nm.put("sid", sid);
-                                                    updateME(nm);
-                                                    Map<String, JSONObject> evnts_u = (Map<String, JSONObject>) mkts_u.get(mid).get("events");
-                                                    for (String eid : evnts_u.keySet())
-                                                    {
-                                                        JSONObject eve = (JSONObject)evnts_u.get(eid);
-                                                        JSONObject ne = new JSONObject();
-                                                        ne.put("command", "new");
-                                                        ne.put("what", "event");
-                                                        ne.put("type", "favorite");
-                                                        ne.put("data", eve);
-                                                        if (mkts_u.get(mid).containsKey("type")) ne.put("market_type", mkts_u.get(mid).get("type"));
-                                                        ne.put("gid", gid);
-                                                        ne.put("sid", sid);
-                                                        updateME(ne);
+                                                    if(market.containsKey("type")){
+                                                        if(sid.equals("848")) {
+                                                            if(market.get("type").toString().equals("Gametotalpoints")
+                                                                    && !market.get("base").toString().equals("@")
+                                                                    && Double.parseDouble(market.get("base").toString())%1 != 0.0){
+                                                                Map<String,JSONObject> events = (Map<String,JSONObject>)market.get("events");
+                                                                for (String eid : events.keySet()) {
+                                                                    JSONObject event = events.get(eid);
+                                                                    if(event.get("type").toString().toLowerCase().equals("totalmore") ||
+                                                                            event.get("type").toString().toLowerCase().equals("over")||
+                                                                            event.get("type").toString().toLowerCase().equals("more")) {
+                                                                        if(Double.parseDouble(event.get("price").toString())>=1.4 &&
+                                                                                Double.parseDouble(event.get("price").toString())<=2.55) {
+                                                                            meUps.add(nm);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            else meUps.add(nm);
+                                                        }
+                                                        else {
+                                                            if(market.get("type").toString().equals("Total")
+                                                                    && !market.get("base").toString().equals("@")
+                                                                    && Double.parseDouble(market.get("base").toString())%1 != 0.0) {
+                                                                Map<String,JSONObject> events = (Map<String,JSONObject>)market.get("events");
+                                                                for (String eid : events.keySet()) {
+                                                                    JSONObject event = events.get(eid);
+                                                                    if(event.get("type").toString().toLowerCase().equals("totalmore") ||
+                                                                            event.get("type").toString().toLowerCase().equals("over")||
+                                                                            event.get("type").toString().toLowerCase().equals("more")) {
+                                                                        if(Double.parseDouble(event.get("price").toString())>=1.4 &&
+                                                                                Double.parseDouble(event.get("price").toString())<=2.55) {
+                                                                            meUps.add(nm);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            else meUps.add(nm);
+                                                        }
                                                     }
+                                                    else meUps.add(nm);
                                                 }
                                             }
                                         }
                                         else
                                         {
-                                            List<JSONObject> gr1 = new ArrayList<JSONObject>();
-                                            List<JSONObject> gr2 = new ArrayList<JSONObject>();
-                                            List<JSONObject> gr3 = new ArrayList<JSONObject>();
-                                            List<JSONObject> gr4 = new ArrayList<JSONObject>();
-                                            List<JSONObject> total = new ArrayList<JSONObject>();
-                                            List<JSONObject> total2 = new ArrayList<JSONObject>();
-                                            Map<String, JSONObject> mkts_u = (Map<String, JSONObject>) gms_u.get(gid).get("markets");
-                                            for (String mid : mkts_u.keySet())
-                                            {
-                                                JSONObject market = (JSONObject)mkts_u.get(mid);
-                                                JSONObject nm = new JSONObject();
-                                                nm.put("command", "new");
-                                                nm.put("what", "market");
-                                                nm.put("type", "favorite");
-                                                JSONObject m = new JSONObject();
-                                                JSONArray eids = new JSONArray();
-                                                m.put("id", mid);
-                                                if (market.containsKey("order")) m.put("order", market.get("order").toString());
-                                                m.put("html", market.get("html"));
-                                                m.put("eIds", ((Map<String, JSONObject>)market.get("events")).keySet());
-                                                nm.put("data_vars", m);
-                                                nm.put("data", market);
-                                                if (market.containsKey("type")) nm.put("market_type", market.get("type"));
-                                                nm.put("gid", gid);
-                                                nm.put("sid", sid);
-                                                updateME(nm);
-                                                Map<String, JSONObject> evnts_u = (Map<String, JSONObject>) mkts_u.get(mid).get("events");
-                                                for (String eid : evnts_u.keySet())
-                                                {
-                                                    JSONObject eve = (JSONObject)evnts_u.get(eid);
-                                                    JSONObject ne = new JSONObject();
-                                                    ne.put("command", "new");
-                                                    ne.put("what", "event");
-                                                    ne.put("type", "favorite");
-                                                    ne.put("data", eve);
-                                                    if (mkts_u.get(mid).containsKey("type")) ne.put("market_type", mkts_u.get(mid).get("type"));
-                                                    ne.put("gid", gid);
-                                                    ne.put("sid", sid);
-                                                    updateME(ne);
-                                                }
-                                                if (market.containsKey("type"))
-                                                {
-                                                    if (((String)market.get("type")).equals("P1XP2") || ((String)market.get("type")).equals("P1P2"))
-                                                    {
-                                                        gr1.add(market);
-                                                    }
-                                                    if (((String)market.get("type")).equals("1X12X2")) gr2.add(market);
-                                                    if (((String)market.get("type")).equals("1HalfP1XP2")
-                                                            || ((String)market.get("type")).equals("1SetP1XP2")
-                                                            || ((String)market.get("type")).equals("1PeriodP1XP2")) gr3.add(market);
-                                                    if(((String)market.get("type")).equals("Total")) total.add(market);
-                                                }
-                                            }
-                                            Collections.sort(total, new Comparator<JSONObject>() {
-                                                @Override
-                                                public int compare(JSONObject o1, JSONObject o2) {
-                                                    return new Double(String.valueOf(o1.get("base"))).compareTo(new Double(String.valueOf(o2.get("base"))));
-                                                }
-                                            });
-                                            if (gr1.size()>1)
-                                            {
-                                                if (gr1.get(0).get("type").toString().equals("P1XP2"))
-                                                    gr1.remove(gr1.get(1));
-                                                else if (gr1.get(1).get("type").toString().equals("P1XP2"))
-                                                    gr1.remove(gr1.get(0));
-                                            }
-                                            if (sid.equals("844")){
-                                                if (total.size()>0){
-                                                    JSONObject tf1 = new JSONObject();
-                                                    for (JSONObject tot1 : total){
-                                                        if (Double.parseDouble(tot1.get("base").toString()) == 2.5){
-                                                            tf1 = tot1; break;
-                                                        }
-                                                    }
-                                                    if (!tf1.isEmpty()) gr4.add(tf1); else gr4.add(total.get(0));
-                                                }
-                                            }
-                                            else if (total.size()>0)
-                                            {
-                                                gr4.add(total.get(0));
-                                            }
-                                            JSONObject ng = new JSONObject();
-                                            ng.put("command","new");
-                                            ng.put("what", "game");
-                                            ng.put("type", "favorite");
-                                            ng.put("comp_name", comps_u.get(cid).get("name"));
-                                            ng.put("sport_name", udata.get(sid).get("name"));
-                                            ng.put("sport_alias", udata.get(sid).get("alias"));
-                                            JSONObject sport = udata.get(sid);
-                                            JSONObject game = gms_u.get(gid);
-                                            JSONObject comp = comps_u.get(cid);
-                                            VelocityContext game_row = new VelocityContext();
-                                            StringWriter row = new StringWriter();
-                                            Date gs = new Date();
-                                            gs.setTime(Long.parseLong(game.get("start").toString())*1000);
-                                            SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM");
-                                            SimpleDateFormat dt2 = new SimpleDateFormat("HH:mm");
-                                            game_row.put("game", game);
-                                            game_row.put("talias", "0");
-                                            game_row.put("day", dt1.format(gs).toString());
-                                            game_row.put("hour", dt2.format(gs).toString());
-                                            JSONObject sp_row = new JSONObject();
-                                            sp_row.put("id",sid);
-                                            sp_row.put("name", sport.get("name"));
-                                            sp_row.put("alias",sport.get("alias"));
-                                            game_row.put("sport", sp_row);
-                                            JSONObject rcid = new JSONObject();
-                                            rcid.put("rid", rid);
-                                            rcid.put("cid",cid);
-                                            game_row.put("rc", rcid);
-                                            game_row.put("comp_name", (String)comp.get("name"));
-                                            game_row.put("region_alias", rgns_u.get(rid).get("alias"));
-                                            game_row.put("gr1", gr1);
-                                            game_row.put("gr2", gr2);
-                                            game_row.put("gr3", gr3);
-                                            game_row.put("gr4", gr4);
-                                            Velocity.mergeTemplate("game_row.vm", StandardCharsets.UTF_8.name(), game_row, row);
-                                            game.put("view",row.toString());
-                                            ng.put("data", game);
-                                            update(ng);
+                                            addNewGame(udata.get(sid),rgns_u.get(rid),comps_u.get(cid),gms_u.get(gid));
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    JSONObject nc = new JSONObject();
-                                    nc.put("command","new");
-                                    nc.put("what", "comp");
-                                    nc.put("type", "favorite");
-                                    nc.put("data", comps_u.get(cid));
-                                    update(nc);
                                     Map<String,JSONObject> gms = (Map<String,JSONObject>)comps_u.get(cid).get("games");
                                     for(String gid : gms.keySet())
                                     {
-                                        List<JSONObject> gr1 = new ArrayList<JSONObject>();
-                                        List<JSONObject> gr2 = new ArrayList<JSONObject>();
-                                        List<JSONObject> gr3 = new ArrayList<JSONObject>();
-                                        List<JSONObject> gr4 = new ArrayList<JSONObject>();
-                                        List<JSONObject> total = new ArrayList<JSONObject>();
-                                        List<JSONObject> total2 = new ArrayList<JSONObject>();
-                                        Map<String, JSONObject> mkts_u = (Map<String, JSONObject>) gms.get(gid).get("markets");
-                                        for (String mid : mkts_u.keySet())
-                                        {
-                                            JSONObject market = (JSONObject)mkts_u.get(mid);
-                                            JSONObject nm = new JSONObject();
-                                            nm.put("command", "new");
-                                            nm.put("what", "market");
-                                            nm.put("type", "favorite");
-                                            JSONObject m = new JSONObject();
-                                            JSONArray eids = new JSONArray();
-                                            m.put("id", mid);
-                                            if (market.containsKey("order")) m.put("order", market.get("order").toString());
-                                            m.put("html", market.get("html"));
-                                            m.put("eIds", ((Map<String, JSONObject>)market.get("events")).keySet());
-                                            nm.put("data_vars", m);
-                                            nm.put("data", market);
-                                            if (market.containsKey("type")) nm.put("market_type", market.get("type"));
-                                            nm.put("gid", gid);
-                                            nm.put("sid", sid);
-                                            updateME(nm);
-                                            Map<String, JSONObject> evnts_u = (Map<String, JSONObject>) mkts_u.get(mid).get("events");
-                                            for (String eid : evnts_u.keySet())
-                                            {
-                                                JSONObject eve = (JSONObject)evnts_u.get(eid);
-                                                JSONObject ne = new JSONObject();
-                                                ne.put("command", "new");
-                                                ne.put("what", "event");
-                                                ne.put("type", "favorite");
-                                                ne.put("data", eve);
-                                                if (mkts_u.get(mid).containsKey("type")) ne.put("market_type", mkts_u.get(mid).get("type"));
-                                                ne.put("gid", gid);
-                                                ne.put("sid", sid);
-                                                updateME(ne);
-                                            }
-                                            if (market.containsKey("type"))
-                                            {
-                                                if (((String)market.get("type")).equals("P1XP2") || ((String)market.get("type")).equals("P1P2"))
-                                                {
-                                                    gr1.add(market);
-                                                }
-                                                if (((String)market.get("type")).equals("1X12X2")) gr2.add(market);
-                                                if (((String)market.get("type")).equals("1HalfP1XP2")
-                                                        || ((String)market.get("type")).equals("1SetP1XP2")
-                                                        || ((String)market.get("type")).equals("1PeriodP1XP2")) gr3.add(market);
-                                                if(((String)market.get("type")).equals("Total")) total.add(market);
-                                            }
-                                        }
-                                        Collections.sort(total, new Comparator<JSONObject>() {
-                                            @Override
-                                            public int compare(JSONObject o1, JSONObject o2) {
-                                                return new Double(String.valueOf(o1.get("base"))).compareTo(new Double(String.valueOf(o2.get("base"))));
-                                            }
-                                        });
-                                        if (gr1.size()>1)
-                                        {
-                                            if (gr1.get(0).get("type").toString().equals("P1XP2"))
-                                                gr1.remove(gr1.get(1));
-                                            else if (gr1.get(1).get("type").toString().equals("P1XP2"))
-                                                gr1.remove(gr1.get(0));
-                                        }
-                                        if (sid.equals("844")){
-                                            if (total.size()>0){
-                                                JSONObject tf1 = new JSONObject();
-                                                for (JSONObject tot1 : total){
-                                                    if (Double.parseDouble(tot1.get("base").toString()) == 2.5){
-                                                        tf1 = tot1; break;
-                                                    }
-                                                }
-                                                if (!tf1.isEmpty()) gr4.add(tf1); else gr4.add(total.get(0));
-                                            }
-                                        }
-                                        else if (total.size()>0)
-                                        {
-                                            gr4.add(total.get(0));
-                                        }
-                                        JSONObject ng = new JSONObject();
-                                        ng.put("command","new");
-                                        ng.put("what", "game");
-                                        ng.put("type", "favorite");
-                                        ng.put("comp_name", comps_u.get(cid).get("name"));
-                                        ng.put("sport_name", udata.get(sid).get("name"));
-                                        ng.put("sport_alias", udata.get(sid).get("alias"));
-                                        JSONObject sport = udata.get(sid);
-                                        JSONObject game = gms.get(gid);
-                                        JSONObject comp = comps_u.get(cid);
-                                        VelocityContext game_row = new VelocityContext();
-                                        StringWriter row = new StringWriter();
-                                        Date gs = new Date();
-                                        gs.setTime(Long.parseLong(game.get("start").toString())*1000);
-                                        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM");
-                                        SimpleDateFormat dt2 = new SimpleDateFormat("HH:mm");
-                                        game_row.put("game", game);
-                                        game_row.put("talias", "0");
-                                        game_row.put("day", dt1.format(gs).toString());
-                                        game_row.put("hour", dt2.format(gs).toString());
-                                        JSONObject sp_row = new JSONObject();
-                                        sp_row.put("id",sid);
-                                        sp_row.put("name", sport.get("name"));
-                                        sp_row.put("alias",sport.get("alias"));
-                                        game_row.put("sport", sp_row);
-                                        JSONObject rcid = new JSONObject();
-                                        rcid.put("rid", rid);
-                                        rcid.put("cid",cid);
-                                        game_row.put("rc", rcid);
-                                        game_row.put("comp_name", (String)comp.get("name"));
-                                        game_row.put("region_alias", rgns_u.get(rid).get("alias"));
-                                        game_row.put("gr1", gr1);
-                                        game_row.put("gr2", gr2);
-                                        game_row.put("gr3", gr3);
-                                        game_row.put("gr4", gr4);
-                                        Velocity.mergeTemplate("game_row.vm", StandardCharsets.UTF_8.name(), game_row, row);
-                                        game.put("view",row.toString());
-                                        ng.put("data", game);
-                                        update(ng);
+                                        addNewGame(udata.get(sid),rgns_u.get(rid),comps_u.get(cid),gms.get(gid));
                                     }
                                 }
                             }
@@ -1526,135 +1319,10 @@ public class FavoriteUpdater extends Thread{
                             Map<String,JSONObject> comps = (Map<String,JSONObject>)rgns_u.get(rid).get("comps");
                             for(String cid : comps.keySet())
                             {
-                                JSONObject nc = new JSONObject();
-                                nc.put("command","new");
-                                nc.put("what", "comp");
-                                nc.put("type", "favorite");
-                                nc.put("data", comps.get(cid));
-                                update(nc);
                                 Map<String,JSONObject> gms = (Map<String,JSONObject>)comps.get(cid).get("games");
                                 for(String gid : gms.keySet())
                                 {
-                                    List<JSONObject> gr1 = new ArrayList<JSONObject>();
-                                    List<JSONObject> gr2 = new ArrayList<JSONObject>();
-                                    List<JSONObject> gr3 = new ArrayList<JSONObject>();
-                                    List<JSONObject> gr4 = new ArrayList<JSONObject>();
-                                    List<JSONObject> total = new ArrayList<JSONObject>();
-                                    List<JSONObject> total2 = new ArrayList<JSONObject>();
-                                    Map<String, JSONObject> mkts_u = (Map<String, JSONObject>) gms.get(gid).get("markets");
-                                    for (String mid : mkts_u.keySet())
-                                    {
-                                        JSONObject market = (JSONObject)mkts_u.get(mid);
-                                        JSONObject nm = new JSONObject();
-                                        nm.put("command", "new");
-                                        nm.put("what", "market");
-                                        nm.put("type", "favorite");
-                                        JSONObject m = new JSONObject();
-                                        JSONArray eids = new JSONArray();
-                                        m.put("id", mid);
-                                        if (market.containsKey("order")) m.put("order", market.get("order").toString());
-                                        m.put("html", market.get("html"));
-                                        m.put("eIds", ((Map<String, JSONObject>)market.get("events")).keySet());
-                                        nm.put("data_vars", m);
-                                        nm.put("data", market);
-                                        if (market.containsKey("type")) nm.put("market_type", market.get("type"));
-                                        nm.put("gid", gid);
-                                        nm.put("sid", sid);
-                                        updateME(nm);
-                                        Map<String, JSONObject> evnts_u = (Map<String, JSONObject>) mkts_u.get(mid).get("events");
-                                        for (String eid : evnts_u.keySet())
-                                        {
-                                            JSONObject eve = (JSONObject)evnts_u.get(eid);
-                                            JSONObject ne = new JSONObject();
-                                            ne.put("command", "new");
-                                            ne.put("what", "event");
-                                            ne.put("type", "favorite");
-                                            ne.put("data", eve);
-                                            if (mkts_u.get(mid).containsKey("type")) ne.put("market_type", mkts_u.get(mid).get("type"));
-                                            ne.put("gid", gid);
-                                            ne.put("sid", sid);
-                                            updateME(ne);
-                                        }
-                                        if (market.containsKey("type"))
-                                        {
-                                            if (((String)market.get("type")).equals("P1XP2") || ((String)market.get("type")).equals("P1P2"))
-                                            {
-                                                gr1.add(market);
-                                            }
-                                            if (((String)market.get("type")).equals("1X12X2")) gr2.add(market);
-                                            if (((String)market.get("type")).equals("1HalfP1XP2")
-                                                    || ((String)market.get("type")).equals("1SetP1XP2")
-                                                    || ((String)market.get("type")).equals("1PeriodP1XP2")) gr3.add(market);
-                                            if(((String)market.get("type")).equals("Total")) total.add(market);
-                                        }
-                                    }
-                                    Collections.sort(total, new Comparator<JSONObject>() {
-                                        @Override
-                                        public int compare(JSONObject o1, JSONObject o2) {
-                                            return new Double(String.valueOf(o1.get("base"))).compareTo(new Double(String.valueOf(o2.get("base"))));
-                                        }
-                                    });
-                                    if (gr1.size()>1)
-                                    {
-                                        if (gr1.get(0).get("type").toString().equals("P1XP2"))
-                                            gr1.remove(gr1.get(1));
-                                        else if (gr1.get(1).get("type").toString().equals("P1XP2"))
-                                            gr1.remove(gr1.get(0));
-                                    }
-                                    if (sid.equals("844")){
-                                        if (total.size()>0){
-                                            JSONObject tf1 = new JSONObject();
-                                            for (JSONObject tot1 : total){
-                                                if (Double.parseDouble(tot1.get("base").toString()) == 2.5){
-                                                    tf1 = tot1; break;
-                                                }
-                                            }
-                                            if (!tf1.isEmpty()) gr4.add(tf1); else gr4.add(total.get(0));
-                                        }
-                                    }
-                                    else if (total.size()>0)
-                                    {
-                                        gr4.add(total.get(0));
-                                    }
-                                    JSONObject ng = new JSONObject();
-                                    ng.put("command","new");
-                                    ng.put("what", "game");
-                                    ng.put("type", "favorite");
-                                    ng.put("comp_name", comps.get(cid).get("name"));
-                                    ng.put("sport_name", udata.get(sid).get("name"));
-                                    ng.put("sport_alias", udata.get(sid).get("alias"));
-                                    JSONObject sport = udata.get(sid);
-                                    JSONObject game = gms.get(gid);
-                                    JSONObject comp = comps.get(cid);
-                                    VelocityContext game_row = new VelocityContext();
-                                    StringWriter row = new StringWriter();
-                                    Date gs = new Date();
-                                    gs.setTime(Long.parseLong(game.get("start").toString())*1000);
-                                    SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM");
-                                    SimpleDateFormat dt2 = new SimpleDateFormat("HH:mm");
-                                    game_row.put("game", game);
-                                    game_row.put("talias", "0");
-                                    game_row.put("day", dt1.format(gs).toString());
-                                    game_row.put("hour", dt2.format(gs).toString());
-                                    JSONObject sp_row = new JSONObject();
-                                    sp_row.put("id",sid);
-                                    sp_row.put("name", sport.get("name"));
-                                    sp_row.put("alias",sport.get("alias"));
-                                    game_row.put("sport", sp_row);
-                                    JSONObject rcid = new JSONObject();
-                                    rcid.put("rid", rid);
-                                    rcid.put("cid",cid);
-                                    game_row.put("rc", rcid);
-                                    game_row.put("comp_name", (String)comp.get("name"));
-                                    game_row.put("region_alias", rgns_u.get(rid).get("alias"));
-                                    game_row.put("gr1", gr1);
-                                    game_row.put("gr2", gr2);
-                                    game_row.put("gr3", gr3);
-                                    game_row.put("gr4", gr4);
-                                    Velocity.mergeTemplate("game_row.vm", StandardCharsets.UTF_8.name(), game_row, row);
-                                    game.put("view",row.toString());
-                                    ng.put("data", game);
-                                    update(ng);
+                                    addNewGame(udata.get(sid),rgns_u.get(rid),comps.get(cid),gms.get(gid));
                                 }
                             }
                         }
@@ -1662,12 +1330,6 @@ public class FavoriteUpdater extends Thread{
                 }
                 else
                 {
-                    JSONObject ns = new JSONObject();
-                    ns.put("command","new");
-                    ns.put("what", "sport");
-                    ns.put("type", "favorite");
-                    ns.put("data", udata.get(sid));
-                    update(ns);
                     Map<String, JSONObject> rgns_u = (Map<String, JSONObject>) udata.get(sid).get("regions");
                     for (String rid : rgns_u.keySet())
                     {
@@ -1683,132 +1345,27 @@ public class FavoriteUpdater extends Thread{
                             Map<String,JSONObject> gms = (Map<String,JSONObject>)comps.get(cid).get("games");
                             for(String gid : gms.keySet())
                             {
-                                List<JSONObject> gr1 = new ArrayList<JSONObject>();
-                                List<JSONObject> gr2 = new ArrayList<JSONObject>();
-                                List<JSONObject> gr3 = new ArrayList<JSONObject>();
-                                List<JSONObject> gr4 = new ArrayList<JSONObject>();
-                                List<JSONObject> total = new ArrayList<JSONObject>();
-                                List<JSONObject> total2 = new ArrayList<JSONObject>();
-                                Map<String, JSONObject> mkts_u = (Map<String, JSONObject>) gms.get(gid).get("markets");
-                                for (String mid : mkts_u.keySet())
-                                {
-                                    JSONObject market = (JSONObject)mkts_u.get(mid);
-                                    JSONObject nm = new JSONObject();
-                                    nm.put("command", "new");
-                                    nm.put("what", "market");
-                                    nm.put("type", "favorite");
-                                    JSONObject m = new JSONObject();
-                                    JSONArray eids = new JSONArray();
-                                    m.put("id", mid);
-                                    if (market.containsKey("order")) m.put("order", market.get("order").toString());
-                                    m.put("html", market.get("html"));
-                                    m.put("eIds", ((Map<String, JSONObject>)market.get("events")).keySet());
-                                    nm.put("data_vars", m);
-                                    nm.put("data", market);
-                                    if (market.containsKey("type")) nm.put("market_type", market.get("type"));
-                                    nm.put("gid", gid);
-                                    nm.put("sid", sid);
-                                    updateME(nm);
-                                    Map<String, JSONObject> evnts_u = (Map<String, JSONObject>) mkts_u.get(mid).get("events");
-                                    for (String eid : evnts_u.keySet())
-                                    {
-                                        JSONObject eve = (JSONObject)evnts_u.get(eid);
-                                        JSONObject ne = new JSONObject();
-                                        ne.put("command", "new");
-                                        ne.put("what", "event");
-                                        ne.put("type", "favorite");
-                                        ne.put("data", eve);
-                                        if (mkts_u.get(mid).containsKey("type")) ne.put("market_type", mkts_u.get(mid).get("type"));
-                                        ne.put("gid", gid);
-                                        ne.put("sid", sid);
-                                        updateME(ne);
-                                    }
-                                    if (market.containsKey("type"))
-                                    {
-                                        if (((String)market.get("type")).equals("P1XP2") || ((String)market.get("type")).equals("P1P2"))
-                                        {
-                                            gr1.add(market);
-                                        }
-                                        if (((String)market.get("type")).equals("1X12X2")) gr2.add(market);
-                                        if (((String)market.get("type")).equals("1HalfP1XP2")
-                                                || ((String)market.get("type")).equals("1SetP1XP2")
-                                                || ((String)market.get("type")).equals("1PeriodP1XP2")) gr3.add(market);
-                                        if(((String)market.get("type")).equals("Total")) total.add(market);
-                                    }
-                                }
-                                Collections.sort(total, new Comparator<JSONObject>() {
-                                    @Override
-                                    public int compare(JSONObject o1, JSONObject o2) {
-                                        return new Double(String.valueOf(o1.get("base"))).compareTo(new Double(String.valueOf(o2.get("base"))));
-                                    }
-                                });
-                                if (gr1.size()>1)
-                                {
-                                    if (gr1.get(0).get("type").toString().equals("P1XP2"))
-                                        gr1.remove(gr1.get(1));
-                                    else if (gr1.get(1).get("type").toString().equals("P1XP2"))
-                                        gr1.remove(gr1.get(0));
-                                }
-                                if (sid.equals("844")){
-                                    if (total.size()>0){
-                                        JSONObject tf1 = new JSONObject();
-                                        for (JSONObject tot1 : total){
-                                            if (Double.parseDouble(tot1.get("base").toString()) == 2.5){
-                                                tf1 = tot1; break;
-                                            }
-                                        }
-                                        if (!tf1.isEmpty()) gr4.add(tf1); else gr4.add(total.get(0));
-                                    }
-                                }
-                                else if (total.size()>0)
-                                {
-                                    gr4.add(total.get(0));
-                                }
-                                JSONObject ng = new JSONObject();
-                                ng.put("command","new");
-                                ng.put("what", "game");
-                                ng.put("type", "favorite");
-                                ng.put("comp_name", comps.get(cid).get("name"));
-                                ng.put("sport_name", udata.get(sid).get("name"));
-                                ng.put("sport_alias", udata.get(sid).get("alias"));
-                                JSONObject sport = udata.get(sid);
-                                JSONObject game = gms.get(gid);
-                                JSONObject comp = comps.get(cid);
-                                VelocityContext game_row = new VelocityContext();
-                                StringWriter row = new StringWriter();
-                                Date gs = new Date();
-                                gs.setTime(Long.parseLong(game.get("start").toString())*1000);
-                                SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM");
-                                SimpleDateFormat dt2 = new SimpleDateFormat("HH:mm");
-                                game_row.put("game", game);
-                                game_row.put("talias", "0");
-                                game_row.put("day", dt1.format(gs).toString());
-                                game_row.put("hour", dt2.format(gs).toString());
-                                JSONObject sp_row = new JSONObject();
-                                sp_row.put("id",sid);
-                                sp_row.put("name", sport.get("name"));
-                                sp_row.put("alias",sport.get("alias"));
-                                game_row.put("sport", sp_row);
-                                JSONObject rcid = new JSONObject();
-                                rcid.put("rid", rid);
-                                rcid.put("cid",cid);
-                                game_row.put("rc", rcid);
-                                game_row.put("comp_name", (String)comp.get("name"));
-                                game_row.put("region_alias", rgns_u.get(rid).get("alias"));
-                                game_row.put("gr1", gr1);
-                                game_row.put("gr2", gr2);
-                                game_row.put("gr3", gr3);
-                                game_row.put("gr4", gr4);
-                                Velocity.mergeTemplate("game_row.vm", StandardCharsets.UTF_8.name(), game_row, row);
-                                game.put("view",row.toString());
-                                ng.put("data", game);
-                                update(ng);
+                                addNewGame(udata.get(sid),rgns_u.get(rid),comps.get(cid),gms.get(gid));
                             }
                         }
                     }
                 }
             }
             data = new ConcurrentHashMap<String, JSONObject>(udata);
+            CountDownLatch tL = new CountDownLatch(1);
+            JSONObject tQ = new JSONObject();
+            tQ.put("data",this.data);
+            tQ.put("latch",tL);
+            main.favTotals.getQueue().put(tQ);
+            tL.await();
+            for (JSONObject meUp : meUps) {
+                if (meUp.get("command").toString().equals("delete")) {
+                    update(meUp);
+                }
+                else {
+                    updateME(meUp,meUp.get("what").toString());
+                }
+            }
             if (update)
             {
                 JSONObject get_info = new JSONObject();
@@ -1912,211 +1469,290 @@ public class FavoriteUpdater extends Thread{
         }
     }
 
-    void update(JSONObject update)
-    {
-        ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
-        for(String tid : terminals.keySet())
+    void addNewGame(JSONObject sport, JSONObject region, JSONObject comp, JSONObject game){
+        List<JSONObject> gr1 = new ArrayList<JSONObject>();
+        List<JSONObject> gr2 = new ArrayList<JSONObject>();
+        List<JSONObject> gr3 = new ArrayList<JSONObject>();
+        List<JSONObject> gr4 = new ArrayList<JSONObject>();
+        List<JSONObject> spec_totals = new ArrayList<>();
+        List<JSONObject> all_totals = new ArrayList<>();
+        String sid = sport.get("_id").toString();
+        String rid = region.get("_id").toString();
+        String cid = comp.get("_id").toString();
+        Map<String, JSONObject> mkts_u = (Map<String, JSONObject>) game.get("markets");
+        for (String mid : mkts_u.keySet())
         {
-            if (terminals.get(tid) != null) {
-                Terminal t = terminals.get(tid);
-                Session rcpt = terminals.get(tid).getSession();
-                if (t.getCount() == 0) {
-                    if (rcpt.isOpen()) t.sendIt(update);
+            JSONObject market = (JSONObject)mkts_u.get(mid);
+            if (market.containsKey("type"))
+            {
+                if (((String)market.get("type")).equals("P1XP2") || ((String)market.get("type")).equals("P1P2"))
+                {
+                    gr1.add(market);
+                }
+                if (((String)market.get("type")).equals("1X12X2")) gr2.add(market);
+                if (((String)market.get("type")).equals("1HalfP1XP2")
+                        || ((String)market.get("type")).equals("1SetP1XP2")
+                        || ((String)market.get("type")).equals("1PeriodP1XP2")) gr3.add(market);
+                if(sid.equals("848")) {
+                    if(market.get("type").toString().equals("Gametotalpoints")
+                            && !market.get("base").toString().equals("@")
+                            && Double.parseDouble(market.get("base").toString())%1 != 0.0){
+                        all_totals.add(market);
+                        Map<String,JSONObject> events = (Map<String,JSONObject>)market.get("events");
+                        for (String eid : events.keySet()) {
+                            JSONObject event = events.get(eid);
+                            if(event.get("type").toString().toLowerCase().equals("totalmore") ||
+                                    event.get("type").toString().toLowerCase().equals("over")||
+                                    event.get("type").toString().toLowerCase().equals("more")) {
+                                if(Double.parseDouble(event.get("price").toString())>=1.4 &&
+                                        Double.parseDouble(event.get("price").toString())<=2.55) {
+                                    spec_totals.add(market);
+                                }
+                            }
+                        }
+                    }
                 }
                 else {
-                    t.updates.put(UUID.randomUUID().toString(), update);
+                    if(market.get("type").toString().equals("Total")
+                            && !market.get("base").toString().equals("@")
+                            && Double.parseDouble(market.get("base").toString())%1 != 0.0){
+                        all_totals.add(market);
+                        Map<String,JSONObject> events = (Map<String,JSONObject>)market.get("events");
+                        for (String eid : events.keySet()) {
+                            JSONObject event = events.get(eid);
+                            if(event.get("type").toString().toLowerCase().equals("totalmore") ||
+                                    event.get("type").toString().toLowerCase().equals("over")||
+                                    event.get("type").toString().toLowerCase().equals("more")) {
+                                if(Double.parseDouble(event.get("price").toString())>=1.4 &&
+                                        Double.parseDouble(event.get("price").toString())<=2.55) {
+                                    spec_totals.add(market);
+                                }
+                            }
+                        }
+                    }
                 }
             }
+        }
+        if (gr1.size()>1)
+        {
+            if (gr1.get(0).get("type").toString().equals("P1XP2"))
+                gr1.remove(gr1.get(1));
+            else if (gr1.get(1).get("type").toString().equals("P1XP2"))
+                gr1.remove(gr1.get(0));
+        }
+        if(spec_totals.size()>0){
+            JSONObject needTotal = spec_totals.get(0);
+            for (JSONObject total : spec_totals) {
+                if (!total.get("base").toString().equals("@")
+                        && Double.parseDouble(total.get("base").toString())%1 != 0.0) {
+                    if (Double.parseDouble(total.get("base").toString()) < Double.parseDouble(needTotal.get("base").toString())) needTotal = total;
+                }
+            }
+            //System.out.println("Adding game with fullgame total base: "+needTotal.get("base")+" "+Double.parseDouble(needTotal.get("base").toString())%1);
+            gr4.add(needTotal);
+        }
+        else if (all_totals.size()>0){
+            JSONObject needTotal = all_totals.get(0);
+            for (JSONObject total : all_totals) {
+                if (!total.get("base").toString().equals("@")
+                        && Double.parseDouble(total.get("base").toString())%1 != 0.0) {
+                    if (Double.parseDouble(total.get("base").toString()) < Double.parseDouble(needTotal.get("base").toString()))
+                    {
+                        needTotal = total;
+                    }
+                }
+            }
+            // System.out.println("Adding game with fullgame total base: "+needTotal.get("base")+" "+Double.parseDouble(needTotal.get("base").toString())%1);
+            gr4.add(needTotal);
+        }
+        JSONObject ng = new JSONObject();
+        ng.put("command","new");
+        ng.put("what", "game");
+        ng.put("type", "favorite");
+        ng.put("comp_name", comp.get("name"));
+        ng.put("sport_name", sport.get("name"));
+        ng.put("sport_alias", sport.get("alias"));
+        VelocityContext game_row = new VelocityContext();
+        StringWriter row = new StringWriter();
+        Date gs = new Date();
+        gs.setTime(Long.parseLong(game.get("start").toString())*1000);
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM");
+        SimpleDateFormat dt2 = new SimpleDateFormat("HH:mm");
+        game_row.put("game", game);
+        game_row.put("talias", "0");
+        game_row.put("day", dt1.format(gs).toString());
+        game_row.put("hour", dt2.format(gs).toString());
+        JSONObject sp_row = new JSONObject();
+        sp_row.put("id",sid);
+        sp_row.put("name", sport.get("name"));
+        sp_row.put("alias",sport.get("alias"));
+        game_row.put("sport", sp_row);
+        JSONObject rcid = new JSONObject();
+        rcid.put("rid", rid);
+        rcid.put("cid",cid);
+        game_row.put("rc", rcid);
+        game_row.put("comp_name", (String)comp.get("name"));
+        game_row.put("region_alias", region.get("alias"));
+        game_row.put("gr1", gr1);
+        game_row.put("gr2", gr2);
+        game_row.put("gr3", gr3);
+        game_row.put("gr4", gr4);
+        Velocity.mergeTemplate("game_row.vm", StandardCharsets.UTF_8.name(), game_row, row);
+        game.put("view",row.toString());
+        ng.put("data", game);
+        update(ng);
+    }
+
+    void update(JSONObject update)
+    {
+        try {
+            ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
+            for(String tid : terminals.keySet())
+            {
+                if (terminals.get(tid) != null) {
+                    Terminal t = terminals.get(tid);
+                    JSONObject qObj = new JSONObject();
+                    qObj.put("type","update");
+                    qObj.put("data",update);
+                    t.getQueue().put(qObj);
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    void updateME(JSONObject update) {
-        if (update.containsKey("market_type")) {
-            if (update.get("market_type").equals("P1XP2") ||
-                    update.get("market_type").equals("P1P2") ||
-                    update.get("market_type").equals("1X12X2") ||
-                    update.get("market_type").equals("1HalfP1XP2") ||
-                    update.get("market_type").equals("1SetP1XP2") ||
-                    update.get("market_type").equals("1PeriodP1XP2") ||
-                    update.get("market_type").equals("Total"))
-            {
-                if (update.get("command").toString().equals("new") && update.get("what").toString().equals("market"))
-                {
+    HashMap<String,JSONObject> recalcEvents (HashMap<String,JSONObject> events, String multi) {
+        for (String eid : events.keySet()) {
+            JSONObject event = events.get(eid);
+            String price = event.get("price").toString();
+            event.put("price", recalcEvent(price, multi));
+        }
+        return events;
+    }
+
+    String recalcEvent (String price, String multi) {
+        Double currCoef = Double.parseDouble(price);
+        Double multiPrice = Double.parseDouble(price) * Double.parseDouble(multi);
+        if (currCoef < 2 && currCoef > 1) {
+            Double tmpCurrentKoeff = currCoef;
+            Double koef = Double.parseDouble(multi) - 1.0;
+            currCoef -= 1.0;
+            currCoef *= koef;
+            multiPrice = tmpCurrentKoeff + currCoef;
+        }
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        return  df.format(multiPrice).toString().replaceAll(",", ".");
+    }
+
+    void updateME(JSONObject update,String type) {
+        try {
+            switch (type) {
+                case "market": {
+                    if (update.get("command").toString().equals("new")) {
+                        ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
+                        for(String tid : terminals.keySet()) {
+                            HashMap<String, JSONObject> events = (HashMap<String, JSONObject>) ((JSONObject) update.get("data")).get("events");
+                            Terminal t = terminals.get(tid);
+                            if (t != null) {
+                                ((JSONObject) update.get("data")).put("events", recalcEvents(events,t.getMulti()));
+                                if (update.containsKey("market_type")) {
+                                    if (update.get("market_type").equals("P1XP2") ||
+                                            update.get("market_type").equals("P1P2") ||
+                                            update.get("market_type").equals("1X12X2") ||
+                                            update.get("market_type").equals("1HalfP1XP2") ||
+                                            update.get("market_type").equals("1SetP1XP2") ||
+                                            update.get("market_type").equals("1PeriodP1XP2") ||
+                                            update.get("market_type").equals("Total")) {
+                                        JSONObject qObj = new JSONObject();
+                                        qObj.put("type", "update");
+                                        qObj.put("data", update);
+                                        t.getQueue().put(qObj);
+                                    }
+                                    else if (update.get("gid").toString().equals(t.game_id)) {
+                                        System.out.println("Vars update of game "+update.get("gid")+" for terminal "+t.id);
+                                        JSONObject qObj = new JSONObject();
+                                        qObj.put("type", "update");
+                                        qObj.put("data", update);
+                                        t.getQueue().put(qObj);
+                                    }
+                                }
+                                else if (update.get("gid").toString().equals(t.game_id)) {
+                                    System.out.println("Vars update of game "+update.get("gid")+" for terminal "+t.id);
+                                    JSONObject qObj = new JSONObject();
+                                    qObj.put("type", "update");
+                                    qObj.put("data", update);
+                                    t.getQueue().put(qObj);
+                                }
+                            }
+                        }
+                    }
+                }; break;
+                case "event": {
                     ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
-                    for(String tid : terminals.keySet())
-                    {
-                        JSONObject modUp = update;
-                        HashMap<String,JSONObject> events = (HashMap<String,JSONObject>)((JSONObject)modUp.get("data")).get("events");
+                    for(String tid : terminals.keySet()) {
                         Terminal t = terminals.get(tid);
                         if (t != null) {
-                            for (String eid : events.keySet()) {
-                                JSONObject event = events.get(eid);
-                                String price = event.get("price").toString();
-                                Double currCoef = Double.parseDouble(price);
-                                String multi = t.getMulti();
-                                Double multiPrice = Double.parseDouble(price) * Double.parseDouble(multi);
-                                if (currCoef < 2 && currCoef > 1) {
-                                    Double tmpCurrentKoeff = currCoef;
-                                    Double koef = Double.parseDouble(multi) - 1.0;
-                                    currCoef -= 1.0;
-                                    currCoef *= koef;
-                                    multiPrice = tmpCurrentKoeff + currCoef;
-                                }
-                                DecimalFormat df = new DecimalFormat("#.##");
-                                df.setRoundingMode(RoundingMode.CEILING);
-                                event.put("price", df.format(multiPrice).toString().replaceAll(",", "."));
+                            if (update.get("command").toString().equals("new")) {
+                                JSONObject event = (JSONObject) update.get("data");
+                                event.put("price", recalcEvent(event.get("price").toString(), t.getMulti()));
+                                update.put("data", event);
                             }
-                            ((JSONObject) modUp.get("data")).put("events", events);
-                            Session rcpt = t.getSession();
-                            if (t.getCount() == 0) {
-                                if (rcpt.isOpen()) t.sendIt(update);
+                            else if (update.get("command").toString().equals("update")) {
+                                update.put("value", recalcEvent(update.get("value").toString(),t.getMulti()));
                             }
-                            else {
-                                t.updates.put(UUID.randomUUID().toString(), update);
+
+                            if(update.containsKey("market_type")) {
+                                if (update.get("market_type").equals("P1XP2") ||
+                                        update.get("market_type").equals("P1P2") ||
+                                        update.get("market_type").equals("1X12X2") ||
+                                        update.get("market_type").equals("1HalfP1XP2") ||
+                                        update.get("market_type").equals("1SetP1XP2") ||
+                                        update.get("market_type").equals("1PeriodP1XP2") ||
+                                        update.get("market_type").equals("Total")) {
+                                    JSONObject qObj = new JSONObject();
+                                    qObj.put("type", "update");
+                                    qObj.put("data", update);
+                                    t.getQueue().put(qObj);
+                                }
+                                else if (update.get("gid").toString().equals(t.game_id)) {
+                                    System.out.println("Vars update of game "+update.get("gid")+" for terminal "+t.id);
+                                    JSONObject qObj = new JSONObject();
+                                    qObj.put("type", "update");
+                                    qObj.put("data", update);
+                                    t.getQueue().put(qObj);
+                                }
+                                else if (t.betslip.contains(update.get("id").toString())) {
+                                    System.out.println("Betslip update!");
+                                    JSONObject qObj = new JSONObject();
+                                    qObj.put("type", "update");
+                                    qObj.put("data", update);
+                                    t.getQueue().put(qObj);
+                                }
                             }
-                        }
-                    }
-                }
-                if (update.get("what").toString().equals("event"))
-                {
-                    if (update.get("command").toString().equals("update"))
-                    {
-                        String price = update.get("value").toString();
-                        ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
-                        for(String tid : terminals.keySet())
-                        {
-                            Terminal t = terminals.get(tid);
-                            if (t != null) {
-                                String multi = t.getMulti();
-                                Double multiPrice = Double.parseDouble(price) * Double.parseDouble(multi);
-                                Double currCoef = Double.parseDouble(price);
-                                if (currCoef < 2 && currCoef > 1) {
-                                    Double tmpCurrentKoeff = currCoef;
-                                    Double koef = Double.parseDouble(multi) - 1.0;
-                                    currCoef -= 1.0;
-                                    currCoef *= koef;
-                                    multiPrice = tmpCurrentKoeff + currCoef;
-                                }
-                                DecimalFormat df = new DecimalFormat("#.##");
-                                df.setRoundingMode(RoundingMode.CEILING);
-                                update.put("value", df.format(multiPrice).toString().replaceAll(",", "."));
-                                Session rcpt = t.getSession();
-                                if (t.getCount() == 0) {
-                                    if (rcpt.isOpen()) t.sendIt(update);
-                                }
-                                else {
-                                    t.updates.put(UUID.randomUUID().toString(), update);
-                                }
+                            else if (update.get("gid").toString().equals(t.game_id)) {
+                                System.out.println("Vars update of game "+update.get("gid")+" for terminal "+t.id);
+                                JSONObject qObj = new JSONObject();
+                                qObj.put("type", "update");
+                                qObj.put("data", update);
+                                t.getQueue().put(qObj);
+                            }
+                            else if (t.betslip.contains(update.get("id").toString())) {
+                                System.out.println("Betslip update!");
+                                JSONObject qObj = new JSONObject();
+                                qObj.put("type", "update");
+                                qObj.put("data", update);
+                                t.getQueue().put(qObj);
                             }
                         }
                     }
-                    else if (update.get("command").toString().equals("new"))
-                    {
-                        String price = ((JSONObject)update.get("data")).get("price").toString();
-                        ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
-                        for(String tid : terminals.keySet())
-                        {
-                            Terminal t = terminals.get(tid);
-                            if (t != null) {
-                                String multi = t.getMulti();
-                                Double multiPrice = Double.parseDouble(price) * Double.parseDouble(multi);
-                                Double currCoef = Double.parseDouble(price);
-                                if (currCoef < 2 && currCoef > 1) {
-                                    Double tmpCurrentKoeff = currCoef;
-                                    Double koef = Double.parseDouble(multi) - 1.0;
-                                    currCoef -= 1.0;
-                                    currCoef *= koef;
-                                    multiPrice = tmpCurrentKoeff + currCoef;
-                                }
-                                DecimalFormat df = new DecimalFormat("#.##");
-                                df.setRoundingMode(RoundingMode.CEILING);
-                                ((JSONObject) update.get("data")).put("price",
-                                        df.format(multiPrice).toString().replaceAll(",", "."));
-                                Session rcpt = t.getSession();
-                                if (t.getCount() == 0) {
-                                    if (rcpt.isOpen()) t.sendIt(update);
-                                }
-                                else {
-                                    t.updates.put(UUID.randomUUID().toString(), update);
-                                }
-                            }
-                        }
-                    }
-                }
-                else {
-                    update(update);
-                }
-            }
-            else
-            {
-                ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
-                for (String tid : terminals.keySet())
-                {
-                    Terminal t = terminals.get(tid);
-                    if (t != null) {
-                        if (t.game_id != null) {
-                            if (t.game_id.equals(update.get("gid"))) {
-                                Session rcpt = t.getSession();
-                                if (t.getCount() == 0) {
-                                    if (rcpt.isOpen()) t.sendIt(update);
-                                }
-                                else {
-                                    t.updates.put(UUID.randomUUID().toString(), update);
-                                }
-                            }
-                        }
-                        if (update.get("what").equals("event")) {
-                            List<String> eids = (ArrayList<String>) t.betslip;
-                            Session rcpt = t.getSession();
-                            if (t.getCount() == 0) {
-                                if (rcpt.isOpen()) t.sendIt(update);
-                            }
-                            else {
-                                t.updates.put(UUID.randomUUID().toString(), update);
-                            }
-                        }
-                    }
-                }
+                }; break;
             }
         }
-        else
-        {
-            ConcurrentHashMap<String,Terminal> terminals = (ConcurrentHashMap<String,Terminal>)main.terminals;
-            for (String tid : terminals.keySet())
-            {
-                Terminal t = terminals.get(tid);
-                if (t != null) {
-                    if (t.game_id != null) {
-                        if (t.game_id.equals(update.get("gid"))) {
-                            if (update.get("command").toString().equals("statistic")) {
-                                update.put("id", update.get("gid"));
-                                update.remove("gid");
-                            }
-                            Session rcpt = t.getSession();
-                            if (t.getCount() == 0) {
-                                if (rcpt.isOpen()) t.sendIt(update);
-                            }
-                            else {
-                                t.updates.put(UUID.randomUUID().toString(), update);
-                            }
-                        }
-                        //else { sessions.remove(s); session_info.remove(s); }
-                    }
-                    if (update.get("what").equals("event")) {
-                        List<String> eids = (ArrayList<String>) t.betslip;
-                        if (eids.contains(update.get("id"))) {
-                            Session rcpt = t.getSession();
-                            if (t.getCount() == 0) {
-                                if (rcpt.isOpen()) t.sendIt(update);
-                            }
-                            else {
-                                t.updates.put(UUID.randomUUID().toString(), update);
-                            }
-                        }
-                        //else { sessions.remove(s); session_info.remove(s); }
-                    }
-                }
-            }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

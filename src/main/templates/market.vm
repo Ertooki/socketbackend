@@ -2,14 +2,13 @@
 #if ($market.containsKey('type')) #set($type=$market.type)  #else #set($type="") #end
 #if ($market.containsKey('exp_id')) #set($eid=$market.exp_id) #else #set($eid="") #end
 <div data-market-id=$market.get("_id") data-m-order=$order>
-	<div id='tournament-header'> [$market.type][$market.base]<br/> $market.name </div>
+	<div id='tournament-header'> $market.name </div>
 	<div id='odds_wrap'>
 		#foreach($eid in $eIds)
 			#set($event = $events.get($eid))
 			<div id='match-odds' data-b-order=$event.order>
 				<div id='odds-top'> 
-				    [$event.type]<br/>
-					$event.name
+				    $event.name
 					<div class='separation-line'></div> 
 				</div>
 				#if($market.containsKey('exp_id'))

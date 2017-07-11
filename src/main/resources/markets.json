@@ -18,7 +18,7 @@
     "12": "12"
   },
   "DrawNoBet": {
-    "name": "Unentschieden - Einsatz zurück",
+    "name": "Unentschieden - Einsatz zuruck",
     "order": 3,
     "market_types": {},
     "bases": {},
@@ -71,6 +71,20 @@
     "2:4": "2:4",
     "3:4": "3:4"
   },
+  "ScoreCombinations": {
+    "name": "Resultat (Mehrfachchance)",
+    "order": 7,
+    "market_types": {},
+    "bases": {},
+    "MatchResult1:0,2:0Or3:0": "1:0, 2:0 oder 3:0",
+    "MatchResult4:0,5:0Or6:0": "4:0, 5:0 oder 6:0",
+    "MatchResult2:1,3:1Or4:1": "2:1, 3:1 oder 4:1",
+    "MatchResult3:2,4:2,4:3Or5:1": "3:2, 4:2 oder 4:3",
+    "MatchResult0:1,0:2Or0:3": "0:1, 0:2 oder 0:3",
+    "MatchResult0:4,0:5Or0:6": "0:4, 0:5 oder 0:6",
+    "MatchResult1:2,1:3Or1:4": "1:2, 1:3 oder 1:4",
+    "MatchResult2:3,2:4,3:4Or1:5": "2:3, 2:4, 3:4 oder 1:5"
+  },
   "ResultBothTeamToScore": {
     "name": "Ergebnis und beide treffen",
     "order": 20,
@@ -96,62 +110,62 @@
     "X2 and (Both to score - No)": "X2 und Nein"
   },
   "ResultAndTotal2.5": {
-    "name": "Ergebnis und Über/Unter 2.5",
-    "order": 8,
-    "market_types": {},
-    "bases": {},
-    "P1AndOver2.5": "1 und Über",
-    "P1AndUnder2.5": "1 und Unter",
-    "XAndOver2.5": "X und Über",
-    "XAndUnder2.5": "X und Unter",
-    "P2AndOver2.5": "2 und Über",
-    "P2AndUnder2.5": "2 und Unter",
-    "1XAndOver2.5": "1X und Über",
-    "1XAndUnder2.5": "1X und Unter",
-    "12AndOver2.5": "12 und Über",
-    "12AndUnder2.5": "12 und Unter",
-    "X2AndOver2.5": "X2 und Über",
-    "X2AndUnder2.5": "X2 und Unter"
-  },
-  "ResultAndGoals3.5": {
-    "name": "Ergebnis und Über/Unter 3.5",
+    "name": "Ergebnis und Uber/Unter 2.5",
     "order": 9,
     "market_types": {},
     "bases": {},
-    "P1AndOver3.5": "1 und Über",
-    "P1AndUnder3.5": "1 und Unter",
-    "XAndOver3.5": "X und Über",
-    "XAndUnder3.5": "X und Unter",
-    "P2AndOver3.5": "2 und Über",
-    "P2AndUnder3.5": "2 und Unter",
-    "1XAndOver3.5": "1X und Über",
-    "1XAndUnder3.5": "1X und Unter",
-    "12AndOver3.5": "12 und Über",
-    "12AndUnder3.5": "12 und Unter",
-    "X2AndOver3.5": "X2 und Über",
-    "X2AndUnder3.5": "X2 und Unter"
+    "P1AndOver2.5": "1 und Uber",
+    "P1AndUnder2.5": "1 und Unter",
+    "XAndOver2.5": "X und Uber",
+    "XAndUnder2.5": "X und Unter",
+    "P2AndOver2.5": "2 und Uber",
+    "P2AndUnder2.5": "2 und Unter",
+    "1XAndOver2.5": "1X und Uber",
+    "1XAndUnder2.5": "1X und Unter",
+    "12AndOver2.5": "12 und Uber",
+    "12AndUnder2.5": "12 und Unter",
+    "X2AndOver2.5": "X2 und Uber",
+    "X2AndUnder2.5": "X2 und Unter"
   },
-  "ResultAndGoals4.5": {
-    "name": "Ergebnis und Über/Unter 4.5",
+  "ResultAndGoals3.5": {
+    "name": "Ergebnis und Uber/Unter 3.5",
     "order": 10,
     "market_types": {},
     "bases": {},
-    "P1AndOver4.5": "1 und Über",
+    "P1AndOver3.5": "1 und Uber",
+    "P1AndUnder3.5": "1 und Unter",
+    "XAndOver3.5": "X und Uber",
+    "XAndUnder3.5": "X und Unter",
+    "P2AndOver3.5": "2 und Uber",
+    "P2AndUnder3.5": "2 und Unter",
+    "1XAndOver3.5": "1X und Uber",
+    "1XAndUnder3.5": "1X und Unter",
+    "12AndOver3.5": "12 und Uber",
+    "12AndUnder3.5": "12 und Unter",
+    "X2AndOver3.5": "X2 und Uber",
+    "X2AndUnder3.5": "X2 und Unter"
+  },
+  "ResultAndGoals4.5": {
+    "name": "Ergebnis und Uber/Unter 4.5",
+    "order": 11,
+    "market_types": {},
+    "bases": {},
+    "P1AndOver4.5": "1 und Uber",
     "P1AndUnder4.5": "1 und Unter",
-    "XAndOver4.5": "X und Über",
+    "XAndOver4.5": "X und Uber",
     "XAndUnder4.5": "X und Unter",
-    "P2AndOver4.5": "2 und Über",
+    "P2AndOver4.5": "2 und Uber",
     "P2AndUnder4.5": "2 und Unter",
-    "1XAndOver4.5": "1X und Über",
+    "1XAndOver4.5": "1X und Uber",
     "1XAndUnder4.5": "1X und Unter",
-    "12AndOver4.5": "12 und Über",
+    "12AndOver4.5": "12 und Uber",
     "12AndUnder4.5": "12 und Unter",
-    "X2AndOver4.5": "X2 und Über",
+    "X2AndOver4.5": "X2 und Uber",
     "X2AndUnder4.5": "X2 und Unter"
   },
   "TeamOneToWinToNil": {
     "name": "Team 1 gewinnt zu Null",
-    "order": 11,
+    "order": 12,
     "market_types": {},
     "bases": {},
     "1": "Ja",
@@ -159,7 +173,7 @@
   },
   "TeamTwoToWinToNil": {
     "name": "Team 2 gewinnt zu Null",
-    "order": 12,
+    "order": 13,
     "market_types": {},
     "bases": {},
     "1": "Ja",
@@ -167,7 +181,7 @@
   },
   "TeamOneWillWinInBothHalves": {
     "name": "Team 1 gewinnt beide HZ",
-    "order": 13,
+    "order": 14,
     "market_types": {},
     "bases": {},
     "1": "Ja",
@@ -175,25 +189,11 @@
   },
   "TeamTwoWillWinInBothHalves": {
     "name": "Team 2 gewinnt beide HZ",
-    "order": 14,
+    "order": 15,
     "market_types": {},
     "bases": {},
     "1": "Ja",
     "2": "Nein"
-  },
-  "ScoreCombinations": {
-    "name": "Resultat (Mehrfachchance)",
-    "order": 15,
-    "market_types": {},
-    "bases": {},
-    "MatchResult1:0,2:0Or3:0": "1:0, 2:0 oder 3:0",
-    "MatchResult4:0,5:0Or6:0": "4:0, 5:0 oder 6:0",
-    "MatchResult2:1,3:1Or4:1": "2:1, 3:1 oder 4:1",
-    "MatchResult3:2,4:2,4:3Or5:1": "3:2, 4:2 oder 4:3",
-    "MatchResult0:1,0:2Or0:3": "0:1, 0:2 oder 0:3",
-    "MatchResult0:4,0:5Or0:6": "0:4, 0:5 oder 0:6",
-    "MatchResult1:2,1:3Or1:4": "1:2, 1:3 oder 1:4",
-    "MatchResult2:3,2:4,3:4Or1:5": "2:3, 2:4, 3:4 oder 1:5"
   },
   "Team 1: will win by difference": {
     "name": "Team 1 gewinnt mit einer Tordifferenz von",
@@ -247,7 +247,7 @@
     "Team 2: gewinnt mit einer Tordifferenz von 1 Tor": "1",
     "Team 2: gewinnt mit einer Tordifferenz von 2 Toren": "2",
     "Team 2: gewinnt mit einer Tordifferenz von 3 Toren": "3",
-    "Team 2: gewinnt mit einer Tordifferenz von 3 oder mehr Toren": "3+",
+    "Team 2: gewinnt mit einer Tordifferenz von 3 oder mehr Toren": "4+",
     "Team 2: gewinnt mit einer Tordifferenz von 4 oder mehr Toren": "4+"
   },
   "Team 2 gewinnt mit einer Tordifferenz von": {
@@ -258,7 +258,7 @@
     "Team 2: gewinnt mit einer Tordifferenz von 1 Tor": "1",
     "Team 2: gewinnt mit einer Tordifferenz von 2 Toren": "2",
     "Team 2: gewinnt mit einer Tordifferenz von 3 Toren": "3",
-    "Team 2: gewinnt mit einer Tordifferenz von 3 oder mehr Toren": "3+",
+    "Team 2: gewinnt mit einer Tordifferenz von 3 oder mehr Toren": "4+",
     "Team 2: gewinnt mit einer Tordifferenz von 4 oder mehr Toren": "4+"
   },
   "Team 1: Gewinnt durch 2 oder 3 Tore": {
@@ -285,6 +285,14 @@
     "Ja": "Ja",
     "Nein": "Nein"
   },
+  "Team 1: Win by one goal or draw": {
+    "name": "Team 1 gewinnt mit 1 Tor oder Spiel endet X",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "Team 1: Siegt mit einem Tor oder Unentschieden: Ja": "Ja",
+    "Team 1: Siegt mit einem Tor oder Unentschieden: Nein": "Nein"
+  },
   "Team 2: Siegt mit einem Tor oder Unentschieden": {
     "name": "Team 2 gewinnt mit einem Tor oder Spiel endet X",
     "order": 99,
@@ -293,20 +301,28 @@
     "Ja": "Ja",
     "Nein": "Nein"
   },
-  "Outcome And Total 1.5": {
-    "name": "Ergebnis und Über/Unter 1.5",
+  "Team 2: Win by one goal or draw": {
+    "name": "Team 2 gewinnt mit 1 Tor oder Spiel endet X",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "Outcome And Total 1.5 - 1X and Over 1.5": "1X und Über",
-    "Outcome And Total 1.5 - 12 and Over 1.5": "12 und Über",
-    "Outcome And Total 1.5 - W1 and Over 1.5": "2 und Über",
-    "Outcome And Total 1.5 - X2 and Over 1.5": "X2 und Über",
-    "Outcome And Total 1.5 - Draw and Over 1.5": "X und Über",
+    "Team 2: Siegt mit einem Tor oder Unentschieden: Ja": "Ja",
+    "Team 2: Siegt mit einem Tor oder Unentschieden: Nein": "Nein"
+  },
+  "Outcome And Total 1.5": {
+    "name": "Ergebnis und Uber/Unter 1.5",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "Outcome And Total 1.5 - 1X and Over 1.5": "1X und Uber",
+    "Outcome And Total 1.5 - 12 and Over 1.5": "12 und Uber",
+    "Outcome And Total 1.5 - W1 and Over 1.5": "2 und Uber",
+    "Outcome And Total 1.5 - X2 and Over 1.5": "X2 und Uber",
+    "Outcome And Total 1.5 - Draw and Over 1.5": "X und Uber",
     "Outcome And Total 1.5 - 12 and Under 1.5": "12 und Unter",
     "Outcome And Total 1.5 - 1X and Under 1.5": "1X und Unter",
-    "Outcome And Total 1.5 - W2 and Over 1.5": "2 und Über",
-    "Outcome And Total 1.5 - W1 and Under 1.5": "1 und Über",
+    "Outcome And Total 1.5 - W2 and Over 1.5": "2 und Uber",
+    "Outcome And Total 1.5 - W1 and Under 1.5": "1 und Uber",
     "Outcome And Total 1.5 - X2 and Under 1.5": "X2 und Unter",
     "Outcome And Total 1.5 - W2 and Under 1.5": "2 und Unter",
     "Outcome And Total 1.5 - Draw And Under 1.5": "X und Unter"
@@ -399,8 +415,8 @@
     "S2  -Handicap": "2",
     "S2 -Handicap": "2"
   },
-  "Anzahl Tore Über/Unter": {
-    "name": "Über/Unter",
+  "Anzahl Tore Uber/Unter": {
+    "name": "Uber/Unter",
     "order": 1,
     "market_types": {},
     "bases": {
@@ -412,23 +428,23 @@
       "6": "15",
       "7": "16",
       "8": "17",
-      "0.5": "1",
-      "1.5": "2",
-      "2.5": "3",
-      "3.5": "4",
-      "4.5": "5",
-      "5.5": "6",
-      "6.5": "7",
-      "7.5": "8",
-      "8.5": "9"
+      "0.5": "01",
+      "1.5": "02",
+      "2.5": "03",
+      "3.5": "04",
+      "4.5": "05",
+      "5.5": "06",
+      "6.5": "07",
+      "7.5": "08",
+      "8.5": "09"
     },
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "Anzahl Tore Team 1": {
-    "name": "Team 1 Über/Unter",
+    "name": "Team 1 Uber/Unter",
     "order": 2,
     "market_types": {},
     "bases": {
@@ -440,51 +456,51 @@
       "6": "15",
       "7": "16",
       "8": "17",
-      "0.5": "1",
-      "1.5": "2",
-      "2.5": "3",
-      "3.5": "4",
-      "4.5": "5",
-      "5.5": "6",
-      "6.5": "7",
-      "7.5": "8",
-      "8.5": "9"
+      "0.5": "01",
+      "1.5": "02",
+      "2.5": "03",
+      "3.5": "04",
+      "4.5": "05",
+      "5.5": "06",
+      "6.5": "07",
+      "7.5": "08",
+      "8.5": "09"
     },
-    "FirstTeamTotalMore": "Über",
+    "FirstTeamTotalMore": "Uber",
     "FirstTeamTotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "Anzahl Tore Team 2": {
-    "name": "Team 2 Über/Unter",
+    "name": "Team 2 Uber/Unter",
     "order": 3,
     "market_types": {},
     "bases": {
-      "1": "6",
-      "2": "7",
-      "3": "8",
-      "4": "9",
+      "1": "06",
+      "2": "07",
+      "3": "08",
+      "4": "09",
       "5": "10",
       "6": "12",
       "7": "14",
       "8": "16",
-      "0.5": "1",
-      "1.5": "2",
-      "2.5": "3",
-      "3.5": "4",
-      "4.5": "5",
+      "0.5": "01",
+      "1.5": "02",
+      "2.5": "03",
+      "3.5": "04",
+      "4.5": "05",
       "5.5": "11",
       "6.5": "13",
       "7.5": "15",
       "8.5": "17"
     },
-    "SecondTeamTotalMore": "Über",
+    "SecondTeamTotalMore": "Uber",
     "SecondTeamTotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "BothTeamsWillScore": {
@@ -552,7 +568,7 @@
     "Team 1: 4 oder mehr Tore": "4+"
   },
   "Team1Total": {
-    "name": "Team 1 Über/Unter",
+    "name": "Team 1 Uber/Unter",
     "order": 10,
     "market_types": {},
     "bases": {
@@ -574,10 +590,40 @@
       "7.5": "25",
       "8.5": "26"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
+  },
+  "Goals of Team 1": {
+    "name": "Team 1 Uber/Unter",
+    "order": 10,
+    "market_types": {},
+    "bases": {
+      "1": "27",
+      "2": "28",
+      "3": "29",
+      "4": "30",
+      "5": "31",
+      "6": "32",
+      "7": "33",
+      "8": "34",
+      "0.5": "18",
+      "1.5": "19",
+      "2.5": "20",
+      "3.5": "21",
+      "4.5": "22",
+      "5.5": "23",
+      "6.5": "24",
+      "7.5": "25",
+      "8.5": "26"
+    },
+    "More": "Uber",
+    "Less": "Unter",
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "Anzahl Tore Team 1 Uber": "Uber",
+    "Anzahl Tore Team 1 Unter": "Unter"
   },
   "SecondTeamTotal": {
     "name": "Team 2 Anzahl Tore",
@@ -591,7 +637,7 @@
     "Team 2: 4 oder mehr Tore": "4+"
   },
   "Team2Total": {
-    "name": "Team 2 Über/Unter",
+    "name": "Team 2 Uber/Unter",
     "order": 3,
     "market_types": {},
     "bases": {
@@ -613,10 +659,40 @@
       "7.5": "42",
       "8.5": "43"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
+  },
+  "Goals of Team 2": {
+    "name": "Team 2 Uber/Unter",
+    "order": 11,
+    "market_types": {},
+    "bases": {
+      "1": "44",
+      "2": "45",
+      "3": "46",
+      "4": "47",
+      "5": "48",
+      "6": "49",
+      "7": "50",
+      "8": "51",
+      "0.5": "35",
+      "1.5": "36",
+      "2.5": "37",
+      "3.5": "38",
+      "4.5": "39",
+      "5.5": "40",
+      "6.5": "41",
+      "7.5": "42",
+      "8.5": "43"
+    },
+    "More": "Uber",
+    "Less": "Unter",
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "Anzahl Tore Team 2 Uber": "Uber",
+    "Anzahl Tore Team 2 Unter": "Unter"
   },
   "MatchTotal": {
     "name": "Anzahl der Tore im Spiel",
@@ -644,25 +720,25 @@
     "1": "Ja",
     "2": "Nein"
   },
-  "Team 1 trifft: 1. Hälfte/2. Hälfte": {
+  "Team 1 trifft: 1. Halfte/2. Halfte": {
     "name": "Team 1 trifft 1.HZ/2.HZ",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "Team 1 trifft: 1. Hälfte - Ja/2. Hälfte - Nein": "1.Ja/2.Nein",
-    "Team 1 trifft: 1. Hälfte - Ja/2. Hälfte - Ja": "1.Ja/2.Ja",
-    "Team 1 trifft: 1. Hälfte - Nein/2. Hälfte - Nein": "1.Nein/2.Nein",
-    "Team 1 trifft: 1. Hälfte - Nein/2. Hälfte - Ja": "1.Nein/2.Ja"
+    "Team 1 trifft: 1. Halfte - Ja/2. Halfte - Nein": "1.Ja/2.Nein",
+    "Team 1 trifft: 1. Halfte - Ja/2. Halfte - Ja": "1.Ja/2.Ja",
+    "Team 1 trifft: 1. Halfte - Nein/2. Halfte - Nein": "1.Nein/2.Nein",
+    "Team 1 trifft: 1. Halfte - Nein/2. Halfte - Ja": "1.Nein/2.Ja"
   },
-  "Team 2 trifft: 1. Hälfte/2. Hälfte": {
+  "Team 2 trifft: 1. Halfte/2. Halfte": {
     "name": "Team 2 trifft 1.HZ/2.HZ",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "Team 2 trifft: 1. Hälfte - Ja/2. Hälfte - Nein": "1.Ja/2.Nein",
-    "Team 2 trifft: 1. Hälfte - Ja/2. Hälfte - Ja": "1.Ja/2.Ja",
-    "Team 2 trifft: 1. Hälfte - Nein/2. Hälfte - Nein": "1.Nein/2.Nein",
-    "Team 2 trifft: 1. Hälfte - Nein/2. Hälfte - Ja": "1.Nein/2.Ja"
+    "Team 2 trifft: 1. Halfte - Ja/2. Halfte - Nein": "1.Ja/2.Nein",
+    "Team 2 trifft: 1. Halfte - Ja/2. Halfte - Ja": "1.Ja/2.Ja",
+    "Team 2 trifft: 1. Halfte - Nein/2. Halfte - Nein": "1.Nein/2.Nein",
+    "Team 2 trifft: 1. Halfte - Nein/2. Halfte - Ja": "1.Nein/2.Ja"
   },
   "GoalsInBothHalves": {
     "name": "Tore in beiden HZ",
@@ -763,7 +839,7 @@
     "1HalfX2": "X2"
   },
   "FirstHalfTotal": {
-    "name": "1.HZ Über/Unter",
+    "name": "1.HZ Uber/Unter",
     "order": 4,
     "market_types": {},
     "bases": {
@@ -785,13 +861,13 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "FirstHalfTotalMore": "Über",
+    "FirstHalfTotalMore": "Uber",
     "FirstHalfTotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
-  "1. Hälfte Gesamtzahl Über/Unter": {
-    "name": "1.HZ Über/Unter",
+  "1. Halfte Gesamtzahl Uber/Unter": {
+    "name": "1.HZ Uber/Unter",
     "order": 4,
     "market_types": {},
     "bases": {
@@ -813,13 +889,13 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "FirstHalfTotalMore": "Über",
+    "FirstHalfTotalMore": "Uber",
     "FirstHalfTotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1stHalfGoalsW1": {
-    "name": "1.HZ Team 1 Über/Unter",
+    "name": "1.HZ Team 1 Uber/Unter",
     "order": 5,
     "market_types": {},
     "bases": {
@@ -841,13 +917,13 @@
       "7.5": "25",
       "8.5": "26"
     },
-    "1stHalfGoalsW1More": "Über",
+    "1stHalfGoalsW1More": "Uber",
     "1stHalfGoalsW1Less": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1stHalfGoalsW2": {
-    "name": "1.HZ Team 2 Über/Unter",
+    "name": "1.HZ Team 2 Uber/Unter",
     "order": 6,
     "market_types": {},
     "bases": {
@@ -869,15 +945,15 @@
       "7.5": "42",
       "8.5": "43"
     },
-    "1stHalfGoalsW2More": "Über",
+    "1stHalfGoalsW2More": "Uber",
     "1stHalfGoalsW2Less": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
-  "1. Hälfte - Anzahl Tore Team 1": {
-    "name": "1.HZ Team 1 Über/Unter",
+  "1. Halfte - Anzahl Tore Team 1": {
+    "name": "1.HZ Team 1 Uber/Unter",
     "order": 11,
     "market_types": {},
     "bases": {
@@ -899,13 +975,13 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "1stHalfGoalsW1More": "Über",
+    "1stHalfGoalsW1More": "Uber",
     "1stHalfGoalsW1Less": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
-  "1. Hälfte - Anzahl Tore Team 2": {
-    "name": "1.HZ Team 2 Über/Unter",
+  "1. Halfte - Anzahl Tore Team 2": {
+    "name": "1.HZ Team 2 Uber/Unter",
     "order": 12,
     "market_types": {},
     "bases": {
@@ -927,15 +1003,15 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "1stHalfGoalsW2More": "Über",
+    "1stHalfGoalsW2More": "Uber",
     "1stHalfGoalsW2Less": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "1. Halbzeit Team 1 Uber/Unter": {
-    "name": "1.HZ Team 1 Über/Unter",
+    "name": "1.HZ Team 1 Uber/Unter",
     "order": 13,
     "market_types": {},
     "bases": {
@@ -957,15 +1033,15 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "1stHalfGoalsW2More": "Über",
+    "1stHalfGoalsW2More": "Uber",
     "1stHalfGoalsW2Less": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "1. Halbzeit Team 2 Uber/Unter": {
-    "name": "1.HZ Team 2 Über/Unter",
+    "name": "1.HZ Team 2 Uber/Unter",
     "order": 13,
     "market_types": {},
     "bases": {
@@ -987,27 +1063,27 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "1stHalfGoalsW1More": "Über",
+    "1stHalfGoalsW1More": "Uber",
     "1stHalfGoalsW1Less": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
-  "1. Hälfte - Gerade/Ungerade": {
+  "1. Halfte - Gerade/Ungerade": {
     "name": "1.HZ - Gerade/Ungerade",
     "order": 15,
     "market_types": {},
     "bases": {},
-    "1. Hälfte - Gerade": "Gerade",
-    "1. Hälfte - Ungerade": "Ungerade"
+    "1. Halfte - Gerade": "Gerade",
+    "1. Halfte - Ungerade": "Ungerade"
   },
   "NumberOfCornersInFirstHalf": {
-    "name": "1.HZ Eckbälle Über/Unter",
+    "name": "1.HZ Eckballe Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "NumberOfCornersInFirstHalfMore": "Über",
+    "NumberOfCornersInFirstHalfMore": "Uber",
     "NumberOfCornersInFirstHalfLess": "Unter"
   },
   "FirstHalfScore": {
@@ -1048,6 +1124,18 @@
     "1": "Ja",
     "2": "Nein"
   },
+  "1st Half Outcome And Both Team To Score": {
+    "name": "1.HZ Ergebnis und beide treffen",
+    "order": 9,
+    "market_types": {},
+    "bases": {},
+    "1": "1 und Ja",
+    "2": "1 und Nein",
+    "3": "X und Ja",
+    "4": "X und Nein",
+    "5": "2 und Ja",
+    "6": "2 und Nein"
+  },
   "GoalInFirstHalf": {
     "name": "Tor in der 1.HZ",
     "order": 20,
@@ -1085,7 +1173,7 @@
     "2HalfP2": "2"
   },
   "SecondHalfTotal": {
-    "name": "2.HZ Über/Unter",
+    "name": "2.HZ Uber/Unter",
     "order": 4,
     "market_types": {},
     "bases": {
@@ -1107,13 +1195,13 @@
       "7.5": "08",
       "8.5": "09"
     },
-    "SecondHalfTotalMore": "Über",
+    "SecondHalfTotalMore": "Uber",
     "SecondHalfTotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
-  "2.Hälfte Gesamtzahl Über/Unter": {
-    "name": "2.HZ Über/Unter",
+  "2.Halfte Gesamtzahl Uber/Unter": {
+    "name": "2.HZ Uber/Unter",
     "order": 5,
     "market_types": {},
     "bases": {
@@ -1135,9 +1223,9 @@
       "7.5": "08",
       "8.5": "09"
     },
-    "SecondHalfTotalMore": "Über",
+    "SecondHalfTotalMore": "Uber",
     "SecondHalfTotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "SecondHalfScore": {
@@ -1151,16 +1239,27 @@
     "4": "3:0",
     "5": "3:1",
     "6": "3:2",
+    "7": "4:0",
+    "8": "4:1",
+    "9": "4:2",
+    "10": "4:3",
+    "11": "5:0",
     "12": "0:0",
     "13": "1:1",
     "14": "2:2",
     "15": "3:3",
+    "16": "4:4",
     "17": "0:1",
     "18": "0:2",
     "19": "1:2",
     "20": "0:3",
     "21": "1:3",
-    "22": "2:3"
+    "22": "2:3",
+    "23": "0:4",
+    "24": "1:4",
+    "25": "2:4",
+    "26": "3:4",
+    "27": "0:5"
   },
   "SecondHalfTeamOneWillScore": {
     "name": "2.HZ Team 1 trifft",
@@ -1468,28 +1567,37 @@
     "FirstHalf<SecondHalf": "2.HZ"
   },
   "1stGoal": {
-    "name": "Wer schießt das 1. Tor?",
-    "order": 99,
+    "name": "Wer schie?t das 1. Tor?",
+    "order": 80,
     "market_types": {},
     "bases": {},
     "1stGoalFirstTeam": "1",
     "NoGoals": "Kein Tor",
     "1stGoalSecondTeam": "2"
   },
-  "Wann fällt das 1. Tor?": {
-    "name": "Wann fällt das 1. Tor?",
+  "Letztes Tor": {
+    "name": "Wer schie?t das letzte Tor?",
+    "order": 81,
+    "market_types": {},
+    "bases": {},
+    "1TScoresLastGoal": "1",
+    "NoGoals": "Keiner",
+    "2TScoresLastGoal": "2"
+  },
+  "Wann fallt das 1. Tor?": {
+    "name": "Wann fallt das 1. Tor?",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "1. Tor fällt in der Minute 1-10": "1.-10. Minute",
-    "1. Tor fällt in der Minute 11-20": "11.-20. Minute",
-    "1. Tor fällt in der Minute 21-30": "21.-30. Minute",
-    "1. Tor fällt in der Minute 31-40": "31.-40. Minute",
-    "1. Tor fällt in der Minute 41-50": "41.-50. Minute",
-    "1. Tor fällt in der Minute 51-60": "51.-60. Minute",
-    "1. Tor fällt in der Minute 61-70": "61.-70. Minute",
-    "1. Tor fällt in der Minute 71-80": "71.-80. Minute",
-    "1. Tor fällt in der Minute 81-90": "81.-90. Minute",
+    "1. Tor fallt in der Minute 1-10": "1.-10. Minute",
+    "1. Tor fallt in der Minute 11-20": "11.-20. Minute",
+    "1. Tor fallt in der Minute 21-30": "21.-30. Minute",
+    "1. Tor fallt in der Minute 31-40": "31.-40. Minute",
+    "1. Tor fallt in der Minute 41-50": "41.-50. Minute",
+    "1. Tor fallt in der Minute 51-60": "51.-60. Minute",
+    "1. Tor fallt in der Minute 61-70": "61.-70. Minute",
+    "1. Tor fallt in der Minute 71-80": "71.-80. Minute",
+    "1. Tor fallt in der Minute 81-90": "81.-90. Minute",
     "1. Tor - Kein 1. Tor": "Nie"
   },
   "Even/OddTotal": {
@@ -1501,7 +1609,7 @@
     "Even/OddTotalOdd": "Ungerade"
   },
   "CornersResult": {
-    "name": "Mehr Eckbälle",
+    "name": "Mehr Eckballe",
     "order": 10,
     "market_types": {},
     "bases": {},
@@ -1509,8 +1617,8 @@
     "2": "Gleich viele",
     "3": "2"
   },
-  "Eckbälle gesamt": {
-    "name": "Eckbälle Über/Unter",
+  "Eckballe gesamt": {
+    "name": "Eckballe Uber/Unter",
     "order": 11,
     "market_types": {},
     "bases": {
@@ -1525,33 +1633,33 @@
       "9.5": "05",
       "10": "10"
     },
-    "CornersMore": "Über",
+    "CornersMore": "Uber",
     "CornersLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "CornersOfFirstTeam": {
-    "name": "Team 1 Eckbälle Über/Unter 6.5",
+    "name": "Team 1 Eckballe Uber/Unter 6.5",
     "order": 13,
     "market_types": {},
     "bases": {},
-    "CornersOfFirstTeamMore": "Über",
+    "CornersOfFirstTeamMore": "Uber",
     "CornersOfFirstTeamLess": "Unter"
   },
   "CornersOfSecondTeam": {
-    "name": "Team 2 Eckbälle Über/Unter 6.5",
+    "name": "Team 2 Eckballe Uber/Unter 6.5",
     "order": 14,
     "market_types": {},
     "bases": {},
-    "CornersOfSecondTeamMore": "Über",
+    "CornersOfSecondTeamMore": "Uber",
     "CornersOfSecondTeamLess": "Unter"
   },
   "NumberOfCornersInSecondHalf": {
-    "name": "2.HZ Eckbälle Über/Unter 5.5",
+    "name": "2.HZ Eckballe Uber/Unter 5.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "NumberOfCornersInSecondHalfMore": "Über",
+    "NumberOfCornersInSecondHalfMore": "Uber",
     "NumberOfCornersInSecondHalfLess": "Unter"
   },
   "1.-15. Minute - Sieger": {
@@ -1591,11 +1699,11 @@
     "1-15 Min-W2": "2"
   },
   "1.-15. Minute - Gesamt 1": {
-    "name": "1.-15. Minute Über/Unter",
+    "name": "1.-15. Minute Uber/Unter",
     "order": 21,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1.-30. Minute - Sieger": {
@@ -1611,11 +1719,11 @@
     "1.-30. Minute - S2": "2"
   },
   "1.-30. Minute - Gesamt": {
-    "name": "1.-30. Minute Über/Unter",
+    "name": "1.-30. Minute Uber/Unter",
     "order": 21,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1.-60. Minute - Sieger": {
@@ -1631,11 +1739,11 @@
     "1.-60. Minute - S2": "2"
   },
   "1.-60. Minute - Gesamt": {
-    "name": "1.-60. Minute Über/Unter",
+    "name": "1.-60. Minute Uber/Unter",
     "order": 25,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1.-75. Minute - Sieger": {
@@ -1651,16 +1759,16 @@
     "1.-75. Minute - S2": "2"
   },
   "1.-75. Minute - Gesamt": {
-    "name": "1.-75. Minute Über/Unter",
+    "name": "1.-75. Minute Uber/Unter",
     "order": 27,
     "market_types": {},
     "bases": {
       "2": "01",
       "2.5": "02"
     },
-    "1.-75. Minute - Gesamt Über": "Über",
+    "1.-75. Minute - Gesamt Uber": "Uber",
     "1.-75. Minute - Gesamt Unter": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "PenaltyAwarded": {
@@ -1683,7 +1791,15 @@
     "1": "Ja",
     "2": "Nein"
   },
-  "1. Hälfte Ergebnis und beide Teams treffen": {
+  "OwnGoalWillBeScored": {
+    "name": "Eigentor",
+    "order": 25,
+    "1": "Ja",
+    "2": "Nein",
+    "Eigentor: Ja": "Ja",
+    "Eigentor: Nein": "Nein"
+  },
+  "1. Halfte Ergebnis und beide Teams treffen": {
     "name": "1.HZ Ergebnis und beide treffen",
     "order": 99,
     "market_types": {},
@@ -1751,7 +1867,7 @@
     "Handicap2": "2"
   },
   "YellowCards": {
-    "name": "Gelbe Karten Über/Unter",
+    "name": "Gelbe Karten Uber/Unter",
     "order": 11,
     "market_types": {},
     "bases": {
@@ -1773,13 +1889,13 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "YellowCardsMore": "Über",
+    "YellowCardsMore": "Uber",
     "YellowCardsLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "YellowCardsOfFirstTeam": {
-    "name": "Team 1 Gelbe Karten Über/Unter",
+    "name": "Team 1 Gelbe Karten Uber/Unter",
     "order": 13,
     "market_types": {},
     "bases": {
@@ -1801,13 +1917,13 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "YellowCardsOfFirstTeamMore": "Über",
+    "YellowCardsOfFirstTeamMore": "Uber",
     "YellowCardsOfFirstTeamLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "YellowCardsOfSecondTeam": {
-    "name": "Team 2 Gelbe Karten Über/Unter",
+    "name": "Team 2 Gelbe Karten Uber/Unter",
     "order": 14,
     "market_types": {},
     "bases": {
@@ -1829,13 +1945,13 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "YellowCardsOfSecondTeamMore": "Über",
+    "YellowCardsOfSecondTeamMore": "Uber",
     "YellowCardsOfSecondTeamLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "NumberOfYellowCardsInSecondHalf": {
-    "name": "2.HZ Gelbe Karten Über/Unter",
+    "name": "2.HZ Gelbe Karten Uber/Unter",
     "order": 18,
     "market_types": {},
     "bases": {
@@ -1857,9 +1973,9 @@
       "7.5": "15",
       "8.5": "17"
     },
-    "NumberOfYellowCardsInSecondHalfMore": "Über",
+    "NumberOfYellowCardsInSecondHalfMore": "Uber",
     "NumberOfYellowCardsInSecondHalfLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1stHalfYellowCards": {
@@ -1974,11 +2090,19 @@
   },
   "RedCard": {
     "name": "Rote Karte",
-    "order": 20,
+    "order": 23,
     "market_types": {},
     "bases": {},
     "1": "Ja",
     "2": "Nein"
+  },
+  "PenaltyAndRedCard": {
+    "name": "Elfmeter und rote Karte",
+    "order": 24,
+    "market_types": {},
+    "bases": {},
+    "Elfmeter und Rote Karte: Ja": "Ja",
+    "Elfmeter und Rote Karte: Nein": "Nein"
   },
   "Chance Mix": {
     "name": "Mehrfachwetten",
@@ -1986,15 +2110,15 @@
     "market_types": {},
     "bases": {},
     "Team 1 oder oder 1,5 Unter": "1 oder Unter 1.5",
-    "Chance Mix - Team 1 win or over 1.5 goals": "1 oder Über 1.5",
-    "Chance Mix - Team 1 gewinnt oder über 1,5 Tore": "1 oder Über 1.5",
+    "Chance Mix - Team 1 win or over 1.5 goals": "1 oder Uber 1.5",
+    "Chance Mix - Team 1 gewinnt oder uber 1,5 Tore": "1 oder Uber 1.5",
     "Chance Mix - Team 1 gewinnt oder unter 2,5 Tore": "1 oder Unter 2.5",
-    "Chance Mix - Team 1 win or over 2.5 goals": "1 oder Über 2.5",
-    "Chance Mix - Team 1 gewinnt oder über 2,5 Tore": "1 oder Über 2.5",
+    "Chance Mix - Team 1 win or over 2.5 goals": "1 oder Uber 2.5",
+    "Chance Mix - Team 1 gewinnt oder uber 2,5 Tore": "1 oder Uber 2.5",
     "Chance Mix - Team 1 win or under 3.5 goals": "1 oder Unter 3.5",
     "Chance Mix - Team 1 gewinnt oder unter 3,5 Tore": "1 oder Unter 3.5",
-    "Chance Mix - Team 1 win or over 3.5 goals": "1 oder Über 3.5",
-    "Chance Mix - Team 1 gewinnt oder über 3,5 Tore": "1 oder Über 3.5",
+    "Chance Mix - Team 1 win or over 3.5 goals": "1 oder Uber 3.5",
+    "Chance Mix - Team 1 gewinnt oder uber 3,5 Tore": "1 oder Uber 3.5",
     "Team 1 oder beide treffen": "1 oder beide treffen",
     "Chance Mix - Team 1 gewinnt oder beide Teams treffen": "1 oder beide treffen",
     "Team 1 oder kein Tor": "1 oder torlos",
@@ -2003,30 +2127,30 @@
     "Chance Mix - Team 1 gewinnt oder richtiges Ergebnis 0-0": "1 oder Resultat 0:0",
     "Team 1 oder Ergebnis 0-0": "1 oder Resultat 0:0",
     "Team 1 oder Ergebnis 0-0,0-1": "1/Resultat 0:0 oder 0:1",
-    "Chance Mix - Draw or over 1.5 goals": "X oder Über 1.5",
-    "Chance Mix - Unentschieden oder über 1,5 Tore": "X oder 1.5 Über",
+    "Chance Mix - Draw or over 1.5 goals": "X oder Uber 1.5",
+    "Chance Mix - Unentschieden oder uber 1,5 Tore": "X oder 1.5 Uber",
     "Chance Mix - Draw or under 2.5 goals": "X oder Unter 2.5",
     "Chance Mix - Unentschieden oder unter 2,5 Tore": "X oder Unter 2.5",
-    "X oder 2,5 Über": "X oder Über 2.5",
-    "Chance Mix - Unentschieden oder über 2,5 Tore": "X oder Über 2.5",
+    "X oder 2,5 Uber": "X oder Uber 2.5",
+    "Chance Mix - Unentschieden oder uber 2,5 Tore": "X oder Uber 2.5",
     "Chance Mix - Draw or under 3.5 goals": "X oder Unter 3.5",
     "Chance Mix - Unentschieden oder unter 3,5 Tore": "X oder Unter 3.5",
-    "Chance Mix - Draw or over 3.5 goals": "X oder Über 3.5",
-    "Chance Mix - Unentschieden oder über 3,5 Tore": "X oder Über 3.5",
+    "Chance Mix - Draw or over 3.5 goals": "X oder Uber 3.5",
+    "Chance Mix - Unentschieden oder uber 3,5 Tore": "X oder Uber 3.5",
     "X oder kein Tor": "X oder torlos",
     "Chance Mix - Unentschieden oder kein Team trifft": "X oder torlos",
     "X oder beide Tor": "X oder beide treffen",
     "Chance Mix - Unentschieden oder beide Teams treffen": "X oder beide treffen",
-    "Chance Mix - Team 2 win or over 1.5 goals": "2 oder Über 1.5",
-    "Chance Mix - Team 2 gewinnt oder über 1,5 Tore": "2 oder Über 1.5",
+    "Chance Mix - Team 2 win or over 1.5 goals": "2 oder Uber 1.5",
+    "Chance Mix - Team 2 gewinnt oder uber 1,5 Tore": "2 oder Uber 1.5",
     "Chance Mix - Team 2 win or under 2.5 goals": "2 oder Unter 2.5",
     "Chance Mix - Team 2 gewinnt oder unter 2,5 Tore": "2 oder Unter 2.5",
-    "Team 2 oder 2,5 Über": "2 oder Über 2.5",
-    "Chance Mix - Team 2 gewinnt oder über 2,5 Tore": "2 oder Über 2.5",
-    "Chance Mix - Team 2 gewinnt oder über 3,5 Tore": "2 oder Über 3.5",
+    "Team 2 oder 2,5 Uber": "2 oder Uber 2.5",
+    "Chance Mix - Team 2 gewinnt oder uber 2,5 Tore": "2 oder Uber 2.5",
+    "Chance Mix - Team 2 gewinnt oder uber 3,5 Tore": "2 oder Uber 3.5",
     "Team 2 oder 3,5 Unter": "2 oder Unter 3.5",
     "Chance Mix - Team 2 gewinnt oder unter 3,5 Tore": "2 oder Unter 3.5",
-    "Team 2 oder 3,5 Über": "2 oder Über 3.5",
+    "Team 2 oder 3,5 Uber": "2 oder Uber 3.5",
     "Team 2 oder kein Tor": "2 oder torlos",
     "Chance Mix - Team 2 gewinnt oder kein Team trifft": "2 oder torlos",
     "Team 2 oder beide Tor": "2 oder beide treffen",
@@ -2037,10 +2161,10 @@
     "Chance Mix - Team 2 gewinnt oder richtiges Ergebnis 0-0 , 1-0": "2 oder Resultat 0:0 oder 1:0",
     "Chance Mix - Both teams to score yes or under 2.5 goals": "Beide treffen oder Unter 2.5",
     "Chance Mix - Beide Teams treffen oder unter 2,5 Tore": "Beide treffen oder Unter 2.5",
-    "Chance Mix - Both teams to score no or over 2.5 goals": "Beide treffen oder Über 2.5",
-    "Chance Mix - Both teams to score yes or over 2.5 goals": "Beide treffen oder Über 2.5",
-    "Chance Mix - Beide Teams treffen oder über 2,5 Tore": "Beide treffen oder Über 2.5",
-    "Chance Mix - Kein Team trifft oder über 2,5 Tore": "Torlos oder Über 2.5",
+    "Chance Mix - Both teams to score no or over 2.5 goals": "Beide treffen oder Uber 2.5",
+    "Chance Mix - Both teams to score yes or over 2.5 goals": "Beide treffen oder Uber 2.5",
+    "Chance Mix - Beide Teams treffen oder uber 2,5 Tore": "Beide treffen oder Uber 2.5",
+    "Chance Mix - Kein Team trifft oder uber 2,5 Tore": "Torlos oder Uber 2.5",
     "Beide Tor oder maximal 1 Tor": "Beide treffen oder maximal 1 Tor",
     "Chance Mix - Beide Teams treffen oder maximal 1 Tor": "Beide treffen oder maximal 1 Tor",
     "Chance Mix - Both teams to score no or correct score 1-1": "Beide treffen oder Resultat 1:1",
@@ -2049,116 +2173,148 @@
     "Chance Mix - Richtiges Ergebnis : 0-0 , 1-0 , 0-1": "Resultat 0:0, 1:0 oder 0:1"
   },
   "Both to score and Total": {
-    "name": "Beide treffen und Über/Unter",
+    "name": "Beide treffen und Uber/Unter",
     "order": 2,
     "market_types": {},
     "bases": {
       "2.5": "01",
       "3.5": "02"
     },
-    "Both to score: Yes and total over": "Ja und Über",
+    "Both to score: Yes and total over": "Ja und Uber",
     "Both to score: Yes and total under": "Ja und Unter",
-    "Both to score: No and total over": "Nein und Über",
+    "Both to score: No and total over": "Nein und Uber",
     "Both to score: No and total under": "Nein und Unter"
   },
   "Asian Handicap 0": {
-    "name": "Asian Handicap 0",
+    "name": "Asian Handicap",
     "order": 1,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap 1": {
-    "name": "Asian Handicap 1",
+  "Asian Handicap 0.5": {
+    "name": "Asian Handicap",
     "order": 2,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap 1.5": {
-    "name": "Asian Handicap 1.5",
+  "Asian Handicap 1": {
+    "name": "Asian Handicap",
     "order": 3,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap 2": {
-    "name": "Asian Handicap 2",
+  "Asian Handicap 1.5": {
+    "name": "Asian Handicap",
     "order": 4,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap 2.5": {
-    "name": "Asian Handicap 2.5",
+  "Asian Handicap 2": {
+    "name": "Asian Handicap",
     "order": 5,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap 3.5": {
-    "name": "Asian Handicap 3.5",
+  "Asian Handicap 2.5": {
+    "name": "Asian Handicap",
     "order": 6,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap 4.5": {
-    "name": "Asian Handicap 4.5",
+  "Asian Handicap 3": {
+    "name": "Asian Handicap",
     "order": 7,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap -1": {
-    "name": "Asian Handicap -1",
+  "Asian Handicap 3.5": {
+    "name": "Asian Handicap",
+    "order": 8,
+    "market_types": {},
+    "bases": {},
+    "Handicap1": "1",
+    "Handicap2": "2"
+  },
+  "Asian Handicap 4": {
+    "name": "Asian Handicap",
     "order": 9,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap -1.5": {
-    "name": "Asian Handicap -1.5",
+  "Asian Handicap 4.5": {
+    "name": "Asian Handicap",
     "order": 10,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap -2": {
-    "name": "Asian Handicap -2",
+  "Asian Handicap -0.5": {
+    "name": "Asian Handicap",
     "order": 11,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap -2.5": {
-    "name": "Asian Handicap -2.5",
+  "Asian Handicap -1": {
+    "name": "Asian Handicap",
     "order": 12,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap -3": {
-    "name": "Asian Handicap -3",
+  "Asian Handicap -1.5": {
+    "name": "Asian Handicap",
     "order": 13,
     "market_types": {},
     "bases": {},
     "Handicap1": "1",
     "Handicap2": "2"
   },
+  "Asian Handicap -2": {
+    "name": "Asian Handicap",
+    "order": 14,
+    "market_types": {},
+    "bases": {},
+    "Handicap1": "1",
+    "Handicap2": "2"
+  },
+  "Asian Handicap -2.5": {
+    "name": "Asian Handicap",
+    "order": 15,
+    "market_types": {},
+    "bases": {},
+    "Handicap1": "1",
+    "Handicap2": "2"
+  },
+  "Asian Handicap -3": {
+    "name": "Asian Handicap",
+    "order": 16,
+    "market_types": {},
+    "bases": {},
+    "Handicap1": "1",
+    "Handicap2": "2"
+  },
   "Asian Handicap -3.5": {
-    "name": "Asian Handicap -3.5",
+    "name": "Asian Handicap",
     "order": 14,
     "market_types": {},
     "bases": {},
@@ -2214,7 +2370,7 @@
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Asian Handicap 1. Hälfte": {
+  "Asian Handicap 1. Halfte": {
     "name": "1.HZ Asian Handicap",
     "order": 19,
     "market_types": {},
@@ -2226,7 +2382,7 @@
     "FirstHalfHandicap1": "1",
     "FirstHalfHandicap2": "2"
   },
-  "Asian Handicap 2.Hälfte": {
+  "Asian Handicap 2.Halfte": {
     "name": "2.HZ Asian Handicap",
     "order": 20,
     "market_types": {},
@@ -2277,7 +2433,7 @@
     "Handicap2": "2"
   },
   "Asian Handicap Anzahl Tore": {
-    "name": "Asian Handicap Über/Unter",
+    "name": "Asian Handicap Uber/Unter",
     "order": 21,
     "market_types": {},
     "bases": {
@@ -2293,7 +2449,7 @@
       "4.75": "60",
       "5.75": "61"
     },
-    "TotalAsianMore": "Über",
+    "TotalAsianMore": "Uber",
     "TotalAsianLess": "Unter"
   },
   "1.-15. Minute - Asian Handicap 0": {
@@ -2339,11 +2495,42 @@
     "Handicap2": "2"
   },
   "1.-75. Minute - Gesamt 3": {
-    "name": "1.-75. Minute Über/Unter 3",
+    "name": "1.-75. Minute Uber/Unter 3",
     "order": 67,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "ShotsOnGoalHandicap": {
+    "name": "Schusse aufs Tor Asian Handicap",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "Handicap1": "1",
+    "Handicap2": "2"
+  },
+  "Shots on Goal Over/Under": {
+    "name": "Schusse aufs Tor Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {
+      "10.5": "62",
+      "12.5": "63"
+    },
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "PercentageOfBallPossessionOfFirstTeam": {
+    "name": "Prozent Ballbesitz Team 1 Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {
+      "40.5": "01",
+      "42.5": "03",
+      "45.5": "05"
+    },
+    "More": "Uber",
     "Less": "Unter"
   },
   "Ergebnis (ohne Team 1)": {
@@ -2371,7 +2558,7 @@
     "2": "Ungerade"
   },
   "1stHalfCorners": {
-    "name": "1.HZ Mehr Eckbälle",
+    "name": "1.HZ Mehr Eckballe",
     "order": 90,
     "market_types": {},
     "bases": {},
@@ -2380,7 +2567,7 @@
     "1stHalfCornersP2": "2"
   },
   "FirstHalfCornersHandicap": {
-    "name": "1.HZ Eckbälle Asian Handicap -1.5",
+    "name": "1.HZ Eckballe Asian Handicap -1.5",
     "order": 92,
     "market_types": {},
     "bases": {},
@@ -2388,7 +2575,7 @@
     "Handicap2": "2"
   },
   "2ndHalfCorners": {
-    "name": "2.HZ Mehr Eckbälle",
+    "name": "2.HZ Mehr Eckballe",
     "order": 91,
     "market_types": {},
     "bases": {},
@@ -2397,7 +2584,7 @@
     "2ndHalfCornersP2": "2"
   },
   "SecondHalfCornersHandicap": {
-    "name": "2.HZ Eckbälle Asian Handicap -1.5",
+    "name": "2.HZ Eckballe Asian Handicap -1.5",
     "order": 93,
     "market_types": {},
     "bases": {},
@@ -2452,6 +2639,14 @@
     "WinnerP1": "1",
     "WinnerP2": "2"
   },
+  "Qualify": {
+    "name": "Kommt weiter",
+    "order": 25,
+    "market_types": {},
+    "bases": {},
+    "Qualify: Team 1": "1",
+    "Qualify: Team 2": "2"
+  },
   "Beide Teams werden treffen: Ja/Nein": {
     "name": "Beide treffen (BTT)",
     "order": 1,
@@ -2478,6 +2673,16 @@
     "1": "Ja",
     "2": "Nein"
   },
+  "Team 1: gewinnt in allen Dritteln: Ja/Nein": {
+    "name": "Team 1 gewinnt in allen Dritteln",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "1": "Ja",
+    "2": "Nein",
+    "Team 1: gewinnt in allen Dritteln: Ja": "Ja",
+    "Team 1: gewinnt in allen Dritteln: Nein": "Nein"
+  },
   "Team 2: gewinnt in allen Dritteln: Ja/Nein": {
     "name": "Team 2 gewinnt in allen Dritteln",
     "order": 99,
@@ -2496,46 +2701,90 @@
   },
   "Team 2: Verliert kein Drittel: Ja/Nein": {
     "name": "Team 2 verliert kein Drittel",
-    "order": 1,
+    "order": 99,
     "market_types": {},
     "bases": {},
     "1": "Ja",
     "2": "Nein"
   },
-  "Outcome And Total 3.5": {
-    "name": "Ergebnis und Über/Unter 3.5",
+  "Team 1: To win from behind": {
+    "name": "Team 1 liegt zuruck, aber gewinnt das Spiel",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "1": "Ja",
+    "2": "Nein",
+    "Team 1: To win from behind: Yes": "Ja",
+    "Team 1: To win from behind: No": "Nein"
+  },
+  "Team 2: To win from behind": {
+    "name": "Team 2 liegt zuruck, aber gewinnt das Spiel",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "1": "Ja",
+    "2": "Nein",
+    "Team 2: To win from behind: Yes": "Ja",
+    "Team 2: To win from behind: No": "Nein"
+  },
+  "Outcome And Total 1.5": {
+    "name": "Ergebnis und Uber/Unter 1.5",
     "order": 30,
     "market_types": {},
     "bases": {},
-    "1": "1 und Über",
+    "1": "1 und Uber",
     "2": "1 und Unter",
-    "3": "X und Über",
+    "3": "X und Uber",
     "4": "X und Unter",
-    "5": "2 und Über",
+    "5": "2 und Uber",
     "6": "2 und Unter"
   },
-  "Outcome And Total 4.5": {
-    "name": "Ergebnis und Über/Unter 4.5",
+  "Outcome And Total 2.5": {
+    "name": "Ergebnis und Uber/Unter 2.5",
     "order": 31,
     "market_types": {},
     "bases": {},
-    "1": "1 und Über",
+    "1": "1 und Uber",
     "2": "1 und Unter",
-    "3": "X und Über",
+    "3": "X und Uber",
     "4": "X und Unter",
-    "5": "2 und Über",
+    "5": "2 und Uber",
     "6": "2 und Unter"
   },
-  "Outcome And Total 5.5": {
-    "name": "Ergebnis und Über/Unter 5.5",
+  "Outcome And Total 3.5": {
+    "name": "Ergebnis und Uber/Unter 3.5",
     "order": 32,
     "market_types": {},
     "bases": {},
-    "1": "1 und Über",
+    "1": "1 und Uber",
     "2": "1 und Unter",
-    "3": "X und Über",
+    "3": "X und Uber",
     "4": "X und Unter",
-    "5": "2 und Über",
+    "5": "2 und Uber",
+    "6": "2 und Unter"
+  },
+  "Outcome And Total 4.5": {
+    "name": "Ergebnis und Uber/Unter 4.5",
+    "order": 33,
+    "market_types": {},
+    "bases": {},
+    "1": "1 und Uber",
+    "2": "1 und Unter",
+    "3": "X und Uber",
+    "4": "X und Unter",
+    "5": "2 und Uber",
+    "6": "2 und Unter"
+  },
+  "Outcome And Total 5.5": {
+    "name": "Ergebnis und Uber/Unter 5.5",
+    "order": 34,
+    "market_types": {},
+    "bases": {},
+    "1": "1 und Uber",
+    "2": "1 und Unter",
+    "3": "X und Uber",
+    "4": "X und Unter",
+    "5": "2 und Uber",
     "6": "2 und Unter"
   },
   "FirstPeriodHandicap": {
@@ -2544,42 +2793,44 @@
     "market_types": {},
     "bases": {
       "0": "01",
-      "1": "02",
-      "-1": "03",
-      "-1.5": "04",
-      "-2": "05",
-      "-2.5": "06",
-      "-3": "07",
-      "-3.5": "08",
-      "-4": "09",
-      "-4.5": "10",
-      "-5": "11",
-      "-5.5": "12",
-      "-6": "13",
-      "0.25": "14",
-      "0.75": "15",
-      "1.25": "16",
-      "1.75": "17",
-      "2.25": "18",
-      "2.75": "19",
-      "3.25": "20",
-      "3.75": "21",
-      "4.25": "22",
-      "4.75": "23",
-      "5.25": "24",
-      "5.75": "25",
-      "-0.25": "26",
-      "-0.75": "27",
-      "-1.25": "28",
-      "-1.75": "29",
-      "-2.25": "30",
-      "-2.75": "31",
-      "-3.25": "32",
-      "-3.75": "33",
-      "-4.25": "34",
-      "-4.75": "35",
-      "-5.25": "36",
-      "-5.75": "37"
+      "0.5": "02",
+      "1": "03",
+      "-0.5": "04",
+      "-1": "05",
+      "-1.5": "06",
+      "-2": "07",
+      "-2.5": "08",
+      "-3": "09",
+      "-3.5": "10",
+      "-4": "11",
+      "-4.5": "12",
+      "-5": "13",
+      "-5.5": "14",
+      "-6": "15",
+      "0.25": "16",
+      "0.75": "17",
+      "1.25": "18",
+      "1.75": "19",
+      "2.25": "20",
+      "2.75": "21",
+      "3.25": "22",
+      "3.75": "23",
+      "4.25": "24",
+      "4.75": "25",
+      "5.25": "26",
+      "5.75": "27",
+      "-0.25": "28",
+      "-0.75": "29",
+      "-1.25": "30",
+      "-1.75": "31",
+      "-2.25": "32",
+      "-2.75": "33",
+      "-3.25": "34",
+      "-3.75": "35",
+      "-4.25": "36",
+      "-4.75": "37",
+      "-5.25": "38",
+      "-5.75": "39"
     },
     "FirstPeriodHandicap1": "1",
     "FirstPeriodHandicap2": "2"
@@ -2590,42 +2841,44 @@
     "market_types": {},
     "bases": {
       "0": "01",
-      "1": "02",
-      "-1": "03",
-      "-1.5": "04",
-      "-2": "05",
-      "-2.5": "06",
-      "-3": "07",
-      "-3.5": "08",
-      "-4": "09",
-      "-4.5": "10",
-      "-5": "11",
-      "-5.5": "12",
-      "-6": "13",
-      "0.25": "14",
-      "0.75": "15",
-      "1.25": "16",
-      "1.75": "17",
-      "2.25": "18",
-      "2.75": "19",
-      "3.25": "20",
-      "3.75": "21",
-      "4.25": "22",
-      "4.75": "23",
-      "5.25": "24",
-      "5.75": "25",
-      "-0.25": "26",
-      "-0.75": "27",
-      "-1.25": "28",
-      "-1.75": "29",
-      "-2.25": "30",
-      "-2.75": "31",
-      "-3.25": "32",
-      "-3.75": "33",
-      "-4.25": "34",
-      "-4.75": "35",
-      "-5.25": "36",
-      "-5.75": "37"
+      "0.5": "02",
+      "1": "03",
+      "-0.5": "04",
+      "-1": "05",
+      "-1.5": "06",
+      "-2": "07",
+      "-2.5": "08",
+      "-3": "09",
+      "-3.5": "10",
+      "-4": "11",
+      "-4.5": "12",
+      "-5": "13",
+      "-5.5": "14",
+      "-6": "15",
+      "0.25": "16",
+      "0.75": "17",
+      "1.25": "18",
+      "1.75": "19",
+      "2.25": "20",
+      "2.75": "21",
+      "3.25": "22",
+      "3.75": "23",
+      "4.25": "24",
+      "4.75": "25",
+      "5.25": "26",
+      "5.75": "27",
+      "-0.25": "28",
+      "-0.75": "29",
+      "-1.25": "30",
+      "-1.75": "31",
+      "-2.25": "32",
+      "-2.75": "33",
+      "-3.25": "34",
+      "-3.75": "35",
+      "-4.25": "36",
+      "-4.75": "37",
+      "-5.25": "38",
+      "-5.75": "39"
     },
     "SecondPeriodHandicap1": "1",
     "SecondPeriodHandicap2": "2"
@@ -2636,72 +2889,554 @@
     "market_types": {},
     "bases": {
       "0": "01",
-      "1": "02",
-      "-1": "03",
-      "-1.5": "04",
-      "-2": "05",
-      "-2.5": "06",
-      "-3": "07",
-      "-3.5": "08",
-      "-4": "09",
-      "-4.5": "10",
-      "-5": "11",
-      "-5.5": "12",
-      "-6": "13",
-      "0.25": "14",
-      "0.75": "15",
-      "1.25": "16",
-      "1.75": "17",
-      "2.25": "18",
-      "2.75": "19",
-      "3.25": "20",
-      "3.75": "21",
-      "4.25": "22",
-      "4.75": "23",
-      "5.25": "24",
-      "5.75": "25",
-      "-0.25": "26",
-      "-0.75": "27",
-      "-1.25": "28",
-      "-1.75": "29",
-      "-2.25": "30",
-      "-2.75": "31",
-      "-3.25": "32",
-      "-3.75": "33",
-      "-4.25": "34",
-      "-4.75": "35",
-      "-5.25": "36",
-      "-5.75": "37"
+      "0.5": "02",
+      "1": "03",
+      "-0.5": "04",
+      "-1": "05",
+      "-1.5": "06",
+      "-2": "07",
+      "-2.5": "08",
+      "-3": "09",
+      "-3.5": "10",
+      "-4": "11",
+      "-4.5": "12",
+      "-5": "13",
+      "-5.5": "14",
+      "-6": "15",
+      "0.25": "16",
+      "0.75": "17",
+      "1.25": "18",
+      "1.75": "19",
+      "2.25": "20",
+      "2.75": "21",
+      "3.25": "22",
+      "3.75": "23",
+      "4.25": "24",
+      "4.75": "25",
+      "5.25": "26",
+      "5.75": "27",
+      "-0.25": "28",
+      "-0.75": "29",
+      "-1.25": "30",
+      "-1.75": "31",
+      "-2.25": "32",
+      "-2.75": "33",
+      "-3.25": "34",
+      "-3.75": "35",
+      "-4.25": "36",
+      "-4.75": "37",
+      "-5.25": "38",
+      "-5.75": "39"
     },
     "ThirdPeriodHandicap1": "1",
     "ThirdPeriodHandicap2": "2"
   },
-  "Gesamtergebnis Über/Unter": {
-    "name": "Über/Unter",
+  "Penalty time (only two minute): Asian Handicap": {
+    "name": "2-Minuten-Strafen gesamt Asian Handicap",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total penalty time": {
+    "name": "Strafminuten im Bewerb Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Minimum total penalty time in the match": {
+    "name": "Minimum Strafminuten in einem Match Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Maximum total penalty time in the match": {
+    "name": "Maximum Strafminuten in einem Match Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total goals scored": {
+    "name": "Tore im Bewerb Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total goals scored during powerplay": {
+    "name": "Powerplaytore im Bewerb Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total short-handed goals scored": {
+    "name": "Shorthander im Bewerb Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total goals in the highest scoring match": {
+    "name": "Tore im Match mit den meisten Toren Uber/Unter",
+    "order": 80,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total goals in the lowest scoring match": {
+    "name": "Tore im Match mit den wenigsten Toren Uber/Unter",
+    "order": 81,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total doubles": {
+    "name": "Doppelpacks im Bewerb Uber/Unter",
+    "order": 70,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total hattricks": {
+    "name": "Hattricks im Bewerb Uber/Unter",
+    "order": 71,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total empty net goals": {
+    "name": "Empty Net-Tore im Bewerb Uber/Unter",
+    "order": 72,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total shots": {
+    "name": "Schusse im Bewerb Uber/Unter",
+    "order": 69,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total matches with break of post-match shootouts": {
+    "name": "Matches mit Entscheidung ab dem 4. Penaltyschutzen Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total matches with OT": {
+    "name": "Matches mit Overtime im Bewerb Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Total victories with difference of 3 and more pucks": {
+    "name": "Siege mit Tordifferenz 3+ im Bewerb Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Russia Group A total points": {
+    "name": "Ru?land Punkte in Gruppe A Uber/Unter",
+    "order": 60,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Russia Group A total goals for": {
+    "name": "Ru?land Tore in Gruppe A Uber/Unter",
+    "order": 61,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Russia Group A total goals against": {
+    "name": "Ru?land Gegentore in Gruppe A Uber/Unter",
+    "order": 62,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Russia Group A total shots": {
+    "name": "Ru?land Torschusse in Gruppe A Uber/Unter",
+    "order": 63,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Sweden Group A total points": {
+    "name": "Schweden Punkte in Gruppe A Uber/Unter",
+    "order": 64,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Sweden Group A total goals for": {
+    "name": "Schweden Tore in Gruppe A Uber/Unter",
+    "order": 65,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Sweden Group A total goals against": {
+    "name": "Schweden Gegentore in Gruppe A Uber/Unter",
+    "order": 66,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Sweden Group A total shots": {
+    "name": "Schweden Torschusse in Gruppe A Uber/Unter",
+    "order": 67,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "USA Group A total points": {
+    "name": "USA Punkte in Gruppe A Uber/Unter",
+    "order": 68,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "USA Group A total goals for": {
+    "name": "USA Tore in Gruppe A Uber/Unter",
+    "order": 69,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "USA Group A total goals against": {
+    "name": "USA Gegentore in Gruppe A Uber/Unter",
+    "order": 70,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "USA Group A total shots": {
+    "name": "USA Torschusse in Gruppe A Uber/Unter",
+    "order": 71,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Latvia Group A total points": {
+    "name": "Lettland Punkte in Gruppe A Uber/Unter",
+    "order": 72,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Latvia Group A total goals for": {
+    "name": "Lettland Tore in Gruppe A Uber/Unter",
+    "order": 73,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Latvia Group A total goals against": {
+    "name": "Lettland Gegentore in Gruppe A Uber/Unter",
+    "order": 74,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Latvia Group A total shots": {
+    "name": "Lettland Torschusse in Gruppe A Uber/Unter",
+    "order": 75,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Canada Group B total points": {
+    "name": "Kanada Punkte in Gruppe B Uber/Unter",
+    "order": 76,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Canada Group B total goals for": {
+    "name": "Kanada Tore in Gruppe B Uber/Unter",
+    "order": 77,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Canada Group B total goals against": {
+    "name": "Kanada Gegentore in Gruppe B Uber/Unter",
+    "order": 78,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Canada Group B total shots": {
+    "name": "Kanada Torschusse in Gruppe B Uber/Unter",
+    "order": 79,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Czech Republic Group B total points": {
+    "name": "Tschechien Punkte in Gruppe B Uber/Unter",
+    "order": 80,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Czech Republic Group B total goals for": {
+    "name": "Tschechien Tore in Gruppe B Uber/Unter",
+    "order": 81,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Czech Republic Group B total goals against": {
+    "name": "Tschechien Gegentore in Gruppe B Uber/Unter",
+    "order": 82,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Czech Republic Group B total shots": {
+    "name": "Tschechien Torschusse in Gruppe B Uber/Unter",
+    "order": 83,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Finland Group B total points": {
+    "name": "Finnland Punkte in Gruppe B Uber/Unter",
+    "order": 84,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Finland Group B total goals for": {
+    "name": "Finnland Tore in Gruppe B Uber/Unter",
+    "order": 85,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Finland Group B total goals against": {
+    "name": "Finnland Gegentore in Gruppe B Uber/Unter",
+    "order": 86,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Finland Group B total shots": {
+    "name": "Finnland Torschusse in Gruppe B Uber/Unter",
+    "order": 87,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Belarus Group B total points": {
+    "name": "Wei?russland Punkte in Gruppe B Uber/Unter",
+    "order": 88,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Belarus Group B total goals for": {
+    "name": "Wei?russland Tore in Gruppe B Uber/Unter",
+    "order": 89,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Belarus Group B total goals against": {
+    "name": "Wei?russland Gegentore in Gruppe B Uber/Unter",
+    "order": 90,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Belarus Group B total shots": {
+    "name": "Wei?russland Torschusse in Gruppe B Uber/Unter",
+    "order": 91,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "Gesamtergebnis Uber/Unter": {
+    "name": "Uber/Unter",
     "order": 1,
     "market_types": {},
     "bases": {
-      "1": "6",
-      "2": "7",
-      "3": "8",
-      "4": "9",
-      "5": "10",
-      "6": "12",
-      "7": "14",
-      "8": "16",
-      "0.5": "1",
-      "1.5": "2",
-      "2.5": "3",
-      "3.5": "4",
-      "4.5": "5",
-      "5.5": "11",
-      "6.5": "13",
-      "7.5": "15",
-      "8.5": "17"
+      "1": "10",
+      "2": "11",
+      "3": "12",
+      "4": "13",
+      "5": "14",
+      "6": "15",
+      "7": "16",
+      "8": "17",
+      "0.5": "01",
+      "1.5": "02",
+      "2.5": "03",
+      "3.5": "04",
+      "4.5": "05",
+      "5.5": "06",
+      "6.5": "07",
+      "7.5": "08",
+      "8.5": "09"
     },
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "Correct Total": {
@@ -2720,9 +3455,23 @@
     "9": "8",
     "10": "9+"
   },
-  "1. Drittel Gesamtergebnis Über/Unter": {
-    "name": "1. Drittel Über/Unter",
-    "order": 99,
+  "1. Drittel Gesamtergebnis": {
+    "name": "1. Drittel Uber/Unter",
+    "order": 40,
+    "market_types": {},
+    "bases": {
+      "0.5": "01",
+      "1.5": "02",
+      "2.5": "03",
+      "3.5": "04",
+      "4.5": "05"
+    },
+    "FirstPeriodTotalMore": "Uber",
+    "FirstPeriodTotalLess": "Unter"
+  },
+  "1. Drittel Gesamtergebnis Uber/Unter": {
+    "name": "1. Drittel Uber/Unter",
+    "order": 41,
     "market_types": {},
     "bases": {
       "1": "27",
@@ -2743,16 +3492,16 @@
       "7.5": "25",
       "8.5": "26"
     },
-    "FirstPeriodTotalMore": "Über",
+    "FirstPeriodTotalMore": "Uber",
     "FirstPeriodTotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
-  "1. Drittel: Tore Team 2": {
-    "name": "1. Drittel Team 2 Über/Unter",
-    "order": 26,
+  "1. Drittel: Tore Team 1": {
+    "name": "1. Drittel Team 1 Uber/Unter",
+    "order": 42,
     "market_types": {},
     "bases": {
       "1": "44",
@@ -2773,28 +3522,12 @@
       "7.5": "42",
       "8.5": "43"
     },
-    "FirstPeriodSecondTeamTotalMore": "Über",
-    "FirstPeriodSecondTeamTotalLess": "Unter",
-    "More": "Über",
-    "Less": "Unter",
-    "TotalMore": "Über",
-    "TotalLess": "Unter"
+    "FirstPeriodFirstTeamTotalMore": "Uber",
+    "FirstPeriodFirstTeamTotalLess": "Unter"
   },
-  "1st Period Correct Total": {
-    "name": "1. Drittel Toranzahl",
-    "order": 20,
-    "market_types": {},
-    "bases": {},
-    "1": "0",
-    "2": "1",
-    "3": "2",
-    "4": "3",
-    "5": "4",
-    "6": "5+"
-  },
-  "2. Drittel Gesamtergebnis Über/Unter": {
-    "name": "2. Drittel Über/Unter",
-    "order": 24,
+  "1. Drittel: Tore Team 2": {
+    "name": "1. Drittel Team 2 Uber/Unter",
+    "order": 43,
     "market_types": {},
     "bases": {
       "1": "61",
@@ -2815,46 +3548,58 @@
       "7.5": "59",
       "8.5": "60"
     },
-    "SecondPeriodTotalMore": "Über",
-    "SecondPeriodTotalLess": "Unter",
-    "More": "Über",
+    "FirstPeriodSecondTeamTotalMore": "Uber",
+    "FirstPeriodSecondTeamTotalLess": "Unter",
+    "More": "Uber",
     "Less": "Unter",
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
+    "TotalLess": "Unter"
+  },
+  "1st Period Correct Total": {
+    "name": "1. Drittel Toranzahl",
+    "order": 30,
+    "market_types": {},
+    "bases": {},
+    "1": "0",
+    "2": "1",
+    "3": "2",
+    "4": "3",
+    "5": "4",
+    "6": "5+"
+  },
+  "2. Drittel Gesamtergebnis Uber/Unter": {
+    "name": "2. Drittel Uber/Unter",
+    "order": 44,
+    "market_types": {},
+    "bases": {
+      "1": "78",
+      "2": "79",
+      "3": "80",
+      "4": "82",
+      "5": "83",
+      "6": "84",
+      "7": "85",
+      "8": "86",
+      "0.5": "69",
+      "1.5": "70",
+      "2.5": "71",
+      "3.5": "72",
+      "4.5": "73",
+      "5.5": "74",
+      "6.5": "75",
+      "7.5": "76",
+      "8.5": "77"
+    },
+    "SecondPeriodTotalMore": "Uber",
+    "SecondPeriodTotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "2. Drittel: Tore Team 1": {
-    "name": "2. Drittel Team 1 Über/Unter",
-    "order": 27,
-    "market_types": {},
-    "bases": {
-      "1": "6",
-      "2": "7",
-      "3": "8",
-      "4": "9",
-      "5": "10",
-      "6": "12",
-      "7": "14",
-      "8": "16",
-      "0.5": "1",
-      "1.5": "2",
-      "2.5": "3",
-      "3.5": "4",
-      "4.5": "5",
-      "5.5": "11",
-      "6.5": "13",
-      "7.5": "15",
-      "8.5": "17"
-    },
-    "SecondPeriodFirstTeamTotalMore": "Über",
-    "SecondPeriodFirstTeamTotalLess": "Unter",
-    "TotalMore": "Über",
-    "TotalLess": "Unter",
-    "More": "Über",
-    "Less": "Unter"
-  },
-  "2. Drittel: Tore Team 2": {
-    "name": "2. Drittel Team 2 Über/Unter",
-    "order": 28,
+    "name": "2. Drittel Team 1 Uber/Unter",
+    "order": 45,
     "market_types": {},
     "bases": {
       "1": "95",
@@ -2865,48 +3610,36 @@
       "6": "100",
       "7": "101",
       "8": "102",
-      "0.5": "86",
-      "1.5": "87",
-      "2.5": "88",
-      "3.5": "89",
-      "4.5": "90",
-      "5.5": "91",
+      "0.5": "87",
+      "1.5": "88",
+      "2.5": "89",
+      "3.5": "90",
+      "4.5": "91",
+      "5.5": "92",
       "6.5": "92",
       "7.5": "93",
       "8.5": "94"
     },
-    "SecondPeriodSecondTeamTotalMore": "Über",
-    "SecondPeriodSecondTeamTotalLess": "Unter",
-    "TotalMore": "Über",
+    "SecondPeriodFirstTeamTotalMore": "Uber",
+    "SecondPeriodFirstTeamTotalLess": "Unter",
+    "TotalMore": "Uber",
     "TotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
-  "2nd Period Correct Total": {
-    "name": "2. Drittel Toranzahl",
-    "order": 21,
-    "market_types": {},
-    "bases": {},
-    "1": "0",
-    "2": "1",
-    "3": "2",
-    "4": "3",
-    "5": "4",
-    "6": "5+"
-  },
-  "3. Drittel Gesamtergebnis Über/Unter": {
-    "name": "3. Drittel Über/Unter",
-    "order": 25,
+  "2. Drittel: Tore Team 2": {
+    "name": "2. Drittel Team 2 Uber/Unter",
+    "order": 46,
     "market_types": {},
     "bases": {
-      "1": "112",
-      "2": "113",
-      "3": "114",
-      "4": "115",
-      "5": "116",
-      "6": "117",
-      "7": "118",
-      "8": "119",
+      "1": "95",
+      "2": "96",
+      "3": "97",
+      "4": "98",
+      "5": "99",
+      "6": "100",
+      "7": "101",
+      "8": "102",
       "0.5": "103",
       "1.5": "104",
       "2.5": "105",
@@ -2917,68 +3650,16 @@
       "7.5": "110",
       "8.5": "111"
     },
-    "ThirdPeriodTotalMore": "Über",
-    "ThirdPeriodTotalLess": "Unter",
-    "TotalMore": "Über",
+    "SecondPeriodSecondTeamTotalMore": "Uber",
+    "SecondPeriodSecondTeamTotalLess": "Unter",
+    "TotalMore": "Uber",
     "TotalLess": "Unter",
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
-  "3. Drittel: Tore Team 1": {
-    "name": "3. Drittel Team 1 Über/Unter",
-    "order": 29,
-    "market_types": {},
-    "bases": {
-      "1": "129",
-      "2": "130",
-      "3": "131",
-      "4": "132",
-      "5": "133",
-      "6": "134",
-      "7": "135",
-      "8": "136",
-      "0.5": "120",
-      "1.5": "121",
-      "2.5": "122",
-      "3.5": "123",
-      "4.5": "124",
-      "5.5": "125",
-      "6.5": "126",
-      "7.5": "127",
-      "8.5": "128"
-    },
-    "ThirddPeriodFirstTeamTotalMore": "Über",
-    "ThirddPeriodFirstTeamTotalLess": "Unter"
-  },
-  "3. Drittel: Tore Team 2": {
-    "name": "3. Drittel Team 2 Über/Unter",
+  "2nd Period Correct Total": {
+    "name": "2. Drittel Toranzahl",
     "order": 31,
-    "market_types": {},
-    "bases": {
-      "1": "146",
-      "2": "147",
-      "3": "148",
-      "4": "149",
-      "5": "150",
-      "6": "151",
-      "7": "152",
-      "8": "153",
-      "0.5": "137",
-      "1.5": "138",
-      "2.5": "139",
-      "3.5": "140",
-      "4.5": "141",
-      "5.5": "142",
-      "6.5": "143",
-      "7.5": "144",
-      "8.5": "145"
-    },
-    "ThirdPeriodSecondTeamTotalMore": "Über",
-    "ThirdPeriodSecondTeamTotalLess": "Unter"
-  },
-  "3rd Period Correct Total": {
-    "name": "3. Drittel Toranzahl",
-    "order": 23,
     "market_types": {},
     "bases": {},
     "1": "0",
@@ -2988,31 +3669,109 @@
     "5": "4",
     "6": "5+"
   },
-  "1. Drittel: Tore Team 1": {
-    "name": "1. Drittel Team 1 Über/Unter",
-    "order": 30,
+  "3. Drittel Gesamtergebnis Uber/Unter": {
+    "name": "3. Drittel Uber/Unter",
+    "order": 47,
     "market_types": {},
     "bases": {
-      "1": "6",
-      "2": "7",
-      "3": "8",
-      "4": "9",
-      "5": "10",
-      "6": "12",
-      "7": "14",
-      "8": "16",
-      "0.5": "1",
-      "1.5": "2",
-      "2.5": "3",
-      "3.5": "4",
-      "4.5": "5",
-      "5.5": "11",
-      "6.5": "13",
-      "7.5": "15",
-      "8.5": "17"
+      "1": "121",
+      "2": "122",
+      "3": "123",
+      "4": "124",
+      "5": "125",
+      "6": "126",
+      "7": "127",
+      "8": "128",
+      "0.5": "112",
+      "1.5": "113",
+      "2.5": "114",
+      "3.5": "115",
+      "4.5": "116",
+      "5.5": "117",
+      "6.5": "118",
+      "7.5": "119",
+      "8.5": "120"
     },
-    "FirstPeriodFirstTeamTotalMore": "Über",
-    "FirstPeriodFirstTeamTotalLess": "Unter"
+    "ThirdPeriodTotalMore": "Uber",
+    "ThirdPeriodTotalLess": "Unter",
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
+  },
+  "3. Drittel: Tore Team 1": {
+    "name": "3. Drittel Team 1 Uber/Unter",
+    "order": 48,
+    "market_types": {},
+    "bases": {
+      "1": "138",
+      "2": "139",
+      "3": "140",
+      "4": "141",
+      "5": "142",
+      "6": "143",
+      "7": "144",
+      "8": "145",
+      "0.5": "129",
+      "1.5": "130",
+      "2.5": "131",
+      "3.5": "132",
+      "4.5": "133",
+      "5.5": "134",
+      "6.5": "135",
+      "7.5": "136",
+      "8.5": "137"
+    },
+    "ThirddPeriodFirstTeamTotalMore": "Uber",
+    "ThirddPeriodFirstTeamTotalLess": "Unter"
+  },
+  "3. Drittel: Tore Team 2": {
+    "name": "3. Drittel Team 2 Uber/Unter",
+    "order": 49,
+    "market_types": {},
+    "bases": {
+      "1": "155",
+      "2": "156",
+      "3": "157",
+      "4": "158",
+      "5": "159",
+      "6": "160",
+      "7": "161",
+      "8": "162",
+      "0.5": "146",
+      "1.5": "147",
+      "2.5": "148",
+      "3.5": "149",
+      "4.5": "150",
+      "5.5": "151",
+      "6.5": "152",
+      "7.5": "153",
+      "8.5": "154"
+    },
+    "ThirdPeriodSecondTeamTotalMore": "Uber",
+    "ThirdPeriodSecondTeamTotalLess": "Unter"
+  },
+  "3rd Period Correct Total": {
+    "name": "3. Drittel Toranzahl",
+    "order": 32,
+    "market_types": {},
+    "bases": {},
+    "1": "0",
+    "2": "1",
+    "3": "2",
+    "4": "3",
+    "5": "4",
+    "6": "5+"
+  },
+  "Penalty time (only two minute): Total": {
+    "name": "2-Minuten-Strafen gesamt Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "TotalMore": "Uber",
+    "TotalLess": "Unter",
+    "More": "Uber",
+    "Less": "Unter"
   },
   "Team 2 trifft: Ja/Nein": {
     "name": "Team 2 trifft",
@@ -3084,16 +3843,16 @@
     "8": "2/X",
     "9": "2/2"
   },
-  "Team 1: Gewinnt trotz Rückstand": {
-    "name": "Team 1 gewinnt trotz Rückstand",
+  "Team 1: Gewinnt trotz Ruckstand": {
+    "name": "Team 1 gewinnt trotz Ruckstand",
     "order": 99,
     "market_types": {},
     "bases": {},
     "1": "Ja",
     "2": "Nein"
   },
-  "Team 2: Gewinnt trotz Rückstand": {
-    "name": "Team 2 gewinnt trotz Rückstand",
+  "Team 2: Gewinnt trotz Ruckstand": {
+    "name": "Team 2 gewinnt trotz Ruckstand",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -3279,12 +4038,20 @@
     "Player 2: Will win with the score 2 - 1: No": "Nein"
   },
   "1SetP1P2": {
-    "name": "1. Satz Ergebnis",
-    "order": 1,
+    "name": "1. Satz Sieger",
+    "order": 3,
     "market_types": {},
     "bases": {},
     "1SetP1": "1",
     "1SetP2": "2"
+  },
+  "1.Satz S1-S2": {
+    "name": "1. Satz Sieger",
+    "order": 3,
+    "market_types": {},
+    "bases": {},
+    "1.Staz: S1": "1",
+    "1.Satz: W2": "2"
   },
   "1SetScores": {
     "name": "1. Satz Resultat",
@@ -3307,12 +4074,20 @@
     "1SetScore6:7": "6:7"
   },
   "2SetP1P2": {
-    "name": "2. Satz Ergebnis",
-    "order": 2,
+    "name": "2. Satz Sieger",
+    "order": 3,
     "market_types": {},
     "bases": {},
     "2SetP1": "1",
     "2SetP2": "2"
+  },
+  "2.Satz: S1-S2": {
+    "name": "1. Satz Sieger",
+    "order": 3,
+    "market_types": {},
+    "bases": {},
+    "2.Satz: S1": "1",
+    "2.Satz: S2": "2"
   },
   "2SetScores": {
     "name": "2. Satz Resultat",
@@ -3334,6 +4109,22 @@
     "2SetScore7:6": "7:6",
     "2SetScore6:7": "6:7"
   },
+  "3.Satz: S1-S2": {
+    "name": "3. Satz Sieger",
+    "order": 3,
+    "market_types": {},
+    "bases": {},
+    "3.Satz: S1": "1",
+    "3.Staz: S2": "2"
+  },
+  "4.Satz: S1-S2": {
+    "name": "4. Satz Sieger",
+    "order": 3,
+    "market_types": {},
+    "bases": {},
+    "4.Satz: S1": "1",
+    "4.Satz: S2": "2"
+  },
   "1Set-Match": {
     "name": "1.Satz/Spielsieger",
     "order": 90,
@@ -3344,6 +4135,30 @@
     "W2/W1": "2/1",
     "W2/W2": "2/2"
   },
+  "First set/match": {
+    "name": "1.Satz/Spielsieger",
+    "order": 90,
+    "market_types": {},
+    "bases": {},
+    "W1/W1": "1/1",
+    "W1/W2": "1/2",
+    "W2/W1": "2/1",
+    "W2/W2": "2/2",
+    "First set/match: W1/W1": "1/1",
+    "First set/match: W1/W2": "1/2",
+    "First set/match: W2/W1": "2/1",
+    "First set/match: W2/W2": "2/2"
+  },
+  "Handicap by Sets": {
+    "name": "Satzhandicap",
+    "order": 1,
+    "market_types": {},
+    "bases": {},
+    "Handicap by Sets 1": "1",
+    "Handicap by Sets 2": "2",
+    "Handicap1": "1",
+    "Handicap2": "2"
+  },
   "Asian Handicap: 1. Satz Ergebnis -1.5": {
     "name": "1. Satz Asian Handicap -1.5",
     "order": 99,
@@ -3352,8 +4167,8 @@
     "FirstSetHandicap1": "1",
     "FirstSetHandicap2": "2"
   },
-  "Asian Handicap: Anzahl Sätze": {
-    "name": "Asian Handicap: Anzahl Sätze",
+  "Asian Handicap: Anzahl Satze": {
+    "name": "Asian Handicap: Anzahl Satze",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -3363,8 +4178,8 @@
     "Handicap1": "1",
     "Handicap2": "2"
   },
-  "Gesamtzahl Spiele: Über/Unter": {
-    "name": "Über/Unter",
+  "Gesamtzahl Spiele: Uber/Unter": {
+    "name": "Uber/Unter",
     "order": 2,
     "market_types": {},
     "bases": {
@@ -3380,28 +4195,289 @@
       "21.5": "11",
       "21": "12"
     },
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
-  "1. Satz Anzahl Spiele Unter/Über": {
-    "name": "1. Satz Games Über/Unter",
+  "1. Satz Anzahl Spiele Unter/Uber": {
+    "name": "1. Satz Games Uber/Unter",
     "order": 3,
     "market_types": {},
     "bases": {
       "12.5": "01",
+      "11.5": "02",
       "10.5": "04",
       "9.5": "06",
       "8.5": "08",
-      "7.5": "10"
+      "7.5": "10",
+      "6.5": "12"
     },
-    "FirstSetTotalMore": "Über",
+    "FirstSetTotalMore": "Uber",
     "FirstSetTotalLess": "Unter"
   },
   "NumberOfSets": {
-    "name": "Anzahl Sätze Über/Unter 2.5",
+    "name": "Anzahl Satze Uber/Unter",
     "order": 1,
-    "NumberOfSetsMore": "Über",
+    "market_types": {},
+    "bases": {},
+    "NumberOfSetsMore": "Uber",
     "NumberOfSetsLess": "Unter"
+  },
+  "Total of sets": {
+    "name": "Anzahl Satze Uber/Unter",
+    "order": 1,
+    "market_types": {},
+    "bases": {
+      "4.5": "01",
+      "3.5": "02",
+      "2.5": "03"
+    },
+    "Total of sets: Over": "Uber",
+    "Total of sets: Under": "Unter"
+  },
+  "To score a short-handed goal: Yes/No": {
+    "name": "Short-Hander",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "To score a short-handed goal: Yes": "Ja",
+    "To score a short-handed goal: No": "Nein"
+  },
+  "To score an empty net goal: Yes/No": {
+    "name": "Empty Net-Tor",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "To score an empty net goal: Yes": "Ja",
+    "To score an empty net goal: No": "Nein"
+  },
+  "Name The Finalists": {
+    "name": "Finalpaarung",
+    "order": 99,
+    "market_types": {},
+    "bases": {}
+  },
+  "Group of the world champion": {
+    "name": "Vorrundengruppe des Weltmeisters",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "Group of the world champion - Group A": "Gruppe A",
+    "Group of the world champion - Group B": "Gruppe B"
+  },
+  "Continent of the world champion": {
+    "name": "Kontinent des Weltmeisters",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "Continent of the world champion - Other world": "Vom Rest der Welt",
+    "Continent of the world champion - Northern America": "Nordamerika"
+  },
+  "The winner for the first time in history": {
+    "name": "Gewinnt ein Team, das noch nie Weltmeister war?",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "The winner for the first time in history - Yes": "Ja"
+  },
+  "To reach the final": {
+    "name": "Finalist",
+    "order": 82,
+    "market_types": {},
+    "bases": {},
+    "To reach the final - Canada": "Kanada",
+    "To reach the final - Russia": "Ru?land",
+    "To reach the final - Sweden": "Schweden",
+    "To reach the final - Finland": "Finnland",
+    "To reach the final - Czech Republic": "Tschechien",
+    "To reach the final - USA": "USA",
+    "To reach the final - Germany": "Deutschland",
+    "To reach the final - Switzerland": "Schweiz",
+    "To reach the final - Slovakia": "Slowakei",
+    "To reach the final - Belarus": "Wei?russland",
+    "To reach the final - Norway": "Norwegen",
+    "To reach the final - France": "Frankreich",
+    "To reach the final - Denmark": "Danemark",
+    "To reach the final - Latvia": "Lettland",
+    "To reach the final - Slovenia": "Slowenien",
+    "To reach the final - Italy": "Italien"
+  },
+  "Top 3": {
+    "name": "Platzierung in den Top 3",
+    "order": 29,
+    "market_types": {},
+    "bases": {},
+    "Top 3 - Canada": "Kanada",
+    "Top 3 - Russia": "Ru?land",
+    "Top 3 - Sweden": "Schweden",
+    "Top 3 - Finland": "Finnland",
+    "Top 3 - Czech Republic": "Tschechien",
+    "Top 3 - USA": "USA",
+    "Top 3 - Switzerland": "Schweiz",
+    "Top 3 - Germany": "Deutschland",
+    "Top 3 - Slovakia": "Slowakei",
+    "Top 3 - Norway": "Norwegen",
+    "Top 3 - Denmark": "Danemark",
+    "Top 3 - France": "Frankreich",
+    "Top 3 - Belarus": "Wei?russland",
+    "Top 3 - Latvia": "Lettland",
+    "Top 3 - Slovenia": "Slowenien",
+    "Top 3 - Italy": "Italien"
+  },
+  "To reach the semifinal": {
+    "name": "Halbfinalist",
+    "order": 81,
+    "market_types": {},
+    "bases": {},
+    "To reach the semifinal - Canada": "Kanada",
+    "To reach the semifinal - Russia": "Ru?land",
+    "To reach the semifinal - Sweden": "Schweden",
+    "To reach the semifinal - Finland": "Finnland",
+    "To reach the semifinal - Czech Republic": "Tschechien",
+    "To reach the semifinal - USA": "USA",
+    "To reach the semifinal - Germany": "Deutschland",
+    "To reach the semifinal - Switzerland": "Schweiz",
+    "To reach the semifinal - Slovakia": "Slowakei",
+    "To reach the semifinal - Belarus": "Wei?russland",
+    "To reach the semifinal - Norway": "Norwegen",
+    "To reach the semifinal - France": "Frankreich",
+    "To reach the semifinal - Denmark": "Danemark",
+    "To reach the semifinal - Latvia": "Lettland",
+    "To reach the semifinal - Slovenia": "Slowenien",
+    "To reach the semifinal - Italy": "Italien"
+  },
+  "To Qualify for Quarter Final": {
+    "name": "Viertelfinalist",
+    "order": 80,
+    "market_types": {},
+    "bases": {},
+    "To Qualify for Quarter Final - Canada": "Kanada",
+    "To Qualify for Quarter Final - Russia": "Ru?land",
+    "To Qualify for Quarter Final - Sweden": "Schweden",
+    "To Qualify for Quarter Final - Finland": "Finnland",
+    "To Qualify for Quarter Final - Czech Republic": "Tschechien",
+    "To Qualify for Quarter Final - USA": "USA",
+    "To Qualify for Quarter Final - Germany": "Deutschland",
+    "To Qualify for Quarter Final - Switzerland": "Schweiz",
+    "To Qualify for Quarter Final - Slovakia": "Slowakei",
+    "To Qualify for Quarter Final - Belarus": "Wei?russland",
+    "To Qualify for Quarter Final - Norway": "Norwegen",
+    "To Qualify for Quarter Final - France": "Frankreich",
+    "To Qualify for Quarter Final - Denmark": "Danemark",
+    "To Qualify for Quarter Final - Latvia": "Lettland",
+    "To Qualify for Quarter Final - Slovenia": "Slowenien",
+    "To Qualify for Quarter Final - Italy": "Italien"
+  },
+  "Winner of group A": {
+    "name": "Vorrundensieger Gruppe A",
+    "order": 90,
+    "market_types": {},
+    "bases": {},
+    "Winner of group ? - Russia": "Ru?land",
+    "Winner of group ? - Sweden": "Schweden",
+    "Winner of group ? - USA": "USA",
+    "Winner of group ? - Slovakia": "Slowakei",
+    "Winner of group ? - Germany": "Deutschland",
+    "Winner of group ? - Denmark": "Danemark",
+    "Winner of group ? - Latvia": "Lettland",
+    "Winner of group ? - Italy": "Italien"
+  },
+  "2nd place in the group A": {
+    "name": "2.Platz in Gruppe A",
+    "order": 91,
+    "market_types": {},
+    "bases": {},
+    "2nd place in the group A - Russia": "Ru?land",
+    "2nd place in the group A - Sweden": "Schweden",
+    "2nd place in the group A - USA": "USA",
+    "2nd place in the group A - Slovakia": "Slowakei",
+    "2nd place in the group A - Germany": "Deutschland",
+    "2nd place in the group A - Denmark": "Danemark",
+    "2nd place in the group A - Latvia": "Lettland",
+    "2nd place in the group A - Italy": "Italien"
+  },
+  "3rd place in the group A": {
+    "name": "3.Platz in Gruppe A",
+    "order": 92,
+    "market_types": {},
+    "bases": {},
+    "3rd place in the group A - Russia": "Ru?land",
+    "3rd place in the group A - Sweden": "Schweden",
+    "3rd place in the group A - USA": "USA",
+    "3rd place in the group A - Slovakia": "Slowakei",
+    "3rd place in the group A - Germany": "Deutschland",
+    "3rd place in the group A - Denmark": "Danemark",
+    "3rd place in the group A - Latvia": "Lettland",
+    "3rd place in the group A - Italy": "Italien"
+  },
+  "4th place in the group A": {
+    "name": "4.Platz in Gruppe A",
+    "order": 93,
+    "market_types": {},
+    "bases": {},
+    "4th place in the group A - Russia": "Ru?land",
+    "4th place in the group A - Sweden": "Schweden",
+    "4th place in the group A - USA": "USA",
+    "4th place in the group A - Slovakia": "Slowakei",
+    "4th place in the group A - Germany": "Deutschland",
+    "4th place in the group A - Denmark": "Danemark",
+    "4th place in the group A - Latvia": "Lettland",
+    "4th place in the group A - Italy": "Italien"
+  },
+  "Winner of group B": {
+    "name": "Vorrundensieger Gruppe B",
+    "order": 94,
+    "market_types": {},
+    "bases": {},
+    "Winner of group B - Finland": "Finnland",
+    "Winner of group B - Czech Republic": "Tschechien",
+    "Winner of group B - Canada": "Kanada",
+    "Winner of group B - Switzerland": "Schweiz",
+    "Winner of group B - Norway": "Norwegen",
+    "Winner of group B - France": "Frankreich",
+    "Winner of group B - Belarus": "Wei?russland",
+    "Winner of group B - Slovenia": "Slowenien"
+  },
+  "2nd place in the group B": {
+    "name": "2.Platz in Gruppe B",
+    "order": 95,
+    "market_types": {},
+    "bases": {},
+    "2nd place in the group B - Finland": "Finnland",
+    "2nd place in the group B - Czech Republic": "Tschechien",
+    "2nd place in the group B - Canada": "Kanada",
+    "2nd place in the group B - Switzerland": "Schweiz",
+    "2nd place in the group B - Norway": "Norwegen",
+    "2nd place in the group B - France": "Frankreich",
+    "2nd place in the group B - Belarus": "Wei?russland",
+    "2nd place in the group B - Slovenia": "Slowenien"
+  },
+  "3rd place in the group B": {
+    "name": "3.Platz in Gruppe B",
+    "order": 96,
+    "market_types": {},
+    "bases": {},
+    "3rd place in the group B - Finland": "Finnland",
+    "3rd place in the group B - Czech Republic": "Tschechien",
+    "3rd place in the group B - Canada": "Kanada",
+    "3rd place in the group B - Switzerland": "Schweiz",
+    "3rd place in the group B - Norway": "Norwegen",
+    "3rd place in the group B - France": "Frankreich",
+    "3rd place in the group B - Belarus": "Wei?russland",
+    "3rd place in the group B - Slovenia": "Slowenien"
+  },
+  "4th place in the group B": {
+    "name": "4.Platz in Gruppe B",
+    "order": 97,
+    "market_types": {},
+    "bases": {},
+    "4th place in the group B - Finland": "Finnland",
+    "4th place in the group B - Czech Republic": "Tschechien",
+    "4th place in the group B - Canada": "Kanada",
+    "4th place in the group B - Switzerland": "Schweiz",
+    "4th place in the group B - Norway": "Norwegen",
+    "4th place in the group B - France": "Frankreich",
+    "4th place in the group B - Belarus": "Wei?russland",
+    "4th place in the group B - Slovenia": "Slowenien"
   },
   "TieBreak": {
     "name": "Tie-Break im Match",
@@ -3412,20 +4488,60 @@
     "TieBreakNo": "Nein"
   },
   "FirstPlayer'sTotalOfWonGames": {
-    "name": "Spieler 1 Gewonnene Games Über/Unter 13",
+    "name": "Spieler 1 Gewonnene Games Uber/Unter",
     "order": 30,
     "market_types": {},
     "bases": {},
-    "FirstPlayer'sTotalOfWonGamesMore": "Über",
+    "FirstPlayer'sTotalOfWonGamesMore": "Uber",
     "FirstPlayer'sTotalOfWonGamesLess": "Unter"
   },
   "SecondPlayer'sTotalOfWonGames": {
-    "name": "Spieler 2 Gewonnene Games Über/Unter 13",
+    "name": "Spieler 2 Gewonnene Games Uber/Unter",
     "order": 31,
     "market_types": {},
     "bases": {},
-    "SecondPlayer'sTotalOfWonGamesMore": "Über",
+    "SecondPlayer'sTotalOfWonGamesMore": "Uber",
     "SecondPlayer'sTotalOfWonGamesLess": "Unter"
+  },
+  "Player 1 - Individual Total": {
+    "name": "Spieler 1 Punkte Uber/Unter",
+    "order": 32,
+    "market_types": {},
+    "bases": {
+      "40.5": "01",
+      "39.5": "02",
+      "38.5": "03",
+      "37.5": "04",
+      "36.5": "05",
+      "35.5": "06",
+      "34.5": "07",
+      "33.5": "08",
+      "32.5": "09",
+      "31.5": "10",
+      "30.5": "11"
+    },
+    "Player 1- Individual Total O.": "Uber",
+    "Player 1- Individual Total U.": "Unter"
+  },
+  "Player 2 - Individual Total": {
+    "name": "Spieler 2 Punkte Uber/Unter",
+    "order": 33,
+    "market_types": {},
+    "bases": {
+      "40.5": "01",
+      "39.5": "02",
+      "38.5": "03",
+      "37.5": "04",
+      "36.5": "05",
+      "35.5": "06",
+      "34.5": "07",
+      "33.5": "08",
+      "32.5": "09",
+      "31.5": "10",
+      "30.5": "11"
+    },
+    "Player 2- Individual Total O.": "Uber",
+    "Player 2- Individual Total U.": "Unter"
   },
   "Player will lose the 1st set and win the match": {
     "name": "Spieler verliert den 1. Satz, aber gewinnt das Spiel",
@@ -3434,6 +4550,14 @@
     "bases": {},
     "Player will lose the 1st set and win the match: Yes": "Ja",
     "Player will lose the 1st set and win the match: No": "Nein"
+  },
+  "Set finish 6:0 (0:6) in the match": {
+    "name": "Satzende 6:0 (0:6) im Match",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "Set finish 6:0 (0:6) in the match: Yes": "Ja",
+    "Set finish 6:0 (0:6) in the match: No": "Nein"
   },
   "2.Viertel: Punkte - Handicap 1.5": {
     "name": "2. Viertel: Punkte - Handicap 1.5",
@@ -3444,31 +4568,31 @@
     "SecondQuarterHandicap2": "2"
   },
   "2.Viertel: Gesamtzahl": {
-    "name": "2. Viertel Über/Unter",
+    "name": "2. Viertel Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
       "44.5": "01",
       "43.5": "02"
     },
-    "SecondQuarterTotalMore": "Über",
+    "SecondQuarterTotalMore": "Uber",
     "SecondQuarterTotalLess": "Unter"
   },
   "Gesamtergebnis": {
-    "name": "Über/Unter",
+    "name": "Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
       "178.5": "01",
-      "179":  "02",
+      "179": "02",
       "179.5": "03",
       "180.5": "05"
     },
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "Anzahl Tore Team 1": {
-    "name": "Team 1 Über/Unter",
+    "name": "Team 1 Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -3477,7 +4601,7 @@
       "92.5": "03",
       "93.5": "04"
     },
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "Welches Team erzielt zuerst 10 Punkte im 2. Viertel?": {
@@ -3521,19 +4645,19 @@
     "Handicap2": "2"
   },
   "2QuarterCom1Goals": {
-    "name": "2. Viertel Team 1 Über/Unter 21.5",
+    "name": "2. Viertel Team 1 Uber/Unter 21.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "2QuarterCom2Goals": {
-    "name": "2. Viertel Team 2 Über/Unter 22.5",
+    "name": "2. Viertel Team 2 Uber/Unter 22.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1QuarterP1P2": {
@@ -3553,11 +4677,11 @@
     "FirstQuarterHandicap2": "2"
   },
   "FirstQuarterTotal": {
-    "name": "1. Viertel Über/Unter 45.5",
+    "name": "1. Viertel Uber/Unter 45.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "FirstQuarterTotalMore": "Über",
+    "FirstQuarterTotalMore": "Uber",
     "FirstQuarterTotalLess": "Unter"
   },
   "FirstQuarterEvenOdd": {
@@ -3569,19 +4693,19 @@
     "FirstQuarterOdd": "Ungerade"
   },
   "1QuarterCom1Goals": {
-    "name": "1. Viertel Team 1 Über/Unter 21.5",
+    "name": "1. Viertel Team 1 Uber/Unter 21.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1QuarterCom2Goals": {
-    "name": "1. Viertel Team 2 Über/Unter 23.5",
+    "name": "1. Viertel Team 2 Uber/Unter 23.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1QuarterP1XP2": {
@@ -3707,14 +4831,14 @@
     "ThirdQuarterHandicap2": "2"
   },
   "3.Viertel Gesamtergebnis ": {
-    "name": "3. Viertel Über/Unter 44.5",
+    "name": "3. Viertel Uber/Unter 44.5",
     "order": 99,
     "market_types": {},
     "bases": {
       "44.5": "01",
       "43.5": "02"
     },
-    "ThirdQuarterTotalMore": "Über",
+    "ThirdQuarterTotalMore": "Uber",
     "ThirdQuarterTotalLess": "Unter"
   },
   "ThirdQuarterEvenOdd": {
@@ -3726,19 +4850,19 @@
     "ThirdQuarterOdd": "Ungerade"
   },
   "3QuarterCom1Goals": {
-    "name": "3. Viertel Team 1 Über/Unter 21.5",
+    "name": "3. Viertel Team 1 Uber/Unter 21.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "3QuarterCom2Goals": {
-    "name": "3. Viertel Team 2 Über/Unter 22.5",
+    "name": "3. Viertel Team 2 Uber/Unter 22.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "Welches Team erzielt zuerst 10 Punkte im 3. Viertel?": {
@@ -3812,11 +4936,11 @@
     "ForthQuarterHandicap2": "2"
   },
   "ForthQuarterTotal": {
-    "name": "4. Viertel Über/Unter 45.5",
+    "name": "4. Viertel Uber/Unter 45.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "ForthQuarterTotalMore": "Über",
+    "ForthQuarterTotalMore": "Uber",
     "ForthQuarterTotalLess": "Unter"
   },
   "ForthQuarterEvenOdd": {
@@ -3828,19 +4952,19 @@
     "ForthQuarterOdd": "Ungerade"
   },
   "4QuarterCom1Goals": {
-    "name": "4. Viertel Team 1 Über/Unter 22.5",
+    "name": "4. Viertel Team 1 Uber/Unter 22.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "4QuarterCom2Goals": {
-    "name": "4. Viertel Team 2 Über/Unter 23.5",
+    "name": "4. Viertel Team 2 Uber/Unter 23.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "Welches Team erzielt zuerst 10 Punkte im 4. Viertel?": {
@@ -3888,8 +5012,8 @@
     "2": "Team 2",
     "3": "Keines"
   },
-  "Sätze Handicap ": {
-    "name": "Sätze Asian Handicap",
+  "Satze Handicap ": {
+    "name": "Satze Asian Handicap",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -3900,7 +5024,7 @@
     "Handicap2": "2"
   },
   "ExactNumberOfSets": {
-    "name": "Anzahl der Sätze",
+    "name": "Anzahl der Satze",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -3977,16 +5101,16 @@
     "9": "2<3"
   },
   "ScoreOfTwoSets": {
-    "name": "Ergebnis nach 2 Sätzen",
+    "name": "Ergebnis nach 2 Satzen",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "Stand nach den ersten zwei Sätzen gespielt: 2:0": "2:0",
-    "Stand nach den ersten zwei Sätzen gespielt: 1:1": "1:1",
-    "Stand nach den ersten zwei Sätzen gespielt: 0:2": "0:2"
+    "Stand nach den ersten zwei Satzen gespielt: 2:0": "2:0",
+    "Stand nach den ersten zwei Satzen gespielt: 1:1": "1:1",
+    "Stand nach den ersten zwei Satzen gespielt: 0:2": "0:2"
   },
   "ScoreOfThreeSets": {
-    "name": "Ergebnis nach 3 Sätzen",
+    "name": "Ergebnis nach 3 Satzen",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -3996,7 +5120,7 @@
     "4": "0:3"
   },
   "5ThperiodYesNo": {
-    "name": "Wird es einen fünften Satz geben?",
+    "name": "Wird es einen funften Satz geben?",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -4004,7 +5128,7 @@
     "5. Satz: wird nicht sein": "Nein"
   },
   "Team gewinnt nach einem Ruckstand 0-2": {
-    "name": "Team gewinnt noch nach einem 0:2 Rückstand",
+    "name": "Team gewinnt noch nach einem 0:2 Ruckstand",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -4022,15 +5146,15 @@
     "Der erste Satz/Match: S2S2": "2/2"
   },
   "FirstSetHandicap": {
-    "name": "1.Satz Asian Handicap 2.5",
+    "name": "1.Satz Asian Handicap",
     "order": 99,
     "market_types": {},
     "bases": {},
     "FirstSetHandicap1": "1",
     "FirstSetHandicap2": "2"
   },
-  "Gesamtpunkte Über/Unter": {
-    "name": "Punkte Über/Unter",
+  "Gesamtpunkte Uber/Unter": {
+    "name": "Punkte Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -4038,22 +5162,22 @@
       "181.5": "02",
       "180.5": "03"
     },
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "Totals by Sets": {
-    "name": "Sätze Über/Unter",
+    "name": "Satze Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
       "3.5":"01",
       "4.5":"02"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
-  "1.Satz Gesamtpunkte: Über/Unter": {
-    "name": "1.Satz Über/Unter",
+  "1.Satz Gesamtpunkte: Uber/Unter": {
+    "name": "1.Satz Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -4062,7 +5186,7 @@
       "43.5": "01",
       "45.5": "04"
     },
-    "FirstSetTotalMore": "Über",
+    "FirstSetTotalMore": "Uber",
     "FirstSetTotalLess": "Unter"
   },
   "FirstSetEvenOdd": {
@@ -4098,15 +5222,145 @@
     "2": "2"
   },
   "Satz mit den meisten Punkten - Gesamtzahl 48.5": {
-    "name": "Satz Punkte Über/Unter",
+    "name": "Satz Punkte Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
+  "1.Satz Gesamtzahl": {
+    "name": "1. Satz Punkte Uber/Unter",
+    "order": 40,
+    "market_types": {},
+    "bases": {
+      "14.5": "01",
+      "15.5": "02",
+      "16.5": "03",
+      "17.5": "04",
+      "18.5": "05",
+      "19.5": "06",
+      "20.5": "07",
+      "21.5": "08",
+      "22.5": "09",
+      "23.5": "10",
+      "24.5": "11",
+      "26.5": "12",
+      "27.5": "13",
+      "28.5": "14",
+      "29.5": "15"
+    },
+    "More": "Uber",
+    "Less": "Unter",
+    "1.Satz: Gesamtzahl Uber": "Uber",
+    "1.Satz: Gesamtzahl Unter": "Unter"
+  },
+  "2.Satz: Gesahmtzahl": {
+    "name": "2. Satz Punkte Uber/Unter",
+    "order": 40,
+    "market_types": {},
+    "bases": {
+      "14.5": "01",
+      "15.5": "02",
+      "16.5": "03",
+      "17.5": "04",
+      "18.5": "05",
+      "19.5": "06",
+      "20.5": "07",
+      "21.5": "08",
+      "22.5": "09",
+      "23.5": "10",
+      "24.5": "11",
+      "26.5": "12",
+      "27.5": "13",
+      "28.5": "14",
+      "29.5": "15"
+    },
+    "More": "Uber",
+    "Less": "Unter",
+    "2.Satz: Gesamtzahl Uber": "Uber",
+    "2.Satz: Gesamtzahl Unter": "Unter"
+  },
+  "3.Satz: Gesamtzahl": {
+    "name": "3. Satz Punkte Uber/Unter",
+    "order": 40,
+    "market_types": {},
+    "bases": {
+      "14.5": "01",
+      "15.5": "02",
+      "16.5": "03",
+      "17.5": "04",
+      "18.5": "05",
+      "19.5": "06",
+      "20.5": "07",
+      "21.5": "08",
+      "22.5": "09",
+      "23.5": "10",
+      "24.5": "11",
+      "26.5": "12",
+      "27.5": "13",
+      "28.5": "14",
+      "29.5": "15"
+    },
+    "More": "Uber",
+    "Less": "Unter",
+    "3.Satz: Gesamtzahl Uber": "Uber",
+    "3.Satz: Gesamtzahl Unter": "Unter"
+  },
+  "4.Satz: Gesamtzahl": {
+    "name": "4. Satz Punkte Uber/Unter",
+    "order": 40,
+    "market_types": {},
+    "bases": {
+      "14.5": "01",
+      "15.5": "02",
+      "16.5": "03",
+      "17.5": "04",
+      "18.5": "05",
+      "19.5": "06",
+      "20.5": "07",
+      "21.5": "08",
+      "22.5": "09",
+      "23.5": "10",
+      "24.5": "11",
+      "26.5": "12",
+      "27.5": "13",
+      "28.5": "14",
+      "29.5": "15"
+    },
+    "More": "Uber",
+    "Less": "Unter",
+    "4.Satz: Gesamtzahl Uber": "Uber",
+    "4.Satz: Gesamtzahl Unter": "Unter"
+  },
+  "5.Satz Gesamtzahl": {
+    "name": "5. Satz Punkte Uber/Unter",
+    "order": 40,
+    "market_types": {},
+    "bases": {
+      "14.5": "01",
+      "15.5": "02",
+      "16.5": "03",
+      "17.5": "04",
+      "18.5": "05",
+      "19.5": "06",
+      "20.5": "07",
+      "21.5": "08",
+      "22.5": "09",
+      "23.5": "10",
+      "24.5": "11",
+      "26.5": "12",
+      "27.5": "13",
+      "28.5": "14",
+      "29.5": "15"
+    },
+    "More": "Uber",
+    "Less": "Unter",
+    "5.Satz: Gesamtzahl Uber": "Uber",
+    "5.Satz: Gesamtzahl Unter": "Unter"
+  },
   "Anzahl Tore Team 1": {
-    "name": "Team 1 Über/Unter",
+    "name": "Team 1 Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -4115,7 +5369,7 @@
       "89.5": "04",
       "94.5": "01"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "EvenOdd": {
@@ -4127,114 +5381,144 @@
     "2": "Ungerade"
   },
   "Satz mit den mindesten Punkten - Gesamtzahl (inkl.5.Satz) 39.5": {
-    "name": "Gesamtpunktezahl (inkl. 5. Satz) Über/Unter 39.5",
+    "name": "Gesamtpunktezahl (inkl. 5. Satz) Uber/Unter 39.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
+  },
+  "ShotsOnGoalWinner": {
+    "name": "Mehr Schusse aufs Tor",
+    "order": 70,
+    "market_types": {},
+    "bases": {},
+    "1": "1",
+    "X": "Gleich viele",
+    "2": "2"
+  },
+  "ShotsOnGoalDoubleChance": {
+    "name": "Schusse aufs Tor Doppelte Chance",
+    "order": 71,
+    "market_types": {},
+    "bases": {},
+    "1X": "1X",
+    "X2": "X2",
+    "12": "12"
+  },
+  "ShotsOnGoalOfFirstTeam": {
+    "name": "Schusse aufs Tor Team 1",
+    "order": 72,
+    "market_types": {},
+    "bases": {}
+  },
+  "ShotsOnGoalOfSecondTeam": {
+    "name": "Schusse aufs Tor Team 2",
+    "order": 73,
+    "market_types": {},
+    "bases": {}
   },
   "Team 1 will win 1st half and won't win the match": {
     "name": "Team 1 gewinnt die 1.HZ, aber nicht das Spiel",
     "order": 4,
     "market_types": {},
     "bases": {},
-    "Team 1 gewinnt die 1. Hälfte und verliert das Spiel: Ja": "Ja",
-    "Team 1 gewinnt die 1. Hälfte und verliert das Spiel: Nein": "Nein"
+    "Team 1 gewinnt die 1. Halfte und verliert das Spiel: Ja": "Ja",
+    "Team 1 gewinnt die 1. Halfte und verliert das Spiel: Nein": "Nein"
   },
   "Team 1 will win the 1st half and won't win the match": {
     "name": "Team 1 gewinnt die 1.HZ, aber nicht das Spiel",
     "order": 4,
     "market_types": {},
     "bases": {},
-    "Team 1 gewinnt die 1. Hälfte und verliert das Spiel: Ja": "Ja",
-    "Team 1 gewinnt die 1. Hälfte und verliert das Spiel: Nein": "Nein"
+    "Team 1 gewinnt die 1. Halfte und verliert das Spiel: Ja": "Ja",
+    "Team 1 gewinnt die 1. Halfte und verliert das Spiel: Nein": "Nein"
   },
   "Team 2 will win the 1st half and won't win the match": {
     "name": "Team 2 gewinnt die 1.HZ, aber nicht das Spiel",
     "order": 5,
     "market_types": {},
     "bases": {},
-    "Team 2 gewinnt die 1. Hälfte und verliert das Spiel: Ja": "Ja",
-    "Team 2 gewinnt die 1. Hälfte und verliert das Spiel: Nein": "Nein"
+    "Team 2 gewinnt die 1. Halfte und verliert das Spiel: Ja": "Ja",
+    "Team 2 gewinnt die 1. Halfte und verliert das Spiel: Nein": "Nein"
   },
   "Team 1 gewinnt die 1. Halfte und verliert das Spiel": {
     "name": "Team 1 gewinnt die 1.HZ, verliert aber das Spiel",
     "order": 4,
     "market_types": {},
     "bases": {},
-    "Team 1 gewinnt die 1. Hälfte und verliert das Spiel: Ja": "Ja",
-    "Team 1 gewinnt die 1. Hälfte und verliert das Spiel: Nein": "Nein"
+    "Team 1 gewinnt die 1. Halfte und verliert das Spiel: Ja": "Ja",
+    "Team 1 gewinnt die 1. Halfte und verliert das Spiel: Nein": "Nein"
   },
   "Team 2 gewinnt die 1. Halfte und verliert das Spiel": {
     "name": "Team 2 gewinnt die 1.HZ, aber verliert das Spiel",
     "order": 5,
     "market_types": {},
     "bases": {},
-    "Team 2 gewinnt die 1. Hälfte und verliert das Spiel: Ja": "Ja",
-    "Team 2 gewinnt die 1. Hälfte und verliert das Spiel: Nein": "Nein"
+    "Team 2 gewinnt die 1. Halfte und verliert das Spiel: Ja": "Ja",
+    "Team 2 gewinnt die 1. Halfte und verliert das Spiel: Nein": "Nein"
   },
-  "Team 1 gewinnt die 1. Hälfte und verliert das Spiel": {
+  "Team 1 gewinnt die 1. Halfte und verliert das Spiel": {
     "name": "Team 1 gewinnt die 1.HZ, aber verliert das Spiel",
     "order": 4,
     "market_types": {},
     "bases": {},
     "1": "Ja",
     "2": "Nein",
-    "Team 1 gewinnt die 1. Hälfte und verliert das Spiel: Ja": "Ja",
-    "Team 1 gewinnt die 1. Hälfte und verliert das Spiel: Nein" : "Nein"
+    "Team 1 gewinnt die 1. Halfte und verliert das Spiel: Ja": "Ja",
+    "Team 1 gewinnt die 1. Halfte und verliert das Spiel: Nein" : "Nein"
   },
-  "Team 2 gewinnt die 1. Hälfte und verliert das Spiel": {
+  "Team 2 gewinnt die 1. Halfte und verliert das Spiel": {
     "name": "Team 2 gewinnt die 1.HZ, aber verliert das Spiel",
     "order": 5,
     "market_types": {},
     "bases": {},
     "1": "Ja",
     "2": "Nein",
-    "Team 2 gewinnt die 1. Hälfte und verliert das Spiel: Ja": "Ja",
-    "Team 2 gewinnt die 1. Hälfte und verliert das Spiel: Nein" : "Nein"
+    "Team 2 gewinnt die 1. Halfte und verliert das Spiel: Ja": "Ja",
+    "Team 2 gewinnt die 1. Halfte und verliert das Spiel: Nein" : "Nein"
   },
   "OutcomeTotal2.5": {
-    "name": "Ergebnis und Über/Unter 2.5",
+    "name": "Ergebnis und Uber/Unter 2.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "S1 und Gesamtergebnis Über 2.5": "1 und Über",
+    "S1 und Gesamtergebnis Uber 2.5": "1 und Uber",
     "S1 und Gesamtergebnis Unter 2.5": "1 und Unter",
-    "X und Gesamtergebnis Über 2.5": "X und Über",
+    "X und Gesamtergebnis Uber 2.5": "X und Uber",
     "X und Gesamtergebnis Unter 2.5": "X und Unter",
-    "S2 und Gesamtergebnis Über 2.5": "2 und Über",
+    "S2 und Gesamtergebnis Uber 2.5": "2 und Uber",
     "S2 und Gesamtergebnis Unter 2.5": "2 und Unter",
-    "1X und Gesamtergebnis Über 2.5": "1X und Über",
+    "1X und Gesamtergebnis Uber 2.5": "1X und Uber",
     "1X und Gesamtergebnis Unter 2.5": "1X und Unter",
-    "12 und Gesamtergebnis Über 2.5": "12 und Über",
+    "12 und Gesamtergebnis Uber 2.5": "12 und Uber",
     "12 und Gesamtergebnis Unter 2.5": "12 und Unter",
-    "X2 und Gesamtergebnis Über 2.5": "X2 und Über",
-    "X2 und Gesamtzahl Über2.5": "X2 und Über",
+    "X2 und Gesamtergebnis Uber 2.5": "X2 und Uber",
+    "X2 und Gesamtzahl Uber2.5": "X2 und Uber",
     "X2 und Gesamtergebnis Unter 2.5": "X2 und Unter"
   },
   "OutcomeTotal3.5": {
-    "name": "Ergebnis und Über/Unter 3.5",
+    "name": "Ergebnis und Uber/Unter 3.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "1": "1 und Über",
+    "1": "1 und Uber",
     "2": "1 und Unter",
-    "3": "X und Über",
+    "3": "X und Uber",
     "4": "X und Unter",
-    "5": "2 und Über",
+    "5": "2 und Uber",
     "6": "2 und Unter",
-    "S1 und Gesamtergebnis Über 3.5": "1 und Über",
+    "S1 und Gesamtergebnis Uber 3.5": "1 und Uber",
     "S1 und Gesamtergebnis Unter 3.5": "1 und Unter",
-    "X und Gesamtergebnis Über 3.5": "X und Über",
+    "X und Gesamtergebnis Uber 3.5": "X und Uber",
     "X und Gesamtergebnis Unter 3.5": "X und Unter",
-    "S2 und Gesamtergebnis Über 3.5": "2 und Über",
+    "S2 und Gesamtergebnis Uber 3.5": "2 und Uber",
     "S2 und Gesamtergebnis Unter 3.5": "2 und Unter",
-    "1X und Gesamtergebnis Über 3.5": "1X und Über",
+    "1X und Gesamtergebnis Uber 3.5": "1X und Uber",
     "1X und Gesamtergebnis Unter 3.5": "1X und Unter",
-    "12 und Gesamtergebnis Über 3.5": "12 und Über",
+    "12 und Gesamtergebnis Uber 3.5": "12 und Uber",
     "12 und Gesamtergebnis Unter 3.5": "12 und Unter",
-    "X2 und Gesamtergebnis Über 3.5": "X2 und Über",
+    "X2 und Gesamtergebnis Uber 3.5": "X2 und Uber",
     "X2 und Gesamtergebnis Unter 3.5": "X2 und Unter"
   },
   "Handicap (3-Weg) 1": {
@@ -4282,28 +5566,34 @@
     "2": "X",
     "3": "2"
   },
-  "Tore gesamt Über/Unter": {
-    "name": "Über/Unter",
+  "Tore gesamt Uber/Unter": {
+    "name": "Uber/Unter",
     "order": 1,
     "market_types": {},
     "bases": {
+      "1": "10",
+      "2": "11",
+      "3": "12",
+      "4": "13",
+      "5": "14",
+      "6": "15",
+      "7": "16",
+      "8": "17",
       "0.5": "01",
-      "1": "07",
-      "1.5":"02",
-      "2": "08",
+      "1.5": "02",
       "2.5": "03",
-      "3": "09",
       "3.5": "04",
-      "4": "10",
       "4.5": "05",
-      "5": "11",
-      "5.5": "06"
+      "5.5": "06",
+      "6.5": "07",
+      "7.5": "08",
+      "8.5": "09"
     },
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "NextGoal": {
-    "name": "Nächstes Tor",
+    "name": "Nachstes Tor",
     "order": 1,
     "market_types": {},
     "bases": {},
@@ -4334,8 +5624,21 @@
     "6": "5",
     "7": "6+"
   },
-  "Team 2 Über/Unter": {
-    "name": "Team 2 Über/Unter",
+  "Exact Number Of Goals": {
+    "name": "Exakte Anzahl Tore",
+    "order": 11,
+    "market_types": {},
+    "bases": {},
+    "1": "0",
+    "2": "1",
+    "3": "2",
+    "4": "3",
+    "5": "4",
+    "6": "5",
+    "7": "6+"
+  },
+  "Team 2 Uber/Unter": {
+    "name": "Team 2 Uber/Unter",
     "order": 3,
     "market_types": {},
     "bases": {
@@ -4345,7 +5648,7 @@
       "3.5": "04",
       "4.5": "05"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "Gesamtzahl Tore Gerade/Ungerade": {
@@ -4381,7 +5684,7 @@
     "order": 3,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "Team 2 trifft in der 1. Halbzeit": {
@@ -4393,12 +5696,12 @@
       "1": "02",
       "0.5": "03"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
-  "1. Hälfte Genaues Ergebnis": {
+  "1. Halfte Genaues Ergebnis": {
     "name": "1.HZ Resultat",
-    "order": 99,
+    "order": 3,
     "market_types": {},
     "bases": {},
     "1": "0:0",
@@ -4410,39 +5713,52 @@
     "7": "2:2",
     "8": "1:2",
     "9": "0:2",
+    "10": "3:0",
+    "11": "3:1",
+    "12": "3:2",
+    "13": "3:3",
+    "14": "2:3",
     "15": "1:3",
     "16": "0:3",
+    "17": "4:0",
+    "18": "4:1",
+    "19": "4:2",
+    "20": "4:3",
+    "21": "4:4",
+    "22": "3:4",
+    "23": "2:4",
+    "24": "1:4",
     "25": "0:4"
   },
-  "1.Hälfte Gesamtzahl": {
+  "1.Halfte Gesamtzahl": {
     "name": "1.HZ Tore",
     "order": 20,
     "market_types": {},
     "bases": {},
-    "1. Hälfte Gesamt - 0-1": "0-1",
-    "1. Hälfte Gesamt - 2-3": "2-3",
-    "1. Hälfte Gesamt - 4-6": "4-6",
-    "1. Hälfte Gesamt - 7+": "7+"
+    "1. Halfte Gesamt - 0-1": "0-1",
+    "1. Halfte Gesamt - 2-3": "2-3",
+    "1. Halfte Gesamt - 4-6": "4-6",
+    "1. Halfte Gesamt - 7+": "7+"
   },
   "1st Half Team 1 Total": {
     "name": "1.HZ Team 1 Tore",
     "order": 21,
     "market_types": {},
     "bases": {},
-    "1. Hälfte Team 1 Gesamt - 0-1": "0-1",
-    "1. Hälfte Team 1 Gesamt - 2-3": "2-3",
-    "1. Hälfte Team 1 Gesamt - 4-6": "4-6",
-    "1. Hälfte Team 1 Gesamt - 7+": "7+"
+    "1. Halfte Team 1 Gesamt - 0-1": "0-1",
+    "1. Halfte Team 1 Gesamt - 2-3": "2-3",
+    "1. Halfte Team 1 Gesamt - 4-6": "4-6",
+    "1. Halfte Team 1 Gesamt - 7+": "7+"
   },
   "1st Half Team 2 Total": {
     "name": "1.HZ Team 2 Tore",
     "order": 22,
     "market_types": {},
     "bases": {},
-    "1. Hälfte Team 2 Gesamt - 0-1": "0-1",
-    "1. Hälfte Team 2 Gesamt - 2-3": "2-3",
-    "1. Hälfte Team 2 Gesamt - 4-6": "4-6",
-    "1. Hälfte Team 2 Gesamt - 7+": "7+"
+    "1. Halfte Team 2 Gesamt - 0-1": "0-1",
+    "1. Halfte Team 2 Gesamt - 2-3": "2-3",
+    "1. Halfte Team 2 Gesamt - 4-6": "4-6",
+    "1. Halfte Team 2 Gesamt - 7+": "7+"
   },
   "2nd half: W1-X-W2": {
     "name": "2.HZ Ergebnis",
@@ -4463,7 +5779,7 @@
     "3": "2"
   },
   "1st half: Corners (double chance)": {
-    "name": "1.HZ Eckbälle Doppelte Chance",
+    "name": "1.HZ Eckballe Doppelte Chance",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -4471,8 +5787,8 @@
     "1st half: Corners - 12": "12",
     "1st half: Corners - X2": "X2"
   },
-  "1. Hälfte Eckballe: Team 1 Gesamt": {
-    "name": "1.HZ Eckbälle Team 1 Über/Unter",
+  "1. Halfte Eckballe: Team 1 Gesamt": {
+    "name": "1.HZ Eckballe Team 1 Uber/Unter",
     "order": 90,
     "market_types": {},
     "bases": {
@@ -4482,11 +5798,11 @@
       "3.5": "4",
       "4.5": "5"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
-  "1. Hälfte Eckballe: Team 2 Gesamt": {
-    "name": "1.HZ Eckbälle Team 2 Über/Unter",
+  "1. Halfte Eckballe: Team 2 Gesamt": {
+    "name": "1.HZ Eckballe Team 2 Uber/Unter",
     "order": 91,
     "market_types": {},
     "bases": {
@@ -4496,23 +5812,23 @@
       "3.5": "4",
       "4.5": "5"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "OutcomeTotal4.5": {
-    "name": "Ergebnis und Über/Unter 4.5",
+    "name": "Ergebnis und Uber/Unter 4.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "1": "1 und Über",
+    "1": "1 und Uber",
     "2": "1 und Unter",
-    "3": "X und Über",
+    "3": "X und Uber",
     "4": "X und Unter",
-    "5": "2 und Über",
+    "5": "2 und Uber",
     "6": "2 und Unter"
   },
   "Gesamtergebnis": {
-    "name": "Über/Unter",
+    "name": "Uber/Unter",
     "order": 1,
     "market_types": {},
     "bases": {
@@ -4548,29 +5864,15 @@
       "225.5": "15",
       "226.5": "16"
     },
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
-  "1. Drittel Gesamtergebnis": {
-    "name": "1. Drittel Über/Unter",
-    "order": 99,
-    "market_types": {},
-    "bases": {
-      "0.5": "01",
-      "1.5": "02",
-      "2.5": "03",
-      "3.5": "04",
-      "4.5": "05"
-    },
-    "FirstPeriodTotalMore": "Über",
-    "FirstPeriodTotalLess": "Unter"
-  },
-  "Team 2 Über/Unter 0.5": {
-    "name": "Team 2 Über/Unter 0.5",
+  "Team 2 Uber/Unter 0.5": {
+    "name": "Team 2 Uber/Unter 0.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "SecondTeamTotalMore": "Über",
+    "SecondTeamTotalMore": "Uber",
     "SecondTeamTotalLess": "Unter"
   },
   "PeriodP1XP2": {
@@ -4637,31 +5939,31 @@
     "7": "6+"
   },
   "OutcomeTotal5.5": {
-    "name": "Ergebnis und Über/Unter 5.5",
+    "name": "Ergebnis und Uber/Unter 5.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "1": "1 und Über",
+    "1": "1 und Uber",
     "2": "1 und Unter",
-    "3": "X und Über",
+    "3": "X und Uber",
     "4": "X und Unter",
-    "5": "2 und Über",
+    "5": "2 und Uber",
     "6": "2 und Unter"
   },
   "OutcomeTotal6.5": {
-    "name": "Ergebnis und Über/Unter 6.5",
+    "name": "Ergebnis und Uber/Unter 6.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "1": "1 und Über",
+    "1": "1 und Uber",
     "2": "1 und Unter",
-    "3": "X und Über",
+    "3": "X und Uber",
     "4": "X und Unter",
-    "5": "2 und Über",
+    "5": "2 und Uber",
     "6": "2 und Unter"
   },
   "4.Partei Gesamtzahl": {
-    "name": "4.Satz Über/Unter",
+    "name": "4.Satz Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -4669,7 +5971,7 @@
       "43.5": "02",
       "42.5": "01"
     },
-    "ForthSetTotalMore": "Über",
+    "ForthSetTotalMore": "Uber",
     "ForthSetTotalLess": "Unter"
   },
   "SetOdd/Even": {
@@ -4705,7 +6007,7 @@
     "2": "Team 2"
   },
   "LeadAfter20points": {
-    "name": "Wer führt im 4. Satz nach 20 Punkten?",
+    "name": "Wer fuhrt im 4. Satz nach 20 Punkten?",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -4714,7 +6016,7 @@
     "3": "2"
   },
   "LeadAfter25points": {
-    "name": "Wer führt im 4. Satz nach 25 Punkten?",
+    "name": "Wer fuhrt im 4. Satz nach 25 Punkten?",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -4785,8 +6087,8 @@
     "9": "Team 2 mit 8-11",
     "10": "Team 2 mit 12+"
   },
-  "Team 1 Über/Unter": {
-    "name": "Team 1 Über/Unter",
+  "Team 1 Uber/Unter": {
+    "name": "Team 1 Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -4794,19 +6096,19 @@
       "3": "02",
       "3.5": "03"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
-  "Team 2 Über/Unter 1.5": {
-    "name": "Team 2 Über/Unter 1.5",
+  "Team 2 Uber/Unter 1.5": {
+    "name": "Team 2 Uber/Unter 1.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "CornersEven_OddTotal": {
-    "name": "Eckbälle Gerade/Ungerade",
+    "name": "Eckballe Gerade/Ungerade",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -4814,7 +6116,7 @@
     "CornersOdd": "Ungerade"
   },
   "Score draw": {
-    "name": "Unentschieden (außer 0:0)",
+    "name": "Unentschieden (au?er 0:0)",
     "order": 99,
     "market_types": {},
     "bases": {},
@@ -4822,7 +6124,7 @@
     "Unentschieden: Nein": "Nein"
   },
   "NumberOfYellowCardsInFirstHalf": {
-    "name": "1.HZ Gelbe Karte Über/Unter",
+    "name": "1.HZ Gelbe Karte Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -4832,24 +6134,8 @@
       "3.5": "04",
       "4.5": "05"
     },
-    "NumberOfYellowCardsInFirstHalfMore": "Über",
+    "NumberOfYellowCardsInFirstHalfMore": "Uber",
     "NumberOfYellowCardsInFirstHalfLess": "Unter"
-  },
-  "Team 1: Win by one goal or draw": {
-    "name": "Team 1 gewinnt mit 1 Tor oder Spiel endet X",
-    "order": 99,
-    "market_types": {},
-    "bases": {},
-    "Team 1: Siegt mit einem Tor oder Unentschieden: Ja": "Ja",
-    "Team 1: Siegt mit einem Tor oder Unentschieden: Nein": "Nein"
-  },
-  "Team 2: Win by one goal or draw": {
-    "name": "Team 2 gewinnt mit 1 Tor oder Spiel endet X",
-    "order": 99,
-    "market_types": {},
-    "bases": {},
-    "Team 2: Siegt mit einem Tor oder Unentschieden: Ja": "Ja",
-    "Team 2: Siegt mit einem Tor oder Unentschieden: Nein": "Nein"
   },
   "2Half1X12X2": {
     "name": "2.HZ Doppelte Chance",
@@ -4860,12 +6146,12 @@
     "2Half12": "12",
     "2HalfX2": "X2"
   },
-  "Gesamtzahl Spiele: Über/Unter 20.5": {
-    "name": "Gesamtzahl Games Über/Unter 20.5",
+  "Gesamtzahl Spiele: Uber/Unter 20.5": {
+    "name": "Gesamtzahl Games Uber/Unter 20.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "TotalMore": "Über",
+    "TotalMore": "Uber",
     "TotalLess": "Unter"
   },
   "1. Ass": {
@@ -4901,7 +6187,7 @@
     "Team 1: gewinnt zumindest ein Drittel: Nein": "Nein"
   },
   "Team 1 Anzahl Tore": {
-    "name": "Team 1 Punkte Über/Unter",
+    "name": "Team 1 Punkte Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -4909,11 +6195,11 @@
       "93.5": "03",
       "92.5": "02"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "Team 2 Anzahl Tore": {
-    "name": "Team 2 Punkte Über/Unter",
+    "name": "Team 2 Punkte Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -4921,7 +6207,7 @@
       "90.5": "01",
       "92.5": "02"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "Team 1 trifft: Ja/Nein": {
@@ -4941,38 +6227,38 @@
     "SecondQuarterHandicap2": "2"
   },
   "Gesamtzahl das wirksamste Viertel": {
-    "name": "Punkte des effektivsten Viertels Über/Unter",
+    "name": "Punkte des effektivsten Viertels Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
       "63.5": "02",
       "46.5": "01"
     },
-    "TotalOfTheHighestScoringQuarterMore": "Über",
+    "TotalOfTheHighestScoringQuarterMore": "Uber",
     "TotalOfTheHighestScoringQuarterLess": "Unter"
   },
   "2.Viertel: Gesamtzahl 55": {
-    "name": "2. Viertel Über/Unter 55",
+    "name": "2. Viertel Uber/Unter 55",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "SecondQuarterTotalMore": "Über",
+    "SecondQuarterTotalMore": "Uber",
     "SecondQuarterTotalLess": "Unter"
   },
   "Team 1 Anzahl Tore 115": {
-    "name": "Team 1 Punkte Über/Unter 115",
+    "name": "Team 1 Punkte Uber/Unter 115",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "FirstTeamTotalMore": "Über",
+    "FirstTeamTotalMore": "Uber",
     "FirstTeamTotalLess": "Unter"
   },
   "Team 2 Anzahl Tore 104.5": {
-    "name": "Team 2 Punkte Über/Unter 104.5",
+    "name": "Team 2 Punkte Uber/Unter 104.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "SecondTeamTotalMore": "Über",
+    "SecondTeamTotalMore": "Uber",
     "SecondTeamTotalLess": "Unter"
   },
   "1.Halbzeit: Punkte - Handicap": {
@@ -5042,7 +6328,7 @@
     "Handicap2": "2"
   },
   "1.Halbzeit: Gesamtzahl": {
-    "name": "1.HZ Gesamtzahl Über/Unter",
+    "name": "1.HZ Gesamtzahl Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
@@ -5054,7 +6340,7 @@
       "112.5": "03",
       "111.5": "02"
     },
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "FirstHalfEvenOdd": {
@@ -5066,19 +6352,19 @@
     "FirstHalfOdd": "Ungerade"
   },
   "1.Halbzeit: Gesamtzahl des Teams 1 58": {
-    "name": "1.HZ Team 1 Über/Unter 58",
+    "name": "1.HZ Team 1 Uber/Unter 58",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "1.Halbzeit: Gesamtzahl des Teams 2 52.5": {
-    "name": "1.HZ Team 2 Über/Unter 52.5",
+    "name": "1.HZ Team 2 Uber/Unter 52.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "More": "Über",
+    "More": "Uber",
     "Less": "Unter"
   },
   "SecondHalfEvenOdd": {
@@ -5098,12 +6384,24 @@
     "ThirdQuarterHandicap2": "2"
   },
   "3.Viertel Gesamtergebnis 54.5": {
-    "name": "3. Viertel Über/Unter 54.5",
+    "name": "3. Viertel Uber/Unter 54.5",
     "order": 99,
     "market_types": {},
     "bases": {},
-    "ThirdQuarterTotalMore": "Über",
+    "ThirdQuarterTotalMore": "Uber",
     "ThirdQuarterTotalLess": "Unter"
+  },
+  "Top 3. Race": {
+    "name": "Rennsieger",
+    "order": 1,
+    "market_types": {},
+    "bases": {}
+  },
+  "Winner. Race": {
+    "name": "Rennsieger",
+    "order": 1,
+    "market_types": {},
+    "bases": {}
   },
   "Race Winner": {
     "name": "Rennsieger",
@@ -5115,15 +6413,51 @@
     "name": "Welcher Rennstall gewinnt das Rennen?",
     "order": 2,
     "market_types": {},
-    "bases": {}
+    "bases": {},
+    "Which car will win the race - Mercedes": "Mercedes",
+    "Which car will win the race - Ferrari": "Ferrari",
+    "Which car will win the race - Red Bull": "Red Bull",
+    "Which car will win the race - Williams": "Williams",
+    "Which car will win the race - Toro Rosso": "Toro Rosso",
+    "Which car will win the race - Force India": "Force India",
+    "Which car will win the race - Renault": "Renault",
+    "Which car will win the race - Haas": "Haas",
+    "Which car will win the race - McLaren": "McLaren",
+    "Which car will win the race - Sauber": "Sauber"
   },
   "Will take 1 to 3 places": {
-    "name": "Platzierung in den Top 3",
+    "name": "Podiumsplatz",
     "order": 10,
+    "market_types": {},
+    "bases": {},
+    "Will take 1 to 3 places - Lewis Hamilton": "Lewis Hamilton",
+    "Will take 1 to 3 places - Sebastian Vettel": "Sebastian Vettel",
+    "Will take 1 to 3 places - Valtteri Bottas": "Valtteri Bottas",
+    "Will take 1 to 3 places - Kimi Raikkonen": "Kimi Raikkonen",
+    "Will take 1 to 3 places - Max Verstappen": "Max Verstappen",
+    "Will take 1 to 3 places - Daniel Ricciardo": "Daniel Ricciardo",
+    "Will take 1 to 3 places - Felipe Massa": "Felipe Massa",
+    "Will take 1 to 3 places - Carlos Sainz": "Carlos Sainz",
+    "Will take 1 to 3 places - Sergio Perez": "Sergio Perez",
+    "Will take 1 to 3 places - Nico Hulkenberg": "Nico Hulkenberg",
+    "Will take 1 to 3 places - Daniil Kvyat": "Daniil Kwjat",
+    "Will take 1 to 3 places - Romain Grosjean": "Romain Grosjean",
+    "Will take 1 to 3 places - Lance Stroll": "Lance Stroll",
+    "Will take 1 to 3 places - Esteban Ocon": "Esteban Ocon",
+    "Will take 1 to 3 places - Fernando Alonso": "Fernando Alonso",
+    "Will take 1 to 3 places - Kevin Magnussen": "Kevin Magnussen",
+    "Will take 1 to 3 places - Jolyon Palmer": "Jolyon Palmer",
+    "Will take 1 to 3 places - Stoffel Vandoorne": "Stoffel Vandoorne",
+    "Will take 1 to 3 places - Marcus Ericsson": "Marcus Ericsson",
+    "Will take 1 to 3 places - Antonio Giovinazzi": "Antonio Giovinazzi"
+  },
+  "Will take 1 to 6 places": {
+    "name": "Platzierung in den Top 6",
+    "order": 11,
     "market_types": {},
     "bases": {}
   },
-  "Will take 1 to 6 places": {
+  "Top 6": {
     "name": "Platzierung in den Top 6",
     "order": 11,
     "market_types": {},
@@ -5135,7 +6469,43 @@
     "market_types": {},
     "bases": {}
   },
+  "Qualifikation Sieger": {
+    "name": "Sieger der Qualifikation",
+    "order": 4,
+    "market_types": {},
+    "bases": {}
+  },
+  "Free Practice 1 Winner": {
+    "name": "Schnellster des 1. freien Trainings",
+    "order": 5,
+    "market_types": {},
+    "bases": {}
+  },
+  "Sieger 1. freies Training": {
+    "name": "Schnellster des 1. freien Trainings",
+    "order": 5,
+    "market_types": {},
+    "bases": {}
+  },
+  "Free Practice 2 Winner": {
+    "name": "Schnellster des 2. freien Trainings",
+    "order": 5,
+    "market_types": {},
+    "bases": {}
+  },
+  "Sieger 2. freies Training": {
+    "name": "Schnellster des 2. freien Trainings",
+    "order": 5,
+    "market_types": {},
+    "bases": {}
+  },
   "Free Practice 3 Winner": {
+    "name": "Schnellster des 3. freien Trainings",
+    "order": 5,
+    "market_types": {},
+    "bases": {}
+  },
+  "Sieger 3. freies Training": {
     "name": "Schnellster des 3. freien Trainings",
     "order": 5,
     "market_types": {},
@@ -5151,10 +6521,34 @@
     "From 3rd to 4th Place":"Vom 3.-4. Startplatz",
     "From 5th, 6th or 7th place":"Vom 5.-7. Startplatz",
     "From 8th to 13th Place":"Vom 8.-13. Startplatz",
-    "From Any Other Position":"Von den restlichen Startplätzen"
+    "From Any Other Position":"Von den restlichen Startplatzen"
+  },
+  "Startposition des Siegers": {
+    "name": "Startplatz des Siegers",
+    "order": 5,
+    "market_types": {},
+    "bases": {},
+    "From Pole Position":"Von der Pole Position",
+    "From 2nd Place":"Vom 2. Startplatz",
+    "From 3rd to 4th Place":"Vom 3.-4. Startplatz",
+    "From 5th, 6th or 7th place":"Vom 5.-7. Startplatz",
+    "From 8th to 13th Place":"Vom 8.-13. Startplatz",
+    "From Any Other Position":"Von den restlichen Startplatzen"
   },
   "Points Finish": {
-    "name": "Punkte-Finish",
+    "name": "In den Punkterangen",
+    "order": 6,
+    "market_types": {},
+    "bases": {}
+  },
+  "PointsFinish": {
+    "name": "In den Punkterangen",
+    "order": 6,
+    "market_types": {},
+    "bases": {}
+  },
+  "Punkt-Schluss": {
+    "name": "In den Punkterangen",
     "order": 6,
     "market_types": {},
     "bases": {}
@@ -5181,7 +6575,27 @@
     "name": "Beide Autos in der Endwertung",
     "order": 9,
     "market_types": {},
-    "bases": {}
+    "bases": {},
+    "Both Cars To Be Classified - Ferrari - Yes": "Ferrari: Ja",
+    "Both Cars To Be Classified - Ferrari - No": "Ferrari: Nein",
+    "Both Cars To Be Classified - Mercedes - Yes": "Mercedes: Ja",
+    "Both Cars To Be Classified - Mercedes - No": "Mercedes: Nein",
+    "Both Cars To Be Classified - Red Bull - Yes": "Red Bull: Ja",
+    "Both Cars To Be Classified - Red Bull - No": "Red Bull: Nein",
+    "Both Cars To Be Classified - Force India - Yes": "Force India: Ja",
+    "Both Cars To Be Classified - Force India - No": "Force India: Nein",
+    "Both Cars To Be Classified - Williams - Yes": "Williams: Ja",
+    "Both Cars To Be Classified - Williams - No": "Williams: Ja",
+    "Both Cars To Be Classified - Toro Rosso - Yes": "Toro Rosso: Ja",
+    "Both Cars To Be Classified - Toro Rosso - No": "Toro Rosso: Nein",
+    "Both Cars To Be Classified - Renault - Yes": "Renault: Ja",
+    "Both Cars To Be Classified - Renault - No": "Renault: Nein",
+    "Both Cars To Be Classified - Haas - Yes": "Haas: Ja",
+    "Both Cars To Be Classified - Haas - No": "Haas: Nein",
+    "Both Cars To Be Classified - McLaren - Yes": "McLaren: Ja",
+    "Both Cars To Be Classified - McLaren - No": "McLaren: Nein",
+    "Both Cars To Be Classified - Sauber - Yes": "Sauber: Ja",
+    "Both Cars To Be Classified - Sauber - No": "Sauber: Nein"
   },
   "Will Win Constructors' Championship": {
     "name": "gewinnt die Konstrukteursweltmeisterschaft",
@@ -5202,10 +6616,28 @@
     "bases": {}
   },
   "Total Season Race Wins": {
-    "name": "Rennsiege in der Saison",
+    "name": "Rennsiege in der Saison Uber/Unter",
     "order": 13,
     "market_types": {},
-    "bases": {}
+    "bases": {
+      "0.5": "01",
+      "1.5": "02",
+      "2.5": "03",
+      "3.5": "04",
+      "4.5": "05",
+      "5.5": "06",
+      "6.5": "07",
+      "7.5": "09",
+      "8.5": "10",
+      "9.5": "11",
+      "10.5": "12",
+      "11.5": "13",
+      "12.5": "14",
+      "13.5": "15",
+      "14.5": "16"
+    },
+    "Total Season Race Wins - Over": "Uber",
+    "Total Season Race Wins - Under": "Unter"
   },
   "Winning Driver": {
     "name": "Wer gewinnt die Fahrerweltmeisterschaft?",
@@ -5214,13 +6646,28 @@
     "bases": {}
   },
   "Number of Classified Drivers": {
-    "name": "Anzahl Fahrer im Klassement Über/Unter",
+    "name": "Anzahl Fahrer im Klassement Uber/Unter",
     "order": 99,
     "market_types": {},
     "bases": {
-      "16.5": "01",
-      "15.5": "02"
-    }
+      "17.5": "01",
+      "16.5": "02",
+      "15.5": "03"
+    },
+    "Number of Classified Drivers - Under ({h})": "Unter",
+    "Number of Classified Drivers - Over ({h})": "Uber"
+  },
+  "Anzahl qualifizierter Fahrer": {
+    "name": "Anzahl Fahrer im Klassement Uber/Unter",
+    "order": 99,
+    "market_types": {},
+    "bases": {
+      "17.5": "01",
+      "16.5": "02",
+      "15.5": "03"
+    },
+    "Number of Classified Drivers - Under ({h})": "Unter",
+    "Number of Classified Drivers - Over ({h})": "Uber"
   },
   "Fastest Lap": {
     "name": "Schnellste Runde durch",
@@ -5229,14 +6676,14 @@
     "bases": {}
   },
   "First Lap Leader": {
-    "name": "Führender nach 1. Runde",
+    "name": "Fuhrender nach 1. Runde",
     "order": 2,
     "market_types": {},
     "bases": {},
     "First Lap Leader - Pole Position Driver - Will Lead After First Lap": "Fahrer von der Pole-Position",
     "First Lap Leader - Second Place Driver - Will Lead After First Lap": "Fahrer vom 2. Startplatz",
     "First Lap Leader - Third Place Driver - Will Lead After First Lap": "Fahrer vom 3. Startplatz",
-    "First Lap Leader - Any Other Driver - Will Lead After First Lap": "Ein Fahrer von den restlichen Startplätzen"
+    "First Lap Leader - Any Other Driver - Will Lead After First Lap": "Ein Fahrer von den restlichen Startplatzen"
   },
   "Winning margin (without return)": {
     "name": "Vorsprung des Siegers",
@@ -5245,13 +6692,83 @@
     "bases": {},
     "Winning margin - Under 5 Seconds": "Unter 5 Sekunden",
     "Winning margin - From 5 to 10 seconds Inclusive": "5 bis 10 Sekunden inklusive",
-    "Winning margin - Over 10 Seconds": "Über 10 Sekunden"
+    "Winning margin - Over 10 Seconds": "Uber 10 Sekunden"
   },
   "Winning Nationality": {
-    "name": "Nationalität des Siegers",
+    "name": "Nationalitat des Siegers",
     "order": 99,
     "market_types": {},
-    "bases": {}
+    "bases": {},
+    "Winning Nationality - Australian": "Australien",
+    "Winning Nationality  - Australian": "Australien",
+    "Winning Nationality - Belgian": "Belgien",
+    "Winning Nationality  - Belgian": "Belgien",
+    "Winning Nationality - Brazilian": "Brasilien",
+    "Winning Nationality  - Brazilian": "Brasilien",
+    "Winning Nationality - British": "Gro?britannien",
+    "Winning Nationality  - British": "Gro?britannien",
+    "Winning Nationality - Canadian": "Kanada",
+    "Winning Nationality  - Canadian": "Kanada",
+    "Winning Nationality - Danish": "Danemark",
+    "Winning Nationality  - Danish": "Danemark",
+    "Winning Nationality - Dutch": "Niederlande",
+    "Winning Nationality  - Dutch": "Niederlande",
+    "Winning Nationality - Finnish": "Finnland",
+    "Winning Nationality  - Finnish": "Finnland",
+    "Winning Nationality - German": "Deutschland",
+    "Winning Nationality  - German": "Deutschland",
+    "Winning Nationality - Holland": "Niederlande",
+    "Winning Nationality  - Holland": "Niederlande",
+    "Winning Nationality - Italian": "Italien",
+    "Winning Nationality  - Italian": "Italien",
+    "Winning Nationality - Mexican": "Mexiko",
+    "Winning Nationality  - Mexican": "Mexiko",
+    "Winning Nationality - Spanish": "Spanien",
+    "Winning Nationality  - Spanish": "Spanien",
+    "Winning Nationality - Russian": "Ru?land",
+    "Winning Nationality  - Russian": "Ru?land",
+    "Winning Nationality - Swedish": "Schweden",
+    "Winning Nationality  - Swedish": "Schweden",
+    "Winning Nationality - Any Other Nationality": "Aus einem anderen Land",
+    "Winning Nationality  - Any Other Nationality": "Aus einem anderen Land"
+  },
+  "Nationalitat Sieger": {
+    "name": "Nationalitat des Siegers",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "Winning Nationality - Australian": "Australien",
+    "Winning Nationality  - Australian": "Australien",
+    "Winning Nationality - Belgian": "Belgien",
+    "Winning Nationality  - Belgian": "Belgien",
+    "Winning Nationality - Brazilian": "Brasilien",
+    "Winning Nationality  - Brazilian": "Brasilien",
+    "Winning Nationality - British": "Gro?britannien",
+    "Winning Nationality  - British": "Gro?britannien",
+    "Winning Nationality - Canadian": "Kanada",
+    "Winning Nationality  - Canadian": "Kanada",
+    "Winning Nationality - Danish": "Danemark",
+    "Winning Nationality  - Danish": "Danemark",
+    "Winning Nationality - Dutch": "Niederlande",
+    "Winning Nationality  - Dutch": "Niederlande",
+    "Winning Nationality - Finnish": "Finnland",
+    "Winning Nationality  - Finnish": "Finnland",
+    "Winning Nationality - German": "Deutschland",
+    "Winning Nationality  - German": "Deutschland",
+    "Winning Nationality - Holland": "Niederlande",
+    "Winning Nationality  - Holland": "Niederlande",
+    "Winning Nationality - Italian": "Italien",
+    "Winning Nationality  - Italian": "Italien",
+    "Winning Nationality - Mexican": "Mexiko",
+    "Winning Nationality  - Mexican": "Mexiko",
+    "Winning Nationality - Spanish": "Spanien",
+    "Winning Nationality  - Spanish": "Spanien",
+    "Winning Nationality - Russian": "Ru?land",
+    "Winning Nationality  - Russian": "Ru?land",
+    "Winning Nationality - Swedish": "Schweden",
+    "Winning Nationality  - Swedish": "Schweden",
+    "Winning Nationality - Any Other Nationality": "Aus einem anderen Land",
+    "Winning Nationality  - Any Other Nationality": "Aus einem anderen Land"
   },
   "During the race safety-car rides out on the race track": {
     "name": "Safety-Car kommt im Rennen raus?",
@@ -5286,11 +6803,29 @@
     "How Many Cars Will Not Finish the First Lap - More Then 4 Cars": "Mehr als 4"
   },
   "Will Win the Qualification, Race and the Fastest Lap": {
-    "name": "Ein beliebiger Fahrer gewinnt das Qualifying, das Rennen und fährt die schnellste Rennrunde",
+    "name": "Ein beliebiger Fahrer gewinnt das Qualifying, das Rennen und fahrt die schnellste Rennrunde",
     "order": 99,
     "market_types": {},
     "bases": {},
     "Will win the qualification, race and the fastest lap - Any Driver - Will win the qualification, race and fastest lap: Yes": "Ja",
     "Will win the qualification, race and the fastest lap - Any Driver - Will win the qualification, race and fastest lap: No": "Nein"
+  },
+  "Combination Podium Finish": {
+    "name": "Podiumsplatz Fahrerkombi",
+    "order": 99,
+    "market_types": {},
+    "bases": {},
+    "Combination Podium Finish - Lewis Hamilton and Sebastian Vettel Both in Top 3: Yes": "Lewis Hamilton und Sebastian Vettel: Ja",
+    "Combination Podium Finish - Lewis Hamilton and Sebastian Vettel Both in Top 3: No": "Lewis Hamilton und Sebastian Vettel: Nein",
+    "Combination Podium Finish - Will Lewis Hamilton and Valtteri Bottas both in Top 3: Yes": "Lewis Hamilton und Valtteri Bottas: Ja",
+    "Combination Podium Finish - Will Lewis Hamilton and Valtteri Bottas both in Top 3: No": "Lewis Hamilton and Valtteri Bottas: Nein",
+    "Combination Podium Finish - Lewis Hamilton and Kimi Raikkonen both in Top 3: Yes": "Lewis Hamilton and Kimi Raikkonen: Ja",
+    "Combination Podium Finish - Lewis Hamilton and Kimi Raikkonen Both in Top 3: No": "Lewis Hamilton and Kimi Raikkonen: Nein",
+    "Combination Podium Finish - Will Sebastian Vettel and Valtteri Bottas both in Top 3: Yes": "Sebastian Vettel und Valtteri Bottas: Ja",
+    "Combination Podium Finish - Will Sebastian Vettel and Valtteri Bottas both in Top 3: No": "Sebastian Vettel und Valtteri Bottas: Nein",
+    "Combination Podium Finish - Will Sebastian Vettel and Kimi Raikkonen both in Top 3: Yes": "Sebastian Vettel und Kimi Raikkonen: Ja",
+    "Combination Podium Finish - Will Sebastian Vettel and Kimi Raikkonen both in Top 3: No": "Sebastian Vettel und Kimi Raikkonen: Nein",
+    "Combination Podium Finish - Will Valtteri Bottas and Kimi Raikkonen both in Top 3: Yes": "Valtteri Bottas und Kimi Raikkonen: Ja",
+    "Combination Podium Finish - Will Valtteri Bottas and Kimi Raikkonen both in Top 3: No": "Valtteri Bottas und Kimi Raikkonen: Nein"
   }
 }

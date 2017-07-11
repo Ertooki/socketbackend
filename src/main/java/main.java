@@ -1,22 +1,20 @@
 import org.apache.log4j.Logger;
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 import org.glassfish.tyrus.client.ClientManager;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.FileReader;
-import java.io.StringWriter;
-import java.math.RoundingMode;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,16 +30,23 @@ public class main {
     public static JSONObject gerMarkets = new JSONObject();
     public static JSONObject marketGroup = new JSONObject();
     public static int retryes = 600;
-    public static CountDownLatch latch = new CountDownLatch(7);
+    public static CountDownLatch latch = new CountDownLatch(13);
+    private static JSONObject mailCred = new JSONObject();
 
     public static LiveUpdater football;
+    public static Totalizer footballTotals = new Totalizer(latch, "Soccer");
     public static LiveUpdater tennis;
+    public static Totalizer tennisTotals = new Totalizer(latch, "Tennis");
     public static LiveUpdater hockey_basket;
+    public static Totalizer hockey_basketTotals = new Totalizer(latch, "Hockey and Basketball");
     public static LiveUpdater other;
+    public static Totalizer otherTotals = new Totalizer(latch, "Other sports");
 
     public static FliveUpdater flw = new FliveUpdater(latch);
+    public static Totalizer fliveTotals = new Totalizer(latch, "Flive");
     public static MenuUpdater mw = new MenuUpdater(latch);
     public static FavoriteUpdater favw = new FavoriteUpdater(latch);
+    public static Totalizer favTotals = new Totalizer(latch, "Favorite");
 
     public static final Map<String, String> sportPartsT;
     public static final Map<String, String> sportPartsGer;
@@ -105,6 +110,7 @@ public class main {
             gerMarkets = (JSONObject) obj;
             obj = parser.parse(new FileReader("./src/main/resources/market_group.json"));
             marketGroup = (JSONObject) obj;
+            mailCred = (JSONObject) parser.parse(new FileReader("./src/main/resources/mail.json"));
         }
         catch(Exception e){
             e.printStackTrace();
@@ -114,6 +120,7 @@ public class main {
             @Override
             public void configure(WebSocketServletFactory factory) {
                 //factory.getPolicy().setIdleTimeout(5000);
+                factory.getPolicy().setAsyncWriteTimeout(10000);
                 factory.register(ws_server.class);
             }
         };
@@ -130,10 +137,19 @@ public class main {
             othr.addAll(scr);
             othr.addAll(hbskt);
             othr.addAll(tns);
-            football = new LiveUpdater(scr,"8087","@in",latch);
-            tennis = new LiveUpdater(tns, "8088", "@in",latch);
-            hockey_basket = new LiveUpdater(hbskt,"8089", "@in",latch);
-            other = new LiveUpdater(othr, "8090", "@nin",latch);
+
+            football = new LiveUpdater(scr,"8081","@in",latch, footballTotals);
+            tennis = new LiveUpdater(tns, "8082", "@in",latch, tennisTotals);
+            hockey_basket = new LiveUpdater(hbskt,"8083", "@in",latch, hockey_basketTotals);
+            other = new LiveUpdater(othr, "8084", "@nin",latch, otherTotals);
+
+            footballTotals.start();
+            tennisTotals.start();
+            hockey_basketTotals.start();
+            otherTotals.start();
+            fliveTotals.start();
+            favTotals.start();
+
             football.start();
             tennis.start();
             hockey_basket.start();
@@ -160,36 +176,50 @@ public class main {
                                 String tid = requests.get(rid).get("tid").toString();
                                 if (terminals.containsKey(requests.get(rid).get("tid").toString())) {
                                     Terminal terminal = terminals.get(requests.get(rid).get("tid").toString());
+                                    JSONObject qObj = new JSONObject();
                                     switch ((String)requests.get(rid).get("command"))
                                     {
                                         case "get_day":
                                         {
-                                            terminal.build_day(data2);
+                                            qObj.put("type","day");
+                                            qObj.put("data",data2);
+                                            terminal.getQueue().put(qObj);
                                             requests.remove(rid);
                                         }; break;
                                         case "get_comp":
                                         {
-                                            terminal.build_comp(data2, "get_comp");
+                                            qObj.put("type","comp");
+                                            qObj.put("data",data2);
+                                            terminal.getQueue().put(qObj);
                                             requests.remove(rid);
                                         }; break;
                                         case "get_region":
                                         {
-                                            terminal.build_region(data2,"get_region");
+                                            qObj.put("type","region");
+                                            qObj.put("data",data2);
+                                            terminal.getQueue().put(qObj);
                                             requests.remove(rid);
                                         }; break;
                                         case "search":
                                         {
-                                            terminal.build_search(data2,"search");
+                                            qObj.put("type","search");
+                                            qObj.put("data",data2);
+                                            terminal.getQueue().put(qObj);
                                             requests.remove(rid);
                                         }; break;
                                         case "get_coeff":
                                         {
-                                            terminal.send_event(data2);
+                                            qObj.put("type","event");
+                                            qObj.put("data",data2);
+                                            terminal.getQueue().put(qObj);
                                             requests.remove(rid);
                                         }; break;
                                         case "betvars":
                                         {
-                                            terminal.addVars(data2);
+                                            qObj.put("type","vars2");
+                                            qObj.put("data",data2);
+                                            terminal.setCount(1);
+                                            terminal.getQueue().put(qObj);
                                             requests.remove(rid);
                                         }; break;
                                     }
@@ -233,6 +263,41 @@ public class main {
         }
         catch(Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static synchronized void sendNotification(String subj, String msg) {
+        final String username = mailCred.get("login").toString();
+        final String password = mailCred.get("pass").toString();
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        javax.mail.Session session = javax.mail.Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("alexf@almog.com.ua,ohmygoodua@gmail.com"));
+            message.setSubject(subj);
+            message.setText("Administrator,\n\n"+msg+"\n\n Check the logs");
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 

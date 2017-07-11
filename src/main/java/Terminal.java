@@ -18,20 +18,23 @@ import java.util.concurrent.*;
  */
 public class Terminal extends Thread {
 
-    private String id;
+    public String id;
+    public String SBid;
     public String game_id;
     private String multi;
     public List<String> betslip = new ArrayList<>();
     private CountDownLatch latch;
     private Session s;
     public Map<String,JSONObject> updates = new ConcurrentHashMap<>();
+    private BlockingQueue<JSONObject> queue = new LinkedBlockingQueue<>();
 
-    Terminal (String tid, ArrayList<String> bets, String gid, String m, Session session) {
+    Terminal (String tid, String sbid, ArrayList<String> bets, String gid, String m, Session session) {
         this.id = tid;
+        this.SBid = sbid;
         this.betslip = bets;
         this.game_id = gid;
         this.multi = m;
-        this.latch = new CountDownLatch(4);
+        this.latch = new CountDownLatch(1);
         this.s = session;
     }
      public long getCount () {
@@ -50,18 +53,176 @@ public class Terminal extends Thread {
         return this.multi;
     }
 
+    public synchronized BlockingQueue<JSONObject> getQueue(){
+        return this.queue;
+    }
+
+    public void setGame(String gid) {
+        this.game_id = gid;
+        System.out.println(this.id + " subscribing to game " + this.game_id);
+    }
+
+    public void resetGame(){
+        String gid = this.game_id;
+        this.game_id = "";
+        System.out.println(this.id + " unsubscribing from game " + gid + " and game_id is " + this.game_id);
+    }
+
     public void run(){
         try {
-            build_live();
-            build_flive();
-            build_favorite();
-            build_menu();
-            latch.await();
-            for (String uid : updates.keySet()) {
-                if (s.isOpen()) sendIt(updates.get(uid));
+            while(!isInterrupted()) {
+                JSONObject qObj = queue.take();
+                String type = qObj.get("type").toString();
+                switch (type) {
+                    case "start": {
+                        setCount(4);
+                        build_menu();
+                        build_live();
+                        build_flive();
+                        build_favorite();
+                        latch.await();
+                        for (String uid : updates.keySet()) {
+                            if (s.isOpen()) sendIt(updates.get(uid));
+                        }
+                        updates.clear();
+                    }; break;
+                    case "new_game": {
+                      if(qObj.get("in").toString().equals("live")) addNewLiveGame((JSONObject)qObj.get("game"),(JSONObject)qObj.get("comp"),(JSONObject)qObj.get("region"),(JSONObject)qObj.get("sport"));
+                    };
+                    case "update": {
+                        sendIt((JSONObject)qObj.get("data"));
+                    }; break;
+                    case "total": {
+                        //System.out.println("Received total request!");
+                        JSONObject qData = (JSONObject)qObj.get("data");
+                        String gid = qData.get("gid").toString();
+                        String sid = qData.get("sid").toString();
+                        JSONObject obj = new JSONObject();
+                        obj.put("command", "get_total");
+                        obj.put("gid", gid);
+                        switch(qData.get("type").toString()){
+                            case "0": {
+                                Map<String,JSONObject> totals = main.fliveTotals.totals;
+                                if(totals.containsKey(gid)){
+                                    if(sid.equals("844")){
+                                        JSONObject total = totals.get(gid);
+                                        if (total.containsKey("full"))  obj.put("data",totals.get(gid).get("full"));
+                                    }
+                                    else obj.put("data",totals.get(gid));
+                                }
+                            }; break;
+                            case "1": {
+                                Map<String,JSONObject> totals = new ConcurrentHashMap<String,JSONObject>();
+                                totals.putAll(main.footballTotals.totals);
+                                totals.putAll(main.tennisTotals.totals);
+                                totals.putAll(main.hockey_basketTotals.totals);
+                                totals.putAll(main.otherTotals.totals);
+                                if(totals.containsKey(gid)){
+                                    if(sid.equals("844")){
+                                        JSONObject total = totals.get(gid);
+                                        if(qData.containsKey("total_type")){
+                                            String total_type = qData.get("total_type").toString();
+                                            if(total_type.equals("full")) {
+                                                if (total.containsKey("full")) {
+                                                    //System.out.println("Sending "+((JSONObject)totals.get(gid).get("full")).get("base")+" for game "+gid);
+                                                    obj.put("data",totals.get(gid).get("full"));
+                                                }
+                                                else obj.put("data",null);
+                                            }
+                                            else if(total_type.equals("half")){
+                                                if (total.containsKey("half")) {
+                                                    //System.out.println("Sending "+((JSONObject)totals.get(gid).get("full")).get("base")+" for game "+gid);
+                                                    obj.put("data",totals.get(gid).get("half"));
+                                                }
+                                                else obj.put("data",null);
+                                            }
+                                        }
+                                        else {
+                                            if (total.containsKey("full")) {
+                                                //System.out.println("Sending "+((JSONObject)totals.get(gid).get("full")).get("base")+" for game "+gid);
+                                                obj.put("data",totals.get(gid).get("full"));
+                                            }
+                                            else obj.put("data",null);
+                                        }
+                                    }
+                                    else obj.put("data",totals.get(gid));
+                                }
+                            }; break;
+                            case "2": {
+                                Map<String,JSONObject> totals = main.favTotals.totals;
+                                if(totals.containsKey(gid)){
+                                    if(sid.equals("844")){
+                                        JSONObject total = totals.get(gid);
+                                        if (total.containsKey("full")) obj.put("data",totals.get(gid).get("full"));
+                                    }
+                                    else obj.put("data",totals.get(gid));
+                                }
+                            }; break;
+                            default:{
+                                obj.put("data",null);
+                            }; break;
+                        }
+                        sendIt(obj);
+                        //get_total((JSONObject)qObj.get("data"));
+                    }; break;
+                    case "day": {
+                        build_day((JSONObject)qObj.get("data"));
+                        latch.await();
+                        for (String uid : updates.keySet()) {
+                            if (s.isOpen()) sendIt(updates.get(uid));
+                        }
+                        updates.clear();
+                    }; break;
+                    case "region": {
+                        build_region((JSONObject)qObj.get("data"),"get_region");
+                        latch.await();
+                        for (String uid : updates.keySet()) {
+                            if (s.isOpen()) sendIt(updates.get(uid));
+                        }
+                        updates.clear();
+                    }; break;
+                    case "comp": {
+                        build_comp((JSONObject)qObj.get("data"),"get_comp");
+                        latch.await();
+                        for (String uid : updates.keySet()) {
+                            if (s.isOpen()) sendIt(updates.get(uid));
+                        }
+                        updates.clear();
+                    }; break;
+                    case "search": {
+                        build_search((JSONObject)qObj.get("data"),"search");
+                        latch.await();
+                        for (String uid : updates.keySet()) {
+                            if (s.isOpen()) sendIt(updates.get(uid));
+                        }
+                        updates.clear();
+                    }; break;
+                    case "event": {
+                        send_event((JSONObject)qObj.get("data"));
+                        latch.await();
+                        for (String uid : updates.keySet()) {
+                            if (s.isOpen()) sendIt(updates.get(uid));
+                        }
+                        updates.clear();
+                    }; break;
+                    case "vars1": {
+                        get_vars((JSONObject)qObj.get("data"));
+                        latch.await();
+                        for (String uid : updates.keySet()) {
+                            if (s.isOpen()) sendIt(updates.get(uid));
+                        }
+                        updates.clear();
+                    }; break;
+                    case "vars2": {
+                        addVars((JSONObject)qObj.get("data"));
+                        latch.await();
+                        for (String uid : updates.keySet()) {
+                            if (s.isOpen()) sendIt(updates.get(uid));
+                        }
+                        updates.clear();
+                    }; break;
+                }
             }
-            updates.clear();
-            while(!isInterrupted()) {}
         }
         catch (Exception e) {
             main.errorLogger.error("Error happened", e);
@@ -71,7 +232,240 @@ public class Terminal extends Thread {
         }
     }
 
-    public void build_day(JSONObject data)
+    void addNewLiveGame(JSONObject game, JSONObject comp, JSONObject region, JSONObject sport){
+        try {
+            List<JSONObject> gr1 = new ArrayList<JSONObject>();
+            List<JSONObject> gr2 = new ArrayList<JSONObject>();
+            List<JSONObject> gr3 = new ArrayList<JSONObject>();
+            List<JSONObject> gr4 = new ArrayList<JSONObject>();
+            List<JSONObject> fullgame_totals = new ArrayList<>();
+            List<JSONObject> halfgame_totals = new ArrayList<>();
+            List<JSONObject> all_totals = new ArrayList<>();
+            String sid = sport.get("_id").toString();
+            String rid = region.get("_id").toString();
+            String cid = comp.get("_id").toString();
+            Map<String, JSONObject> mkts_u = (Map<String, JSONObject>) game.get("markets");
+            for (String mid : mkts_u.keySet())
+            {
+                JSONObject market = mkts_u.get(mid);
+                if (market.containsKey("type"))
+                {
+                    if (((String)market.get("type")).equals("P1XP2") || ((String)market.get("type")).equals("P1P2")) gr1.add(market);
+                    if (((String)market.get("type")).equals("1X12X2") && sid.equals("844")) gr2.add(market);
+                    else if (main.sportPartsT.containsKey(sid)){
+                        if (((String)market.get("type")).toLowerCase().contains(main.sportPartsT.get(sid).toLowerCase()+"p1p2") ||
+                                ((String)market.get("type")).toLowerCase().contains(main.sportPartsT.get(sid).toLowerCase()+"p1xp2")){
+
+                            gr2.add(market);
+                        }
+                    }
+                    //if (((String)market.get("type")).equals("NextGoal") && !this.SBid.equals("200")) gr3.add(market);
+                    if (sid.equals("844"))
+                    {
+                        if (((String)market.get("type")).equals("1HalfP1XP2")) gr1.add(market);
+                        if (((String)market.get("type")).equals("1Half1X12X2")) gr2.add(market);
+                        if (((String)market.get("type")).equals("1HalfNextGoal")) gr3.add(market);
+                        if(market.get("type").toString().equals("Total")
+                                && !market.get("base").toString().equals("@")
+                                && Double.parseDouble(market.get("base").toString())%1 != 0.0){
+                            all_totals.add(market);
+                            Map<String,JSONObject> events = (Map<String,JSONObject>)market.get("events");
+                            for (String eid : events.keySet()) {
+                                JSONObject event = events.get(eid);
+                                if(event.get("type").toString().toLowerCase().equals("totalmore") ||
+                                        event.get("type").toString().toLowerCase().equals("over")||
+                                        event.get("type").toString().toLowerCase().equals("more")) {
+                                    if(Double.parseDouble(event.get("price").toString())>=1.4 &&
+                                            Double.parseDouble(event.get("price").toString())<=2.55) {
+                                        fullgame_totals.add(market);
+                                    }
+                                    else if(market.get("base").toString().equals("2.5")) fullgame_totals.add(market);
+                                }
+                            }
+
+                        }
+                        else if(market.get("type").toString().equals("FirstHalfTotal")
+                                && !market.get("base").toString().equals("@")
+                                && Double.parseDouble(market.get("base").toString())%1 != 0.0) {
+                            halfgame_totals.add(market);
+                        }
+                    }
+                    else if(sid.equals("848")) {
+                        if(market.get("type").toString().equals("Gametotalpoints")
+                                && !market.get("base").toString().equals("@")
+                                && Double.parseDouble(market.get("base").toString())%1 != 0.0){
+                            all_totals.add(market);
+                            Map<String,JSONObject> events = (Map<String,JSONObject>)market.get("events");
+                            for (String eid : events.keySet()) {
+                                JSONObject event = events.get(eid);
+                                if(event.get("type").toString().toLowerCase().equals("totalmore") ||
+                                        event.get("type").toString().toLowerCase().equals("over")||
+                                        event.get("type").toString().toLowerCase().equals("more")) {
+                                    if(Double.parseDouble(event.get("price").toString())>=1.4 &&
+                                            Double.parseDouble(event.get("price").toString())<=2.55) {
+                                        fullgame_totals.add(market);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        if(market.get("type").toString().equals("Total")
+                                && !market.get("base").toString().equals("@")
+                                && Double.parseDouble(market.get("base").toString())%1 != 0.0){
+                            all_totals.add(market);
+                            Map<String,JSONObject> events = (Map<String,JSONObject>)market.get("events");
+                            for (String eid : events.keySet()) {
+                                JSONObject event = events.get(eid);
+                                if(event.get("type").toString().toLowerCase().equals("totalmore") ||
+                                        event.get("type").toString().toLowerCase().equals("over")||
+                                        event.get("type").toString().toLowerCase().equals("more")) {
+                                    if(Double.parseDouble(event.get("price").toString())>=1.4 &&
+                                            Double.parseDouble(event.get("price").toString())<=2.55) {
+                                        fullgame_totals.add(market);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (sid.equals("844")) {
+                if (fullgame_totals.size()>0){
+                    JSONObject needTotal = fullgame_totals.get(0);
+                    for (JSONObject total : fullgame_totals) {
+                        if (!total.get("base").toString().equals("@")
+                                && Double.parseDouble(total.get("base").toString())%1 != 0.0) {
+                            if (total.get("base").toString().equals("2.5")) {
+                                needTotal = total;
+                                break;
+                            }
+                            if (Double.parseDouble(total.get("base").toString()) < Double.parseDouble(needTotal.get("base").toString()))
+                            {
+                                needTotal = total;
+                            }
+                        }
+                    }
+                    // System.out.println("Adding game with fullgame total base: "+needTotal.get("base")+" "+Double.parseDouble(needTotal.get("base").toString())%1);
+                    gr4.add(needTotal);
+                }
+                else if (all_totals.size()>0){
+                    JSONObject needTotal = all_totals.get(0);
+                    for (JSONObject total : all_totals) {
+                        if (!total.get("base").toString().equals("@")
+                                && Double.parseDouble(total.get("base").toString())%1 != 0.0) {
+                            if (total.get("base").toString().equals("2.5")) {
+                                needTotal = total;
+                                break;
+                            }
+                            if (Double.parseDouble(total.get("base").toString()) < Double.parseDouble(needTotal.get("base").toString()))
+                            {
+                                needTotal = total;
+                            }
+                        }
+                    }
+                    // System.out.println("Adding game with fullgame total base: "+needTotal.get("base")+" "+Double.parseDouble(needTotal.get("base").toString())%1);
+                    gr4.add(needTotal);
+                }
+                if(game.get("type").toString().equals("1")){
+                    if(game.containsKey("state")) {
+                        if(game.get("state")!=null){
+                            if(game.get("state").toString().equals("set1") || game.get("state").toString().equals("wait")) {
+                                if(halfgame_totals.size()>0){
+                                    JSONObject needTotal = halfgame_totals.get(0);
+                                    for (JSONObject total : halfgame_totals) {
+                                        if (!total.get("base").toString().equals("@")
+                                                //al
+                                                && Double.parseDouble(total.get("base").toString())%1 != 0.0) {
+                                            if (total.get("base").toString().equals("2.5")) {
+                                                needTotal = total;
+                                                break;
+                                            }
+                                            if (Double.parseDouble(total.get("base").toString()) < Double.parseDouble(needTotal.get("base").toString()))
+                                            {
+                                                needTotal = total;
+                                            }
+                                        }
+                                    }
+                                    // System.out.println("Adding game with halfgame total base: "+needTotal.get("base")+" "+Double.parseDouble(needTotal.get("base").toString())%1);
+                                    gr4.add(needTotal);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                if (fullgame_totals.size() > 0) {
+                    JSONObject needTotal = fullgame_totals.get(0);
+                    for (JSONObject total : fullgame_totals) {
+                        if (!total.get("base").toString().equals("@")
+                                && Double.parseDouble(total.get("base").toString()) % 1 != 0.0) {
+                            if (Double.parseDouble(total.get("base").toString()) < Double.parseDouble(needTotal.get("base").toString()))
+                                needTotal = total;
+                        }
+                    }
+                    //System.out.println("Adding game with fullgame total base: "+needTotal.get("base")+" "+Double.parseDouble(needTotal.get("base").toString())%1);
+                    gr4.add(needTotal);
+                } else if (all_totals.size() > 0) {
+                    JSONObject needTotal = all_totals.get(0);
+                    for (JSONObject total : all_totals) {
+                        if (!total.get("base").toString().equals("@")
+                                && Double.parseDouble(total.get("base").toString()) % 1 != 0.0) {
+                            if (Double.parseDouble(total.get("base").toString()) < Double.parseDouble(needTotal.get("base").toString())) {
+                                needTotal = total;
+                            }
+                        }
+                    }
+                    // System.out.println("Adding game with fullgame total base: "+needTotal.get("base")+" "+Double.parseDouble(needTotal.get("base").toString())%1);
+                    gr4.add(needTotal);
+                }
+            }
+            System.out.println("Adding game with true_state: "+game.get("true_state")+" and state "+game.get("state"));
+            game.put("mc", 0);
+            VelocityContext game_row = new VelocityContext();
+            StringWriter row = new StringWriter();
+            Date gs = new Date();
+            gs.setTime(Long.parseLong(game.get("start").toString())*1000);
+            SimpleDateFormat dt = new SimpleDateFormat("dd.MM hh:mm");
+            game_row.put("game", game);
+            game_row.put("talias", "1");
+            game_row.put("start", dt.format(gs).toString());
+            JSONObject sp_row = new JSONObject();
+            sp_row.put("id",sid);
+            sp_row.put("name", sport.get("name"));
+            sp_row.put("alias",sport.get("alias"));
+            game_row.put("sport", sp_row);
+            JSONObject rcid = new JSONObject();
+            rcid.put("rid", rid);
+            rcid.put("cid",cid);
+            game_row.put("rc", rcid);
+            game_row.put("comp_name", (String)comp.get("name"));
+            game_row.put("region_alias", region.get("alias"));
+            game_row.put("gr1", gr1);
+            game_row.put("gr2", gr2);
+            game_row.put("gr3", gr3);
+            game_row.put("gr4", gr4);
+            if (!sid.equals("844") && main.sportPartsT.containsKey(sid)) game_row.put("part", main.sportPartsT.get(sid).toLowerCase());
+            Velocity.mergeTemplate("game_row.vm", StandardCharsets.UTF_8.name(), game_row, row);
+            game.put("view", row.toString());
+            JSONObject ng = new JSONObject();
+            ng.put("command","new");
+            ng.put("what", "game");
+            ng.put("type", "live");
+            ng.put("comp_name", comp.get("name"));
+            ng.put("sport_name", sport.get("name"));
+            ng.put("sport_alias", sport.get("alias"));
+            ng.put("data", game);
+
+            sendIt(ng);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void build_day(JSONObject data)
     {
         try
         {
@@ -333,7 +727,7 @@ public class Terminal extends Thread {
                             SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM");
                             SimpleDateFormat dt2 = new SimpleDateFormat("HH:mm");
                             game_row.put("game", add);
-                            game_row.put("talias", "2");
+                            game_row.put("talias", "3");
                             game_row.put("day", dt1.format(gs).toString());
                             game_row.put("hour", dt2.format(gs).toString());
                             JSONObject sp_row = new JSONObject();
@@ -381,10 +775,6 @@ public class Terminal extends Thread {
             obj.put("data", html);
             if(s.isOpen()) sendIt(obj);
             this.latch.countDown();
-            for (String uid : updates.keySet()) {
-                if (s.isOpen()) sendIt(updates.get(uid));
-            }
-            updates.clear();
         }
         catch (Exception e)
         {
@@ -392,7 +782,7 @@ public class Terminal extends Thread {
         }
     }
 
-    void build_region(JSONObject data, String comm)
+    private void build_region(JSONObject data, String comm)
     {
         try
         {
@@ -658,7 +1048,7 @@ public class Terminal extends Thread {
                             SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM");
                             SimpleDateFormat dt2 = new SimpleDateFormat("HH:mm");
                             game_row.put("game", add);
-                            game_row.put("talias", "2");
+                            game_row.put("talias", "3");
                             game_row.put("day", dt1.format(gs).toString());
                             game_row.put("hour", dt2.format(gs).toString());
                             JSONObject sp_row = new JSONObject();
@@ -733,7 +1123,7 @@ public class Terminal extends Thread {
         }
     }
 
-    void build_comp(JSONObject data, String comm)
+    private void build_comp(JSONObject data, String comm)
     {
         try
         {
@@ -999,7 +1389,7 @@ public class Terminal extends Thread {
                             SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM");
                             SimpleDateFormat dt2 = new SimpleDateFormat("HH:mm");
                             game_row.put("game", add);
-                            game_row.put("talias", "2");
+                            game_row.put("talias", "3");
                             game_row.put("day", dt1.format(gs).toString());
                             game_row.put("hour", dt2.format(gs).toString());
                             JSONObject sp_row = new JSONObject();
@@ -1061,10 +1451,6 @@ public class Terminal extends Thread {
                             obj.put("sportAlias", sport_node.get("alias"));
                             if(s.isOpen()) sendIt(obj);
                             this.latch.countDown();
-                            for (String uid : updates.keySet()) {
-                                if (s.isOpen()) sendIt(updates.get(uid));
-                            }
-                            updates.clear();
                         }
                     }
                     if (comm.equals("get_region")) obj.put("regionId", rid);
@@ -1076,10 +1462,6 @@ public class Terminal extends Thread {
                     obj.put("sportAlias", sport_node.get("alias"));
                     if(s.isOpen()) sendIt(obj);
                     this.latch.countDown();
-                    for (String uid : updates.keySet()) {
-                        if (s.isOpen()) sendIt(updates.get(uid));
-                    }
-                    updates.clear();
                 }
             }
         }
@@ -1090,7 +1472,7 @@ public class Terminal extends Thread {
     }
 
 
-    void build_search (JSONObject data, String comm)
+    private void build_search (JSONObject data, String comm)
     {
         try
         {
@@ -1456,7 +1838,7 @@ public class Terminal extends Thread {
                                 VelocityContext game_row = new VelocityContext();
                                 StringWriter row = new StringWriter();
                                 game_row.put("game", add);
-                                game_row.put("talias", 2);
+                                game_row.put("talias", "3");
                                 game_row.put("region_alias", region.get("alias"));
                                 if (add.get("type").toString().equals("0"))
                                 {
@@ -1502,10 +1884,6 @@ public class Terminal extends Thread {
             }
             if(s.isOpen()) sendIt(obj);
             this.latch.countDown();
-            for (String uid : updates.keySet()) {
-                if (s.isOpen()) sendIt(updates.get(uid));
-            }
-            updates.clear();
         }
         catch (Exception e)
         {
@@ -1513,7 +1891,7 @@ public class Terminal extends Thread {
         }
     }
 
-    void send_event(JSONObject data)
+    private void send_event(JSONObject data)
     {
         try
         {
@@ -1542,10 +1920,6 @@ public class Terminal extends Thread {
             }
             if(s.isOpen()) sendIt(obj);
             this.latch.countDown();
-            for (String uid : updates.keySet()) {
-                if (s.isOpen()) sendIt(updates.get(uid));
-            }
-            updates.clear();
         }
         catch (Exception e)
         {
@@ -1553,7 +1927,7 @@ public class Terminal extends Thread {
         }
     }
 
-    void get_vars(JSONObject varsJson)
+    private void get_vars(JSONObject varsJson)
     {
         try
         {
@@ -1638,10 +2012,6 @@ public class Terminal extends Thread {
                     obj.put("data", mkts);
                     if(s.isOpen()) sendIt(obj);
                     this.latch.countDown();
-                    for (String uid : updates.keySet()) {
-                        if (s.isOpen()) sendIt(updates.get(uid));
-                    }
-                    updates.clear();
                 }; break;
                 case "1":
                 {
@@ -1738,14 +2108,79 @@ public class Terminal extends Thread {
                     obj.put("data", mkts);
                     if(s.isOpen()) sendIt(obj);
                     this.latch.countDown();
-                    for (String uid : updates.keySet()) {
-                        if (s.isOpen()) sendIt(updates.get(uid));
-                    }
-                    updates.clear();
                 }; break;
-                case "2":
+                case "2": {
+                    JSONObject sport = main.favw.data.get(sid);
+                    JSONObject region = ((Map<String, JSONObject>)sport.get("regions")).get(rid);
+                    JSONObject comp = ((Map<String, JSONObject>)region.get("comps")).get(cid);
+                    JSONObject game = ((Map<String, JSONObject>)comp.get("games")).get(gid);
+                    Map<String, JSONObject> markets = (Map<String, JSONObject>)game.get("markets");
+                    obj.put("sport_alias", sport.get("alias"));
+                    for (String mid : markets.keySet())
+                    {
+                        JSONObject mnode = markets.get(mid);
+                        JSONObject m = new JSONObject();
+                        JSONArray eids = new JSONArray();
+                        m.put("id", mid);
+                        m.put("order", mnode.get("order").toString());
+                        Map<String,JSONObject> events = (Map<String, JSONObject>)mnode.get("events");
+                        List<JSONObject> eventList = new ArrayList<JSONObject>();
+                        for (String eid : events.keySet())
+                        {
+                            eventList.add(events.get(eid));
+                        }
+                        Collections.sort(eventList, new Comparator<JSONObject>() {
+                            @Override
+                            public int compare(JSONObject o1, JSONObject o2) {
+                                return new Integer(Integer.parseInt(o1.get("order").toString())).compareTo(new Integer(Integer.parseInt(o2.get("order").toString())));
+                            }
+                        });
+                        Map<String,JSONObject> newEvents = new HashMap<String, JSONObject>();
+                        List<String> eIds = new ArrayList<String>();
+                        for (JSONObject ne : eventList)
+                        {
+                            String price = ne.get("price").toString();
+                            Double currCoef = Double.parseDouble(price);
+                            Double multiPrice = Double.parseDouble(price) * Double.parseDouble(multi);
+                            if (currCoef < 2 && currCoef > 1)
+                            {
+                                Double tmpCurrentKoeff = currCoef;
+                                Double koef = Double.parseDouble(multi) - 1.0;
+                                currCoef -= 1.0;
+                                currCoef *= koef;
+                                multiPrice = tmpCurrentKoeff + currCoef;
+                            }
+                            DecimalFormat df = new DecimalFormat("#.##");
+                            df.setRoundingMode(RoundingMode.CEILING);
+                            ne.put("price", df.format(multiPrice).toString().replaceAll(",", "."));
+                            newEvents.put(ne.get("_id").toString(), ne);
+                            eIds.add(ne.get("_id").toString());
+                        }
+                        mnode.remove("events");
+                        mnode.put("events", newEvents);
+                        VelocityContext mv = new VelocityContext();
+                        StringWriter mvr = new StringWriter();
+                        mv.put("market", mnode);
+                        mv.put("events", newEvents);
+                        mv.put("eIds", eIds);
+                        Velocity.mergeTemplate("market.vm", StandardCharsets.UTF_8.name(), mv, mvr);
+                        m.put("html", mvr.toString());
+                        m.put("eIds", eIds);
+                        m.put("group", mnode.get("group"));
+                        mkts.add(m);
+                    }
+                    Collections.sort(mkts, new Comparator<JSONObject>() {
+                        @Override
+                        public int compare(JSONObject o1, JSONObject o2) {
+                            return new Integer(Integer.parseInt(o1.get("order").toString())).compareTo(new Integer(Integer.parseInt(o2.get("order").toString())));
+                        }
+                    });
+                    obj.put("data", mkts);
+                    if(s.isOpen()) sendIt(obj);
+                    this.latch.countDown();
+                }; break;
+                case "3":
                 {
-                    //System.out.println("VARS ANOTHR!");
                     Date when = new Date();
                     String rqId = UUID.randomUUID().toString();
                     JSONObject request = new JSONObject();
@@ -1773,6 +2208,7 @@ public class Terminal extends Thread {
                     params.put("subscribe", false);
                     get_info.put("params", params);
                     main.client.sendMessage(get_info.toString());
+                    this.latch.countDown();
                     // System.out.println("VARS ANOTHR AFTER sendMessage");
                 }; break;
             }
@@ -1783,14 +2219,14 @@ public class Terminal extends Thread {
         }
     }
 
-    void addVars (JSONObject data)
+    private void addVars (JSONObject data)
     {
         try
         {
             JSONObject obj = new JSONObject();
             obj.put("command", "betvars");
-            JSONObject game = new JSONObject();
-            game = (JSONObject) data.get("game");
+            JSONObject game = (JSONObject) data.get("game");
+
             if (game != null) {
                 Set<String> game_ids = game.keySet();
                 List<JSONObject> mkts = new ArrayList<JSONObject>();
@@ -2012,32 +2448,25 @@ public class Terminal extends Thread {
                         mkts.add(m);
                     }
                 }
+                obj.put("data",mkts);
                 if(s.isOpen()) sendIt(obj);
                 this.latch.countDown();
-                for (String uid : updates.keySet()) {
-                    if (s.isOpen()) sendIt(updates.get(uid));
-                }
-                updates.clear();
             }
             else{
                 obj.put("data", null);
                 if(s.isOpen()) sendIt(obj);
                 this.latch.countDown();
-                for (String uid : updates.keySet()) {
-                    if (s.isOpen()) sendIt(updates.get(uid));
-                }
-                updates.clear();
             }
 
         }
         catch (Exception e)
         {
-
+            e.printStackTrace();
             main.errorLogger.error("Error happened",e);
         }
     }
 
-    public void get_total(JSONObject totalJson)
+    private void get_total(JSONObject totalJson)
     {
         try
         {
@@ -2119,15 +2548,19 @@ public class Terminal extends Thread {
                             }
                             if (!tf.isEmpty())
                                 obj.put("data", tf);
-                            else
+                            else {
                                 obj.put("data", totals.get(0));
+                            }
                         }
                         else
                             obj.put("data", null);
                     }
                     else {
                         if (totals.size() > 0)
+                        {
+
                             obj.put("data", totals.get(0));
+                        }
                         else
                             obj.put("data", null);
                     }
@@ -2135,10 +2568,6 @@ public class Terminal extends Thread {
             }
             if(s.isOpen()) sendIt(obj);
             this.latch.countDown();
-            for (String uid : updates.keySet()) {
-                if (s.isOpen()) sendIt(updates.get(uid));
-            }
-            updates.clear();
         }
         catch (Exception e)
         {
@@ -2152,22 +2581,75 @@ public class Terminal extends Thread {
         }
     }
 
-    public void sendIt(JSONObject obj) {
+    private void sendIt(JSONObject obj) {
         try{
             if (s.isOpen()){
-                System.out.println(new  Date() + " " + id + " sent "+obj.get("command").toString());
-                s.getRemote().sendStringByFuture(obj.toString());
+                String command = obj.get("command").toString();
+                switch(command){
+                    case "new": {
+                        if(obj.get("what").toString().equals("market")){
+                            JSONObject data = (JSONObject)obj.get("data");
+                            if(data.containsKey("type")){
+                                if(data.get("type").toString().equals("Total") || data.get("type").toString().equals("FirstHalfTotal")){
+                                    if(Double.parseDouble(data.get("base").toString())%1 != 0.0) {
+                                        Map<String,JSONObject> events = (Map<String,JSONObject>)data.get("events");
+                                        for (String eid : events.keySet()) {
+                                            JSONObject event = events.get(eid);
+                                            if(event.get("price").toString().equals("")) {
+                                                System.out.println("Empty price for total "+data.get("id"));
+                                            }
+                                        }
+                                        //System.out.println("Sending total with base "+data.get("base"));
+                                        s.getRemote().sendStringByFuture(obj.toString());
+                                    }
+                                    else {
+                                        //System.out.println("Restricted total with base: "+data.get("base"));
+                                    }
+                                }
+                                else s.getRemote().sendStringByFuture(obj.toString());
+                            }
+                            else s.getRemote().sendStringByFuture(obj.toString());
+                        }
+                        else s.getRemote().sendStringByFuture(obj.toString());
+                    }; break;
+                    case "get_total": {
+                        if(obj.get("data") != null){
+                            JSONObject data = (JSONObject)obj.get("data");
+                            if(data.containsKey("type")){
+                                if(data.get("type").toString().equals("Total") || data.get("type").toString().equals("FirstHalfTotal")){
+                                    if(Double.parseDouble(data.get("base").toString())%1 != 0.0) {
+                                        //System.out.println("Sending get_total with base "+data.get("base"));
+                                        Map<String,JSONObject> events = (Map<String,JSONObject>)data.get("events");
+                                        for (String eid : events.keySet()) {
+                                            JSONObject event = events.get(eid);
+                                            if(event.get("price").toString().equals("")) {
+                                                System.out.println("Empty price for get_total "+data.get("id"));
+                                            }
+                                        }
+                                        s.getRemote().sendStringByFuture(obj.toString());
+                                    }
+                                    else {
+                                        System.out.println("Restricted get_total with base: "+data.get("base"));
+                                    }
+                                }
+                                else s.getRemote().sendStringByFuture(obj.toString());
+                            }
+                        }
+                        else s.getRemote().sendStringByFuture(obj.toString());
+                    }; break;
+                    default: s.getRemote().sendStringByFuture(obj.toString()); break;
+                }
             }
         }
         catch (Exception e) {
             if (e.getClass() == IllegalStateException.class) {
                 System.out.println("BlOCK");
             }
-            main.errorLogger.error(e);
+            main.errorLogger.error("Error happened",e);
         }
     }
 
-    void build_live() {
+    private void build_live() {
         try {
             JSONObject obj = new JSONObject();
             List<JSONObject> sp = new ArrayList<JSONObject>();
@@ -2175,11 +2657,18 @@ public class Terminal extends Thread {
             List<JSONObject> gm = new ArrayList<JSONObject>();
             obj.put("type", "live");
             obj.put("command", "build");
+
             Map<String,JSONObject> live_data = new ConcurrentHashMap<String,JSONObject>();
             live_data.putAll(main.football.data);
             live_data.putAll(main.tennis.data);
             live_data.putAll(main.hockey_basket.data);
             live_data.putAll(main.other.data);
+
+            Map<String,JSONObject> live_totals = new ConcurrentHashMap<String,JSONObject>();
+            live_totals.putAll(main.footballTotals.totals);
+            live_totals.putAll(main.tennisTotals.totals);
+            live_totals.putAll(main.hockey_basketTotals.totals);
+            live_totals.putAll(main.otherTotals.totals);
 
             for (String sid : live_data.keySet()) {
                 JSONObject sport = live_data.get(sid);
@@ -2208,8 +2697,6 @@ public class Terminal extends Thread {
                             List<JSONObject> gr2 = new ArrayList<JSONObject>();
                             List<JSONObject> gr3 = new ArrayList<JSONObject>();
                             List<JSONObject> gr4 = new ArrayList<JSONObject>();
-                            List<JSONObject> total = new ArrayList<JSONObject>();
-                            List<JSONObject> total2 = new ArrayList<JSONObject>();
                             Map<String, JSONObject> mkts = new HashMap<String, JSONObject>();
                             for (String mid : markets.keySet()) {
                                 JSONObject market_node = markets.get(mid);
@@ -2239,61 +2726,27 @@ public class Terminal extends Thread {
                                             gr2.add(market_node);
                                         }
                                     }
-                                    if (((String)market_node.get("type")).equals("NextGoal") && sid.equals("844")) gr3.add(market_node);
+                                    /*if (((String)market_node.get("type")).equals("NextGoal") && sid.equals("844") && !this.SBid.equals("200")) {
+                                        if(this.SBid.equals("200")) System.out.println(this.SBid);
+                                        gr3.add(market_node);
+                                    }*/
                                     if (sid.equalsIgnoreCase("844")) {
                                         if (((String)market_node.get("type")).equals("1HalfP1XP2")) gr1.add(market_node);
                                         if (((String)market_node.get("type")).equals("1Half1X12X2")) gr2.add(market_node);
                                         if (((String)market_node.get("type")).equals("1HalfNextGoal")) gr3.add(market_node);
-                                        if (((String)market_node.get("type")).equals("FirstHalfTotal")) total2.add(market_node);
                                     }
-                                    if(((String)market_node.get("type")).equals("Total")
-                                            //|| ((String)market_node.get("type")).equals("SetTotal")
-                                            // || ((String)market_node.get("type")).equals("PeriodTotal")
-                                            || ((String)market_node.get("type")).equals("Gametotalpoints")) total.add(market_node);
                                 }
                             }
-                            Collections.sort(total, new Comparator<JSONObject>() {
-                                @Override
-                                public int compare(JSONObject o1, JSONObject o2) {
-                                    return new Double(Double.parseDouble(o1.get("base").toString())).compareTo(Double.parseDouble(o2.get("base").toString()));
+
+                            if(live_totals.containsKey(gid)) {
+                                JSONObject total = live_totals.get(gid);
+                                if(sid.equals("844")) {
+                                    if(total.containsKey("full")) gr4.add((JSONObject) total.get("full"));
+                                    if(total.containsKey("half")) gr4.add((JSONObject) total.get("half"));
                                 }
-                            });
-                            Collections.sort(total2, new Comparator<JSONObject>() {
-                                @Override
-                                public int compare(JSONObject o1, JSONObject o2) {
-                                    return new Double(Double.parseDouble(o1.get("base").toString())).compareTo(Double.parseDouble(o2.get("base").toString()));
-                                }
-                            });
-                            if (sid.equals("844")){
-                                if (total.size()>0){
-                                    JSONObject tf1 = new JSONObject();
-                                    for (JSONObject tot1 : total){
-                                        if (Double.parseDouble(tot1.get("base").toString()) == 2.5){
-                                            tf1 = tot1; break;
-                                        }
-                                    }
-                                    if (!tf1.isEmpty()) gr4.add(tf1); else gr4.add(total.get(0));
-                                }
-                                if (total2.size()>0){
-                                    JSONObject tf2 = new JSONObject();
-                                    for (JSONObject tot2 : total2){
-                                        if (Double.parseDouble(tot2.get("base").toString()) == 2.5){
-                                            tf2 = tot2; break;
-                                        }
-                                    }
-                                    if (!tf2.isEmpty()) gr4.add(tf2); else gr4.add(total2.get(0));
-                                }
+                                else gr4.add(total);
                             }
-                            else {
-                                if (total.size()>0)
-                                {
-                                    gr4.add(total.get(0));
-                                }
-                                if (total2.size()>0)
-                                {
-                                    gr4.add(total2.get(0));
-                                }
-                            }
+                            game.put("mc",0);
                             VelocityContext game_row = new VelocityContext();
                             StringWriter row = new StringWriter();
                             Date gs = new Date();
@@ -2393,7 +2846,7 @@ public class Terminal extends Thread {
         }
     }
 
-    void build_flive()
+    private void build_flive()
     {
         JSONObject obj = new JSONObject();
         List<JSONObject> sp = new ArrayList<JSONObject>();
@@ -2435,8 +2888,6 @@ public class Terminal extends Thread {
                             List<JSONObject> gr2 = new ArrayList<JSONObject>();
                             List<JSONObject> gr3 = new ArrayList<JSONObject>();
                             List<JSONObject> gr4 = new ArrayList<JSONObject>();
-                            List<JSONObject> total = new ArrayList<JSONObject>();
-                            List<JSONObject> total2 = new ArrayList<JSONObject>();
                             Map<String, JSONObject> mkts = new HashMap<String, JSONObject>();
                             for (String mid : markets.keySet())
                             {
@@ -2452,15 +2903,8 @@ public class Terminal extends Thread {
                                     if (((String)market_node.get("type")).equals("1HalfP1XP2")
                                             || ((String)market_node.get("type")).equals("1SetP1XP2")
                                             || ((String)market_node.get("type")).equals("1PeriodP1XP2")) gr3.add(market_node);
-                                    if(((String)market_node.get("type")).equals("Total")) total.add(market_node);
                                 }
                             }
-                            Collections.sort(total, new Comparator<JSONObject>() {
-                                @Override
-                                public int compare(JSONObject o1, JSONObject o2) {
-                                    return new Double(Double.parseDouble(o1.get("base").toString())).compareTo(Double.parseDouble(o2.get("base").toString()));
-                                }
-                            });
                             if (gr1.size()>1)
                             {
                                 if (gr1.get(0).get("type").toString().equals("P1XP2"))
@@ -2468,20 +2912,14 @@ public class Terminal extends Thread {
                                 else if (gr1.get(1).get("type").toString().equals("P1XP2"))
                                     gr1.remove(gr1.get(0));
                             }
-                            if (sid.equals("844")){
-                                if (total.size()>0){
-                                    JSONObject tf1 = new JSONObject();
-                                    for (JSONObject tot1 : total){
-                                        if (Double.parseDouble(tot1.get("base").toString()) == 2.5){
-                                            tf1 = tot1; break;
-                                        }
-                                    }
-                                    if (!tf1.isEmpty()) gr4.add(tf1); else gr4.add(total.get(0));
+                            if(main.fliveTotals.totals.containsKey(gid)) {
+                                JSONObject total = main.fliveTotals.totals.get(gid);
+                                if(sid.equals("844")) {
+                                    if(total.containsKey("full")) gr4.add((JSONObject) total.get("full"));
                                 }
-                            }
-                            else if (total.size()>0)
-                            {
-                                gr4.add(total.get(0));
+                                else {
+                                    gr4.add(total);
+                                }
                             }
                             VelocityContext game_row = new VelocityContext();
                             StringWriter row = new StringWriter();
@@ -2518,7 +2956,7 @@ public class Terminal extends Thread {
             Collections.sort(sp, new Comparator<JSONObject>() {
                 @Override
                 public int compare(JSONObject o1, JSONObject o2) {
-                    return (new Integer((int)o1.get("order"))).compareTo(new Integer((int)o2.get("order")));
+                    return (new Integer(Integer.parseInt(o1.get("order").toString()))).compareTo(Integer.parseInt(o2.get("order").toString()));
                 }
             });
             Collections.sort(gm, new Comparator<JSONObject>() {
@@ -2542,7 +2980,7 @@ public class Terminal extends Thread {
         }
     }
 
-    void build_menu()
+    private void build_menu()
     {
         JSONObject obj = new JSONObject();
         List<JSONObject> sp = new ArrayList<JSONObject>();
@@ -2577,7 +3015,7 @@ public class Terminal extends Thread {
         }
     }
 
-    void build_favorite()
+    private void build_favorite()
     {
         JSONObject obj = new JSONObject();
         List<JSONObject> sp = new ArrayList<JSONObject>();
@@ -2587,7 +3025,7 @@ public class Terminal extends Thread {
         obj.put("command", "build");
         try
         {
-            ConcurrentHashMap<String, JSONObject> sports = (ConcurrentHashMap<String, JSONObject>)main.flw.data;
+            ConcurrentHashMap<String, JSONObject> sports = (ConcurrentHashMap<String, JSONObject>)main.favw.data;
             for (String sid : sports.keySet())
             {
                 JSONObject sport = sports.get(sid);
@@ -2619,8 +3057,6 @@ public class Terminal extends Thread {
                             List<JSONObject> gr2 = new ArrayList<JSONObject>();
                             List<JSONObject> gr3 = new ArrayList<JSONObject>();
                             List<JSONObject> gr4 = new ArrayList<JSONObject>();
-                            List<JSONObject> total = new ArrayList<JSONObject>();
-                            List<JSONObject> total2 = new ArrayList<JSONObject>();
                             Map<String, JSONObject> mkts = new HashMap<String, JSONObject>();
                             for (String mid : markets.keySet())
                             {
@@ -2636,15 +3072,8 @@ public class Terminal extends Thread {
                                     if (((String)market_node.get("type")).equals("1HalfP1XP2")
                                             || ((String)market_node.get("type")).equals("1SetP1XP2")
                                             || ((String)market_node.get("type")).equals("1PeriodP1XP2")) gr3.add(market_node);
-                                    if(((String)market_node.get("type")).equals("Total")) total.add(market_node);
                                 }
                             }
-                            Collections.sort(total, new Comparator<JSONObject>() {
-                                @Override
-                                public int compare(JSONObject o1, JSONObject o2) {
-                                    return new Double(Double.parseDouble(o1.get("base").toString())).compareTo(Double.parseDouble(o2.get("base").toString()));
-                                }
-                            });
                             if (gr1.size()>1)
                             {
                                 if (gr1.get(0).get("type").toString().equals("P1XP2"))
@@ -2652,20 +3081,16 @@ public class Terminal extends Thread {
                                 else if (gr1.get(1).get("type").toString().equals("P1XP2"))
                                     gr1.remove(gr1.get(0));
                             }
-                            if (sid.equals("844")){
-                                if (total.size()>0){
-                                    JSONObject tf1 = new JSONObject();
-                                    for (JSONObject tot1 : total){
-                                        if (Double.parseDouble(tot1.get("base").toString()) == 2.5){
-                                            tf1 = tot1; break;
-                                        }
-                                    }
-                                    if (!tf1.isEmpty()) gr4.add(tf1); else gr4.add(total.get(0));
+                            if(main.favTotals.totals.containsKey(gid)) {
+                                JSONObject total = main.favTotals.totals.get(gid);
+                                if(sid.equals("844")) {
+
+                                    if(total.containsKey("full")) gr4.add((JSONObject) total.get("full"));
                                 }
-                            }
-                            else if (total.size()>0)
-                            {
-                                gr4.add(total.get(0));
+                                else {
+
+                                    gr4.add(total);
+                                }
                             }
                             VelocityContext game_row = new VelocityContext();
                             StringWriter row = new StringWriter();
@@ -2702,7 +3127,7 @@ public class Terminal extends Thread {
             Collections.sort(sp, new Comparator<JSONObject>() {
                 @Override
                 public int compare(JSONObject o1, JSONObject o2) {
-                    return (new Integer((int)o1.get("order"))).compareTo(new Integer((int)o2.get("order")));
+                    return (new Integer(Integer.parseInt(o1.get("order").toString()))).compareTo(Integer.parseInt(o2.get("order").toString()));
                 }
             });
             Collections.sort(gm, new Comparator<JSONObject>() {
